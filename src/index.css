@@ -1,0 +1,221 @@
+/* ─── Google Fonts Import & Avenir Next LT Pro ───────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@font-face {
+  font-family: "Avenir Next LT Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local("Avenir Next LT Pro"),
+    local("AvenirLTPro-Regular"),
+    url("/fonts/AvenirNextLTPro-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Avenir Next LT Pro";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src:
+    local("Avenir LT Pro 65 Medium"),
+    url("/fonts/AvenirNextLTPro-Medium.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Avenir Next LT Pro";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src:
+    local("Avenir LT Pro 75 Demi"),
+    url("/fonts/AvenirNextLTPro-Demi.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Avenir Next LT Pro";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src:
+    local("Avenir LT Pro 85 Heavy"),
+    url("/fonts/AvenirNextLTPro-Bold.woff2") format("woff2");
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base Layer & Theme Variables ───────────────────────────────────────── */
+@layer base {
+  :root {
+    /* Requested Background #F8FAFD */
+    --background: #F8FAFD;
+    --foreground: #0F172A;
+
+    --card: #FFFFFF;
+    --card-foreground: #0F172A;
+    --popover: #FFFFFF;
+    --popover-foreground: #0F172A;
+
+    /* Exact Primary #74A09F */
+    --primary: #74A09F;
+    --primary-foreground: #FFFFFF;
+
+    --muted: #F1F5F9;
+    --muted-foreground: #64748B;
+    --accent: #EEF6F6;
+    --accent-foreground: #1D4342;
+    --border: #E2E8F0;
+    --input: #E2E8F0;
+    --ring: #74A09F;
+
+    --sidebar: #FFFFFF;
+    --sidebar-foreground: #334155;
+    --sidebar-border: #E2E8F0;
+
+    /* Surface RGB Variables for Tailwind */
+    --surface-default: 248 250 253;   /* #F8FAFD - requested background */
+    --surface-secondary: 255 255 255; /* #FFFFFF - pure crisp white cards/sidebar */
+    --surface-tertiary: 241 245 249;  /* #F1F5F9 - recessed inputs/search */
+    --surface-elevated: 255 255 255;  /* #FFFFFF - elevated dropdowns */
+    --surface-hover: 238 242 246;     /* #EEF2F6 - hover */
+    --surface-border: 226 232 240;    /* #E2E8F0 - crisp border */
+
+    --scrollbar-thumb: #CBD5E1;
+    --scrollbar-hover: #94A3B8;
+    --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.03);
+    --shadow-glow: 0 0 24px rgba(116, 160, 159, 0.28);
+    --gradient-primary: linear-gradient(135deg, #74A09F, #5D8C8B);
+
+    color-scheme: light;
+  }
+
+  html.dark, .dark {
+    /* Dark Theme */
+    --background: #0F1117;
+    --foreground: #F8FAFC;
+
+    --card: #151821;
+    --card-foreground: #F8FAFC;
+    --popover: #1A1E29;
+    --popover-foreground: #F8FAFC;
+
+    --primary: #74A09F;
+    --primary-foreground: #FFFFFF;
+
+    --muted: #1C1F2E;
+    --muted-foreground: #94A3B8;
+    --accent: #232738;
+    --accent-foreground: #F8FAFC;
+    --border: #2E3348;
+    --input: #2E3348;
+    --ring: #74A09F;
+
+    --sidebar: #151821;
+    --sidebar-foreground: #CBD5E1;
+    --sidebar-border: #2E3348;
+
+    /* Surface RGB Variables for Tailwind */
+    --surface-default: 15 17 23;      /* #0F1117 - dark UI BG */
+    --surface-secondary: 21 24 33;    /* #151821 - dark sidebar & cards */
+    --surface-tertiary: 28 31 46;     /* #1C1F2E - inputs/search */
+    --surface-elevated: 35 39 56;     /* #232738 - dropdowns */
+    --surface-hover: 42 47 66;        /* #2A2F42 - hover */
+    --surface-border: 46 51 72;       /* #2E3348 - dark borders */
+
+    --scrollbar-thumb: #2E3348;
+    --scrollbar-hover: #3D4260;
+    --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px -1px rgba(0, 0, 0, 0.3);
+    --shadow-glow: 0 0 24px rgba(116, 160, 159, 0.28);
+    --gradient-primary: linear-gradient(135deg, #74A09F, #5D8C8B);
+
+    color-scheme: dark;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    font-family: 'Avenir Next LT Pro', 'Avenir Next', 'Avenir', 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--background);
+    color: var(--foreground);
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease;
+  }
+
+  #root {
+    height: 100%;
+    width: 100%;
+  }
+
+  /* Custom scrollbar matching active theme */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-hover);
+  }
+
+  /* Firefox scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+  }
+
+  /* Remove default input styles */
+  input, textarea, select {
+    font-family: inherit;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+  }
+
+  /* Focus visible with #74A09F accent */
+  :focus-visible {
+    outline: 2px solid rgba(116, 160, 159, 0.6);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* ─── Card & Shadow Styles ───────────────────────────────────────────────── */
+.shadow-card {
+  box-shadow: var(--card-shadow);
+}
+
+.shadow-glow {
+  box-shadow: var(--shadow-glow);
+}
+
+.bg-gradient-primary {
+  background-image: var(--gradient-primary);
+}
+
+/* Glass morphism card */
+.glass-card {
+  background-color: rgb(var(--surface-secondary) / 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgb(var(--surface-border));
+  border-radius: 0.75rem;
+  box-shadow: var(--card-shadow);
+}
