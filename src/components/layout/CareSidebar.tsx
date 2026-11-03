@@ -89,8 +89,12 @@ export function CareSidebar({ collapsed, onToggle }: CareSidebarProps) {
             className="group flex items-center justify-center cursor-pointer"
             title="Halamama Care"
           >
-            <div className="h-9 w-9 rounded-xl bg-[#74A09F]/15 text-[#74A09F] flex items-center justify-center font-bold text-base shadow-sm ring-1 ring-[#74A09F]/20 transition-transform group-hover:scale-105">
-              H
+            <div className="h-9 w-9 rounded-xl bg-card ring-1 ring-border p-1.5 flex items-center justify-center shadow-xs transition-transform group-hover:scale-105">
+              <img
+                src="/halamama_green.svg"
+                alt="Halamama Care"
+                className="h-full w-full object-contain"
+              />
             </div>
           </button>
           <button
@@ -104,22 +108,25 @@ export function CareSidebar({ collapsed, onToggle }: CareSidebarProps) {
           </button>
         </div>
       ) : (
-        <div className="flex items-center justify-between px-5 py-5 border-b border-border/50">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-border/50">
           <button
             type="button"
             onClick={() => {
               setActiveTab('dashboard');
               navigate('/dashboard');
             }}
-            className="group flex items-center cursor-pointer text-left"
+            className="group flex items-center cursor-pointer text-left gap-2"
           >
             <div className="relative transition-transform duration-300 group-hover:scale-[1.02]">
               <img
                 src="/halamama_green.svg"
-                alt="Halamama"
+                alt="Halamama Care"
                 className="h-auto w-full max-w-[125px] object-contain"
               />
             </div>
+            <span className="text-2xs font-bold uppercase tracking-wider text-[#74A09F] bg-[#74A09F]/10 px-1.5 py-0.5 rounded border border-[#74A09F]/20">
+              Care
+            </span>
           </button>
           <button
             type="button"

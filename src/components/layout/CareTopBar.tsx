@@ -133,6 +133,17 @@ export function CareTopBar({ sidebarCollapsed, onToggleSidebar }: CareTopBarProp
           )}
         </button>
 
+        {sidebarCollapsed && (
+          <div className="hidden sm:flex items-center gap-2 pr-2 border-r border-border/60 shrink-0">
+            <img
+              src="/halamama_green.svg"
+              alt="Halamama Care"
+              className="h-5 w-auto object-contain"
+            />
+            <span className="text-xs font-bold text-foreground">Halamama Care</span>
+          </div>
+        )}
+
         {/* Global Search Bar with ⌘K Badge */}
         <div className="flex-1 relative">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground transition-colors pointer-events-none" />

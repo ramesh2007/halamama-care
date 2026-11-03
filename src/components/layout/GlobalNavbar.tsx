@@ -50,13 +50,15 @@ export function GlobalNavbar() {
     <nav className="h-navbar bg-surface-secondary border-b border-surface-border flex items-center px-4 gap-4 z-50">
       {/* ─── Brand ─────────────────────────────────────────────────────── */}
       <div className="flex items-center gap-3 shrink-0">
-        <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center">
-            <span className="text-white font-bold text-sm">HM</span>
-          </div>
+        <div className="flex items-center gap-2.5">
+          <img
+            src="/halamama_green.svg"
+            alt="Halamama Care"
+            className="h-6 w-auto object-contain"
+          />
           <div className="flex flex-col">
-            <span className="text-sm font-semibold text-white leading-tight">Halamama</span>
-            <span className="text-2xs text-gray-500 leading-tight">Customer Care</span>
+            <span className="text-sm font-bold text-white leading-tight">Halamama Care</span>
+            <span className="text-2xs text-gray-400 leading-tight">Customer Support</span>
           </div>
         </div>
         {/* Environment Badge */}

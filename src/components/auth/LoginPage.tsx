@@ -118,7 +118,7 @@ export function LoginPage({ onSuccess }: LoginPageProps) {
                 Welcome back
               </h1>
               <p className="mt-2 text-sm text-muted-foreground">
-                Sign in to the Halamama Care
+                Sign in to Halamama Care
               </p>
             </div>
 
