@@ -13,11 +13,11 @@ interface TagItem {
 }
 
 const STATUS_TAGS: TagItem[] = [
-  { id: 'all', label: 'All Statuses', color: 'text-gray-300', dotColor: 'bg-gray-400' },
-  { id: 'in_progress', label: 'In Progress', color: 'text-blue-400', dotColor: 'bg-blue-400' },
-  { id: 'pending', label: 'Pending Reply', color: 'text-amber-400', dotColor: 'bg-amber-400' },
-  { id: 'follow_up', label: 'Follow Up', color: 'text-purple-400', dotColor: 'bg-purple-400' },
-  { id: 'resolved', label: 'Resolved', color: 'text-emerald-400', dotColor: 'bg-emerald-400' },
+  { id: 'all', label: 'All Statuses', color: 'text-foreground', dotColor: 'bg-muted-foreground' },
+  { id: 'in_progress', label: 'In Progress', color: 'text-blue-500 dark:text-blue-400', dotColor: 'bg-blue-500' },
+  { id: 'pending', label: 'Pending Reply', color: 'text-amber-500 dark:text-amber-400', dotColor: 'bg-amber-500' },
+  { id: 'follow_up', label: 'Follow Up', color: 'text-purple-500 dark:text-purple-400', dotColor: 'bg-purple-500' },
+  { id: 'resolved', label: 'Resolved', color: 'text-emerald-500 dark:text-emerald-400', dotColor: 'bg-emerald-500' },
 ];
 
 interface TagFilterGroupProps {

@@ -49,7 +49,7 @@ export function ChatView() {
     <div className="flex-1 flex flex-col h-full min-h-0 bg-background">
       <ChatHeader thread={thread} />
 
-      <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 space-y-4">
+      <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 space-y-3.5 chat-pattern">
         {isLoading && threadMessages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center py-10">
             <Loader2 className="h-6 w-6 animate-spin text-[#74A09F] mb-2" />
@@ -67,8 +67,8 @@ export function ChatView() {
           </div>
         ) : (
           <>
-            <div className="flex justify-center my-1">
-              <span className="px-3 py-1 rounded-full text-2xs font-semibold bg-muted/80 text-muted-foreground border border-border/60 shadow-2xs">
+            <div className="flex justify-center my-1.5">
+              <span className="px-3 py-1 rounded-full text-2xs font-semibold bg-card/90 dark:bg-[#151B28]/95 text-muted-foreground border border-border/70 shadow-2xs backdrop-blur-xs">
                 Today
               </span>
             </div>

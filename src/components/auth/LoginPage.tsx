@@ -107,7 +107,7 @@ export function LoginPage({ onSuccess }: LoginPageProps) {
           <div className="p-8 sm:p-10">
             {/* Logo Badge & Welcome Header */}
             <div className="mb-8 text-center">
-              <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-sm ring-1 ring-border p-2.5">
+              <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-white dark:bg-[#151A26] shadow-sm ring-1 ring-border p-2.5">
                 <img
                   src="/halamama_green.svg"
                   alt="Halamama"

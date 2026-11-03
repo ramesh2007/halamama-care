@@ -18,12 +18,12 @@ function KpiTile({
   accent: string;
 }) {
   return (
-    <div className="rounded-xl border border-surface-border bg-surface-secondary p-4">
+    <div className="rounded-xl border border-border bg-card p-4 shadow-2xs">
       <div className="flex items-center justify-between">
-        <span className="text-2xs font-medium text-gray-500 uppercase tracking-wider">{label}</span>
+        <span className="text-2xs font-semibold text-muted-foreground uppercase tracking-wider">{label}</span>
         <span className={clsx('h-8 w-8 rounded-lg flex items-center justify-center', accent)}>{icon}</span>
       </div>
-      <p className="text-2xl font-bold text-white mt-2">{value}</p>
+      <p className="text-2xl font-bold text-foreground mt-2">{value}</p>
     </div>
   );
 }
@@ -71,29 +71,29 @@ export function ActiveTeamStats() {
         />
       </div>
 
-      <div className="rounded-xl border border-surface-border bg-surface-secondary overflow-hidden">
-        <div className="px-4 py-3 border-b border-surface-border">
-          <h3 className="text-xs font-semibold text-gray-300 uppercase tracking-wider">Agent Performance</h3>
+      <div className="rounded-xl border border-border bg-card overflow-hidden shadow-2xs">
+        <div className="px-4 py-3 border-b border-border bg-muted/30">
+          <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Agent Performance</h3>
         </div>
         <table className="w-full text-left">
           <thead>
-            <tr className="text-2xs text-gray-500 uppercase tracking-wider border-b border-surface-border">
-              <th className="px-4 py-2 font-medium">Agent</th>
-              <th className="px-4 py-2 font-medium text-right">Active</th>
-              <th className="px-4 py-2 font-medium text-right">Resolved</th>
-              <th className="px-4 py-2 font-medium text-right">First Response</th>
-              <th className="px-4 py-2 font-medium text-right">SLA Breaches</th>
+            <tr className="text-2xs text-muted-foreground uppercase tracking-wider border-b border-border bg-muted/10">
+              <th className="px-4 py-2.5 font-semibold">Agent</th>
+              <th className="px-4 py-2.5 font-semibold text-right">Active</th>
+              <th className="px-4 py-2.5 font-semibold text-right">Resolved</th>
+              <th className="px-4 py-2.5 font-semibold text-right">First Response</th>
+              <th className="px-4 py-2.5 font-semibold text-right">SLA Breaches</th>
             </tr>
           </thead>
           <tbody>
             {agentPerformance.map((a) => (
-              <tr key={a.name} className="border-t border-surface-border/50">
-                <td className="px-4 py-2.5 text-xs font-medium text-gray-200">{a.name}</td>
-                <td className="px-4 py-2.5 text-xs text-gray-300 text-right">{a.active}</td>
-                <td className="px-4 py-2.5 text-xs text-gray-300 text-right">{a.resolved}</td>
-                <td className="px-4 py-2.5 text-xs text-gray-300 text-right">{a.first_response}</td>
+              <tr key={a.name} className="border-t border-border/50 hover:bg-muted/40 transition-colors">
+                <td className="px-4 py-2.5 text-xs font-medium text-foreground">{a.name}</td>
+                <td className="px-4 py-2.5 text-xs text-muted-foreground text-right">{a.active}</td>
+                <td className="px-4 py-2.5 text-xs text-muted-foreground text-right">{a.resolved}</td>
+                <td className="px-4 py-2.5 text-xs text-muted-foreground text-right">{a.first_response}</td>
                 <td className="px-4 py-2.5 text-xs text-right">
-                  <span className={a.sla_breaches > 0 ? 'text-red-400 font-medium' : 'text-gray-500'}>
+                  <span className={a.sla_breaches > 0 ? 'text-red-500 font-medium' : 'text-muted-foreground'}>
                     {a.sla_breaches}
                   </span>
                 </td>
@@ -103,18 +103,18 @@ export function ActiveTeamStats() {
         </table>
       </div>
 
-      <div className="rounded-xl border border-surface-border bg-surface-secondary overflow-hidden">
-        <div className="px-4 py-3 border-b border-surface-border">
-          <h3 className="text-xs font-semibold text-gray-300 uppercase tracking-wider">Team Activity</h3>
+      <div className="rounded-xl border border-border bg-card overflow-hidden shadow-2xs">
+        <div className="px-4 py-3 border-b border-border bg-muted/30">
+          <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Team Activity</h3>
         </div>
-        <div className="divide-y divide-surface-border/50">
+        <div className="divide-y divide-border/50">
           {activityFeed.map((act) => (
             <div key={act.id} className="px-4 py-2.5 flex items-center gap-3">
-              <span className="h-1.5 w-1.5 rounded-full bg-brand-400 shrink-0" />
-              <p className="text-xs text-gray-300">
-                <span className="font-medium text-white">{act.agent}</span> {act.action}
+              <span className="h-1.5 w-1.5 rounded-full bg-[#74A09F] shrink-0" />
+              <p className="text-xs text-muted-foreground">
+                <span className="font-semibold text-foreground">{act.agent}</span> {act.action}
               </p>
-              <span className="text-2xs text-gray-500 ml-auto whitespace-nowrap">
+              <span className="text-2xs text-muted-foreground ml-auto whitespace-nowrap">
                 {formatRelativeTime(act.time)}
               </span>
             </div>

@@ -27,18 +27,18 @@ export function SLABreachCounter() {
         <p className="text-3xl font-bold text-red-300 mt-2">{m.sla_breaches}</p>
       </div>
 
-      <div className="rounded-xl border border-surface-border bg-surface-secondary overflow-hidden">
-        <div className="px-4 py-3 border-b border-surface-border">
-          <h3 className="text-xs font-semibold text-gray-300 uppercase tracking-wider">Breached Threads</h3>
+      <div className="rounded-xl border border-border bg-card overflow-hidden shadow-2xs">
+        <div className="px-4 py-3 border-b border-border bg-muted/30">
+          <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Breached Threads</h3>
         </div>
-        <div className="divide-y divide-surface-border/50">
+        <div className="divide-y divide-border/50">
           {breachedThreads.map((t) => (
             <div key={t.customer} className="px-4 py-2.5 flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-gray-200">{t.customer}</p>
-                <p className="text-2xs text-gray-500">{t.channel}</p>
+                <p className="text-xs font-medium text-foreground">{t.customer}</p>
+                <p className="text-2xs text-muted-foreground">{t.channel}</p>
               </div>
-              <span className="text-2xs text-red-400 font-medium whitespace-nowrap">{t.exceeded}</span>
+              <span className="text-2xs text-red-500 font-medium whitespace-nowrap">{t.exceeded}</span>
             </div>
           ))}
         </div>

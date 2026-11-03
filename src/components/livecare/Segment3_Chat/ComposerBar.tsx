@@ -163,13 +163,13 @@ export function ComposerBar({ thread }: ComposerBarProps) {
       {/* Top Bar: Segmented Switcher & Quick Helpers */}
       <div className="flex items-center justify-between gap-2 mb-3">
         {/* Segmented Mode Switcher */}
-        <div className="inline-flex items-center bg-muted/80 p-0.5 rounded-xl border border-border/60">
+        <div className="inline-flex items-center bg-muted/80 dark:bg-[#141924] p-0.5 rounded-xl border border-border/60 dark:border-[#202738]">
           <button
             onClick={() => setComposerMode('message')}
             className={clsx(
               'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer',
               composerMode === 'message'
-                ? 'bg-card text-foreground shadow-xs border border-border/50'
+                ? 'bg-card dark:bg-[#1B2232] text-foreground shadow-xs border border-border/50 dark:border-[#263147]'
                 : 'text-muted-foreground hover:text-foreground',
             )}
           >
@@ -194,12 +194,12 @@ export function ComposerBar({ thread }: ComposerBarProps) {
         {composerMode === 'message' && (
           <button
             onClick={handleQuickInsertSlash}
-            className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-2xs font-medium text-muted-foreground hover:text-foreground bg-muted/60 hover:bg-muted border border-border/60 transition-colors cursor-pointer"
+            className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-2xs font-medium text-muted-foreground hover:text-foreground bg-muted/60 dark:bg-[#141924] hover:bg-muted dark:hover:bg-[#182030] border border-border/60 dark:border-[#202738] transition-colors cursor-pointer"
             title="Press / to open canned responses"
           >
             <Sparkles className="h-3 w-3 text-[#74A09F]" />
             <span>Canned Responses</span>
-            <kbd className="px-1.5 py-0.5 rounded bg-card text-foreground text-[10px] font-mono border border-border">
+            <kbd className="px-1.5 py-0.5 rounded bg-card dark:bg-[#1B2232] text-foreground text-[10px] font-mono border border-border/80 dark:border-[#263147]">
               /
             </kbd>
           </button>
@@ -248,13 +248,13 @@ export function ComposerBar({ thread }: ComposerBarProps) {
             {/* Attachment Actions */}
             <div className="flex items-center gap-0.5 pb-0.5">
               <button
-                className="p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted border border-transparent hover:border-border/60 transition-all cursor-pointer"
+                className="p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted dark:hover:bg-[#182030] border border-transparent hover:border-border/60 dark:hover:border-[#222A3A] transition-all cursor-pointer"
                 title="Attach file"
               >
                 <Paperclip className="h-4 w-4" />
               </button>
               <button
-                className="p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted border border-transparent hover:border-border/60 transition-all cursor-pointer"
+                className="p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted dark:hover:bg-[#182030] border border-transparent hover:border-border/60 dark:hover:border-[#222A3A] transition-all cursor-pointer"
                 title="Attach image"
               >
                 <ImageIcon className="h-4 w-4" />
@@ -277,7 +277,7 @@ export function ComposerBar({ thread }: ComposerBarProps) {
                 onChange={(e) => setText(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Type a message or press '/' for canned responses..."
-                className="w-full bg-muted/40 rounded-xl px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground outline-none resize-none border border-border focus:border-[#74A09F] focus:bg-card focus:ring-2 focus:ring-[#74A09F]/20 transition-all"
+                className="w-full bg-muted/40 dark:bg-[#141924] rounded-xl px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground outline-none resize-none border border-border dark:border-[#202738] focus:border-[#74A09F] focus:bg-card dark:focus:bg-[#182030] focus:ring-2 focus:ring-[#74A09F]/20 transition-all"
               />
             </div>
 

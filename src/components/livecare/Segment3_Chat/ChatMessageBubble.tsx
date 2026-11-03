@@ -65,7 +65,7 @@ function PaymentCard({ metadata }: { metadata: PaymentLinkMetadata }) {
   const isPaid = metadata.status === 'paid';
 
   return (
-    <div className="mt-2.5 rounded-xl border border-border/80 bg-card p-3.5 text-left shadow-xs">
+    <div className="mt-2.5 rounded-xl border border-border/80 dark:border-white/10 bg-card dark:bg-[#131926] p-3.5 text-left shadow-xs">
       <div className="flex items-center justify-between gap-2 mb-2">
         <div className="flex items-center gap-1.5">
           <div className="h-6 w-6 rounded-lg bg-[#74A09F]/15 flex items-center justify-center text-[#74A09F]">
@@ -85,7 +85,7 @@ function PaymentCard({ metadata }: { metadata: PaymentLinkMetadata }) {
         </span>
       </div>
 
-      <div className="bg-muted/50 rounded-lg p-2.5 mb-2.5">
+      <div className="bg-muted/50 dark:bg-black/25 rounded-lg p-2.5 mb-2.5 border border-border/40 dark:border-white/5">
         <p className="text-2xs text-muted-foreground uppercase tracking-wider mb-0.5">Amount to Pay</p>
         <p className="text-base font-bold text-foreground">{formatCurrency(metadata.amount)}</p>
         <p className="text-2xs text-muted-foreground font-mono mt-0.5">Ref: {metadata.invoice_id}</p>
@@ -158,7 +158,7 @@ export function ChatMessageBubble({ message }: ChatMessageBubbleProps) {
           <span
             className={clsx(
               'text-2xs font-semibold',
-              isCustomer && 'text-foreground/80',
+              isCustomer && 'text-foreground/80 dark:text-slate-300',
               isSender && 'text-emerald-700 dark:text-emerald-400',
             )}
           >
@@ -169,13 +169,13 @@ export function ChatMessageBubble({ message }: ChatMessageBubbleProps) {
           </span>
         </div>
 
-        {/* Bubble container: Light green for sender on right; White/Card for customer on left */}
+        {/* Bubble container: WhatsApp green for sender on right; Clean card for customer on left */}
         <div
           className={clsx(
             'px-4 py-2.5 text-sm leading-relaxed transition-all shadow-2xs',
             isSender
-              ? 'bg-[#D9FDD3] dark:bg-[#005C4B] text-zinc-900 dark:text-[#E9EDEF] border border-[#BCE8B5] dark:border-[#026B57] rounded-2xl rounded-tr-xs font-normal'
-              : 'bg-card dark:bg-[#202C33] border border-border/80 text-foreground rounded-2xl rounded-tl-xs font-normal',
+              ? 'bg-[#D9FDD3] dark:bg-[#005C4B] text-zinc-900 dark:text-[#E9EDEF] border border-[#BCE8B5] dark:border-[#02735E] rounded-2xl rounded-tr-xs font-normal'
+              : 'bg-card dark:bg-[#181F2E] border border-border/80 dark:border-[#222B3D] text-foreground dark:text-[#E9EDEF] rounded-2xl rounded-tl-xs font-normal',
           )}
         >
           {message.text && (

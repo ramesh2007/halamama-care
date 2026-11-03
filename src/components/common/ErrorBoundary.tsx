@@ -30,8 +30,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       return (
         <div className="flex flex-col items-center justify-center h-full text-center px-8">
           <div className="text-4xl mb-3">⚠️</div>
-          <h2 className="text-lg font-semibold text-gray-200 mb-2">Something went wrong</h2>
-          <p className="text-sm text-gray-500 mb-4">
+          <h2 className="text-lg font-semibold text-foreground mb-2">Something went wrong</h2>
+          <p className="text-sm text-muted-foreground mb-4">
             This section crashed. The rest of the workspace is unaffected.
           </p>
           <button

@@ -54,30 +54,30 @@ export function Modal({ isOpen, onClose, title, subtitle, children, size = 'md',
       {/* Modal Content */}
       <div
         className={clsx(
-          'relative w-full rounded-xl bg-surface-secondary border border-surface-border shadow-elevated animate-bounce-in',
+          'relative w-full rounded-2xl bg-card border border-border shadow-2xl animate-bounce-in overflow-hidden',
           sizeStyles[size]
         )}
       >
         {/* Header */}
-        <div className="flex items-start justify-between p-5 border-b border-surface-border">
+        <div className="flex items-start justify-between p-5 border-b border-border bg-card">
           <div>
-            <h3 className="text-lg font-semibold text-white">{title}</h3>
-            {subtitle && <p className="mt-1 text-sm text-gray-400">{subtitle}</p>}
+            <h3 className="text-base font-bold text-foreground">{title}</h3>
+            {subtitle && <p className="mt-0.5 text-xs text-muted-foreground">{subtitle}</p>}
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-gray-400 hover:text-white hover:bg-surface-hover transition-colors"
+            className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
           >
-            <X className="h-5 w-5" />
+            <X className="h-4 w-4" />
           </button>
         </div>
 
         {/* Body */}
-        <div className="p-5">{children}</div>
+        <div className="p-5 bg-card text-foreground">{children}</div>
 
         {/* Footer */}
         {footer && (
-          <div className="flex items-center justify-end gap-3 p-5 border-t border-surface-border">
+          <div className="flex items-center justify-end gap-3 p-4 border-t border-border bg-muted/30">
             {footer}
           </div>
         )}

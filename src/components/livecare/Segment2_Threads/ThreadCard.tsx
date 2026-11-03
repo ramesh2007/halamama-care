@@ -40,11 +40,11 @@ const channelColors: Record<string, string> = {
   messenger: 'text-channel-messenger bg-channel-messenger/10',
 };
 
-const statusColors: Record<string, { bg: string; text: string }> = {
-  in_progress: { bg: 'bg-status-in-progress/15', text: 'text-blue-400' },
-  pending: { bg: 'bg-status-pending/15', text: 'text-amber-400' },
-  follow_up: { bg: 'bg-status-follow-up/15', text: 'text-purple-400' },
-  resolved: { bg: 'bg-status-resolved/15', text: 'text-emerald-400' },
+const statusColors: Record<string, { bg: string; text: string; border: string }> = {
+  in_progress: { bg: 'bg-blue-500/10', text: 'text-blue-600 dark:text-blue-400', border: 'border-blue-500/20' },
+  pending: { bg: 'bg-amber-500/10', text: 'text-amber-600 dark:text-amber-400', border: 'border-amber-500/20' },
+  follow_up: { bg: 'bg-purple-500/10', text: 'text-purple-600 dark:text-purple-400', border: 'border-purple-500/20' },
+  resolved: { bg: 'bg-emerald-500/10', text: 'text-emerald-600 dark:text-emerald-400', border: 'border-emerald-500/20' },
 };
 
 const statusLabels: Record<string, string> = {
@@ -62,18 +62,18 @@ export function ThreadCard({ thread, isSelected, onClick }: ThreadCardProps) {
     <button
       onClick={onClick}
       className={clsx(
-        'w-full text-left px-3 py-3 border-l-2 transition-all duration-150 hover:bg-muted/70',
+        'w-full text-left px-3.5 py-3 border-l-2 transition-all duration-150 border-b border-border/40 hover:bg-muted/70 dark:hover:bg-[#161C28]',
         isSelected
-          ? 'bg-[#74A09F]/10 border-l-[#74A09F]'
+          ? 'bg-[#74A09F]/15 dark:bg-[#74A09F]/20 border-l-[#74A09F] shadow-2xs'
           : 'border-l-transparent',
-        thread.unread_count > 0 && !isSelected && 'bg-muted/40',
+        thread.unread_count > 0 && !isSelected && 'bg-muted/50 dark:bg-[#141A26]/80',
         sla?.urgency === 'critical' && 'animate-sla-pulse'
       )}
     >
       <div className="flex items-start gap-3">
         {/* Avatar / Channel Icon */}
         <div className="relative shrink-0">
-          <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
+          <div className="h-10 w-10 rounded-full bg-muted dark:bg-[#171D2A] border border-border/60 flex items-center justify-center">
             <span className="text-sm font-semibold text-foreground">
               {thread.customer_name.split(' ').map((n) => n[0]).join('').slice(0, 2)}
             </span>
@@ -81,7 +81,7 @@ export function ThreadCard({ thread, isSelected, onClick }: ThreadCardProps) {
           {/* Channel badge */}
           <div
             className={clsx(
-              'absolute -bottom-0.5 -right-0.5 h-5 w-5 rounded-full flex items-center justify-center',
+              'absolute -bottom-0.5 -right-0.5 h-5 w-5 rounded-full flex items-center justify-center ring-2 ring-card',
               channelColors[thread.channel] || 'bg-muted text-muted-foreground'
             )}
           >
@@ -95,12 +95,12 @@ export function ThreadCard({ thread, isSelected, onClick }: ThreadCardProps) {
             <span
               className={clsx(
                 'text-sm truncate',
-                thread.unread_count > 0 ? 'font-semibold text-foreground' : 'font-medium text-foreground/80'
+                thread.unread_count > 0 ? 'font-semibold text-foreground' : 'font-medium text-foreground/85'
               )}
             >
               {thread.customer_name}
             </span>
-            <span className="text-2xs text-muted-foreground shrink-0">
+            <span className="text-2xs text-muted-foreground shrink-0 font-mono">
               {formatThreadTimestamp(thread.last_message_at)}
             </span>
           </div>
@@ -108,7 +108,7 @@ export function ThreadCard({ thread, isSelected, onClick }: ThreadCardProps) {
           <p
             className={clsx(
               'text-xs truncate mb-1.5',
-              thread.unread_count > 0 ? 'text-foreground/90 font-medium' : 'text-muted-foreground'
+              thread.unread_count > 0 ? 'text-foreground font-medium' : 'text-muted-foreground'
             )}
           >
             {thread.last_message_preview}
@@ -119,9 +119,10 @@ export function ThreadCard({ thread, isSelected, onClick }: ThreadCardProps) {
             {/* Status Tag */}
             <span
               className={clsx(
-                'inline-flex items-center gap-1 text-2xs font-medium px-1.5 py-0.5 rounded-full',
+                'inline-flex items-center gap-1 text-2xs font-medium px-1.5 py-0.5 rounded-full border',
                 statusStyle.bg,
-                statusStyle.text
+                statusStyle.text,
+                statusStyle.border,
               )}
             >
               <span className={clsx('h-1.5 w-1.5 rounded-full', statusStyle.text.replace('text-', 'bg-'))} />
@@ -135,7 +136,7 @@ export function ThreadCard({ thread, isSelected, onClick }: ThreadCardProps) {
 
             {/* Bot Active Indicator */}
             {thread.is_bot_active && (
-              <span className="inline-flex items-center gap-0.5 text-2xs text-cyan-400 bg-cyan-500/10 px-1.5 py-0.5 rounded-full">
+              <span className="inline-flex items-center gap-0.5 text-2xs text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-1.5 py-0.5 rounded-full">
                 <Bot className="h-3 w-3" />
                 Bot
               </span>
@@ -147,10 +148,10 @@ export function ThreadCard({ thread, isSelected, onClick }: ThreadCardProps) {
             {sla && thread.status !== 'resolved' && (
               <span
                 className={clsx(
-                  'text-2xs font-medium px-1.5 py-0.5 rounded-full',
-                  sla.urgency === 'critical' && 'bg-red-500/15 text-red-400',
-                  sla.urgency === 'warning' && 'bg-amber-500/15 text-amber-400',
-                  sla.urgency === 'safe' && 'bg-emerald-500/10 text-emerald-400'
+                  'text-2xs font-medium px-1.5 py-0.5 rounded-full border',
+                  sla.urgency === 'critical' && 'bg-red-500/15 text-red-500 dark:text-red-400 border-red-500/25',
+                  sla.urgency === 'warning' && 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/25',
+                  sla.urgency === 'safe' && 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/25'
                 )}
               >
                 {sla.text}

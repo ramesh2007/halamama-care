@@ -92,41 +92,41 @@
   }
 
   html.dark, .dark {
-    /* Dark Theme */
-    --background: #0F1117;
-    --foreground: #F8FAFC;
+    /* Refined Modern Dark Theme (Clean Obsidian Slate Palette) */
+    --background: #0B0E14;
+    --foreground: #F1F5F9;
 
-    --card: #151821;
-    --card-foreground: #F8FAFC;
-    --popover: #1A1E29;
-    --popover-foreground: #F8FAFC;
+    --card: #11151F;
+    --card-foreground: #F1F5F9;
+    --popover: #151A26;
+    --popover-foreground: #F1F5F9;
 
     --primary: #74A09F;
     --primary-foreground: #FFFFFF;
 
-    --muted: #1C1F2E;
+    --muted: #161C28;
     --muted-foreground: #94A3B8;
-    --accent: #232738;
-    --accent-foreground: #F8FAFC;
-    --border: #2E3348;
-    --input: #2E3348;
+    --accent: #1C2333;
+    --accent-foreground: #F1F5F9;
+    --border: #1E2638;
+    --input: #1E2638;
     --ring: #74A09F;
 
-    --sidebar: #151821;
+    --sidebar: #10141E;
     --sidebar-foreground: #CBD5E1;
-    --sidebar-border: #2E3348;
+    --sidebar-border: #1E2638;
 
     /* Surface RGB Variables for Tailwind */
-    --surface-default: 15 17 23;      /* #0F1117 - dark UI BG */
-    --surface-secondary: 21 24 33;    /* #151821 - dark sidebar & cards */
-    --surface-tertiary: 28 31 46;     /* #1C1F2E - inputs/search */
-    --surface-elevated: 35 39 56;     /* #232738 - dropdowns */
-    --surface-hover: 42 47 66;        /* #2A2F42 - hover */
-    --surface-border: 46 51 72;       /* #2E3348 - dark borders */
+    --surface-default: 11 14 20;      /* #0B0E14 - clean dark BG */
+    --surface-secondary: 17 21 31;    /* #11151F - panel / card surface */
+    --surface-tertiary: 22 28 40;     /* #161C28 - inputs / recessed */
+    --surface-elevated: 28 35 51;     /* #1C2333 - dropdowns / popovers */
+    --surface-hover: 34 42 61;        /* #222A3D - hover */
+    --surface-border: 30 38 56;       /* #1E2638 - hairline border */
 
-    --scrollbar-thumb: #2E3348;
-    --scrollbar-hover: #3D4260;
-    --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px -1px rgba(0, 0, 0, 0.3);
+    --scrollbar-thumb: #232B3E;
+    --scrollbar-hover: #333F58;
+    --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
     --shadow-glow: 0 0 24px rgba(116, 160, 159, 0.28);
     --gradient-primary: linear-gradient(135deg, #74A09F, #5D8C8B);
 
@@ -218,4 +218,17 @@
   border: 1px solid rgb(var(--surface-border));
   border-radius: 0.75rem;
   box-shadow: var(--card-shadow);
+}
+
+/* Chat Canvas Subtle Pattern */
+.chat-pattern {
+  background-color: var(--background);
+  background-image: radial-gradient(rgba(116, 160, 159, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+html.dark .chat-pattern, .dark .chat-pattern {
+  background-color: #0B0E14;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
