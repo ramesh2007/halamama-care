@@ -24,7 +24,7 @@ import { useAgentPerformance, useQueueDepth } from '../../hooks/api';
 type PeriodFilter = 'today' | '7d' | '30d' | 'qtd';
 type SimulationMode = 'real-time' | 'all-track' | 'high-risk' | 'breached';
 
-function Sparkline({ data, className, color = '#74A09F' }: { data: number[]; className?: string; color?: string }) {
+function Sparkline({ data, className, color = '#85AFAE' }: { data: number[]; className?: string; color?: string }) {
   const w = 120;
   const h = 24;
   const max = Math.max(...data);
@@ -34,20 +34,22 @@ function Sparkline({ data, className, color = '#74A09F' }: { data: number[]; cla
     .map((v, i) => `${(i / (data.length - 1)) * w},${h - ((v - min) / range) * (h - 6) - 3}`)
     .join(' ');
 
+  const gradId = `spark-fill-${color.replace(/[^a-zA-Z0-9]/g, '')}`;
+
   return (
     <svg viewBox={`0 0 ${w} ${h}`} className={clsx('w-full h-6', className)} preserveAspectRatio="none">
       <defs>
-        <linearGradient id={`spark-fill-${color.replace('#', '')}`} x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor={color} stopOpacity="0.25" />
           <stop offset="100%" stopColor={color} stopOpacity="0" />
         </linearGradient>
       </defs>
-      <polyline points={`0,${h} ${pts} ${w},${h}`} fill={`url(#spark-fill-${color.replace('#', '')})`} stroke="none" />
+      <polyline points={`0,${h} ${pts} ${w},${h}`} fill={`url(#${gradId})`} stroke="none" />
       <polyline
         points={pts}
         fill="none"
         stroke={color}
-        strokeWidth="2.2"
+        strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -82,9 +84,9 @@ export function DashboardWorkspace() {
       change: 14.2,
       positive: true,
       icon: MessageSquare,
-      tone: '#74A09F',
-      softBg: 'bg-[#74A09F]/10',
-      ring: 'ring-[#74A09F]/20',
+      tone: '#85AFAE',
+      softBg: 'bg-primary/10',
+      ring: 'ring-primary/20',
       spark: [4, 6, 5, 8, 7, 9, 10, 8, 11, 12, 10, 12],
       pulse: true,
     },
@@ -94,9 +96,9 @@ export function DashboardWorkspace() {
       change: 22.5,
       positive: true,
       icon: CheckCircle2,
-      tone: '#10B981',
-      softBg: 'bg-emerald-500/10',
-      ring: 'ring-emerald-500/20',
+      tone: 'oklch(0.7 0.16 165)',
+      softBg: 'bg-success/10',
+      ring: 'ring-success/20',
       spark: [12, 15, 18, 22, 28, 30, 35, 38, 42, 45, 46, 48],
     },
     {
@@ -105,9 +107,9 @@ export function DashboardWorkspace() {
       change: -28.4,
       positive: true, // faster is positive
       icon: Clock,
-      tone: '#F59E0B',
-      softBg: 'bg-amber-500/10',
-      ring: 'ring-amber-500/20',
+      tone: 'oklch(0.78 0.17 70)',
+      softBg: 'bg-warning/10',
+      ring: 'ring-warning/20',
       spark: [3.4, 3.1, 2.8, 2.5, 2.4, 2.2, 2.0, 1.9, 2.0, 1.8, 1.9, 1.8],
     },
     {
@@ -116,9 +118,9 @@ export function DashboardWorkspace() {
       change: 2.1,
       positive: true,
       icon: ShieldCheck,
-      tone: '#06B6D4',
-      softBg: 'bg-cyan-500/10',
-      ring: 'ring-cyan-500/20',
+      tone: 'oklch(0.72 0.14 210)',
+      softBg: 'bg-info/10',
+      ring: 'ring-info/20',
       spark: [94, 95, 96, 95, 97, 96, 98, 97, 98, 98.5, 98.2, 98.5],
       pulse: true,
     },
@@ -130,10 +132,10 @@ export function DashboardWorkspace() {
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
           <div className="flex items-center gap-1.5 mb-1">
-            <Sparkles className="h-4 w-4 text-[#74A09F]" />
-            <span className="text-xs font-semibold text-[#74A09F] uppercase tracking-wider">{dateStr}</span>
+            <Sparkles className="h-4 w-4 text-primary" />
+            <span className="text-xs font-semibold text-primary uppercase tracking-wider">{dateStr}</span>
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
             {greeting}, {user?.name?.split(' ')[0] || 'Aravind'} 👋
           </h1>
           <p className="text-sm text-muted-foreground mt-0.5">
@@ -142,7 +144,7 @@ export function DashboardWorkspace() {
         </div>
 
         {/* Period Filter Pills (Matching RMO) */}
-        <div className="flex items-center bg-card border border-border p-1 rounded-xl shadow-sm self-start sm:self-auto">
+        <div className="flex items-center bg-muted p-1 rounded-xl border border-border shadow-xs self-start sm:self-auto">
           {(
             [
               { id: 'today', label: 'Today' },
@@ -155,10 +157,10 @@ export function DashboardWorkspace() {
               key={tab.id}
               onClick={() => setPeriod(tab.id)}
               className={clsx(
-                'h-8 px-3 rounded-lg text-xs font-medium cursor-pointer transition-all duration-200',
+                'h-8 px-3 rounded-lg text-xs cursor-pointer transition-all duration-200',
                 period === tab.id
-                  ? 'bg-[#74A09F] text-white shadow-sm font-semibold'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                  ? 'bg-primary text-primary-foreground shadow-xs font-semibold'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/80 font-medium'
               )}
             >
               {tab.label}
@@ -167,12 +169,12 @@ export function DashboardWorkspace() {
         </div>
       </div>
 
-      {/* ── 4 Top KPI Cards (Matching RMO KpiCard) ──────────────────── */}
+      {/* ── 4 Top KPI Cards (Specification 5: Premium Cards) ────────── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         {kpis.map((kpi) => (
           <div
             key={kpi.label}
-            className="group relative rounded-2xl p-4 sm:p-5 border border-border bg-card shadow-card hover:border-[#74A09F]/50 transition-all duration-200"
+            className="premium-card p-4 sm:p-5 hover:border-primary/40"
           >
             <div className="flex items-start justify-between">
               <div
@@ -182,29 +184,29 @@ export function DashboardWorkspace() {
                   kpi.ring
                 )}
               >
-                <kpi.icon className="h-5 w-5" style={{ color: kpi.tone }} strokeWidth={2.2} />
+                <kpi.icon className="h-5 w-5" style={{ color: kpi.tone }} strokeWidth={2} />
               </div>
               {kpi.pulse && (
-                <span className="flex items-center gap-1.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" /> Live
+                <span className="flex items-center gap-1.5 text-[10px] font-bold text-success uppercase tracking-wider bg-success/10 px-2 py-0.5 rounded-full border border-success/20">
+                  <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" /> Live
                 </span>
               )}
             </div>
 
             <div className="mt-3">
-              <div className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
                 {kpi.label}
               </div>
               <div className="mt-1 flex items-baseline gap-2.5">
-                <div className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
+                <div className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground font-mono">
                   {kpi.value}
                 </div>
                 <div
                   className={clsx(
                     'flex items-center gap-0.5 text-xs font-bold px-1.5 h-5 rounded-md',
                     kpi.positive
-                      ? 'text-emerald-600 dark:text-emerald-400 bg-emerald-500/10'
-                      : 'text-red-500 bg-red-500/10'
+                      ? 'text-success bg-success/10'
+                      : 'text-destructive bg-destructive/10'
                   )}
                 >
                   {kpi.positive ? (
@@ -229,16 +231,16 @@ export function DashboardWorkspace() {
         {/* Banner Header */}
         <div className="px-5 py-4 border-b border-border flex flex-col md:flex-row md:items-center justify-between gap-3 bg-card">
           <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl bg-[#74A09F]/15 flex items-center justify-center text-[#74A09F]">
-              <Zap className="h-4.5 w-4.5" />
+            <div className="h-9 w-9 rounded-xl bg-primary/15 flex items-center justify-center text-primary">
+              <Zap className="h-4.5 w-4.5" strokeWidth={2} />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-sm font-bold text-foreground">
+                <h3 className="text-sm font-semibold text-foreground">
                   Shift Operations Control
                 </h3>
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-success/10 text-success border border-success/20">
+                  <span className="h-1.5 w-1.5 rounded-full bg-success" />
                   Continuous 4H SLA Workflow
                 </span>
               </div>
@@ -253,7 +255,7 @@ export function DashboardWorkspace() {
             <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1">
               <RotateCcw className="h-3 w-3" /> Simulation:
             </span>
-            <div className="flex items-center bg-muted/60 rounded-xl p-1 border border-border text-xs">
+            <div className="flex items-center bg-muted rounded-xl p-1 border border-border text-xs">
               {(
                 [
                   { id: 'real-time', label: 'Real-Time' },
@@ -266,10 +268,10 @@ export function DashboardWorkspace() {
                   key={m.id}
                   onClick={() => setSimulation(m.id)}
                   className={clsx(
-                    'px-2.5 py-1 rounded-lg text-xs font-semibold transition-colors cursor-pointer',
+                    'px-2.5 py-1 rounded-lg text-xs cursor-pointer transition-colors',
                     simulation === m.id
-                      ? 'bg-[#74A09F] text-white shadow-sm'
-                      : 'text-muted-foreground hover:text-foreground'
+                      ? 'bg-primary text-primary-foreground shadow-xs font-semibold'
+                      : 'text-muted-foreground hover:text-foreground font-medium'
                   )}
                 >
                   {m.label}
@@ -290,16 +292,16 @@ export function DashboardWorkspace() {
             </span>
           </div>
           <div className="flex items-center gap-4 text-xs font-semibold">
-            <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
-              <span className="h-2 w-2 rounded-full bg-emerald-500" />
+            <span className="flex items-center gap-1.5 text-success">
+              <span className="h-2 w-2 rounded-full bg-success" />
               12 On Track
             </span>
-            <span className="flex items-center gap-1.5 text-amber-600 dark:text-amber-400">
-              <span className="h-2 w-2 rounded-full bg-amber-500" />
+            <span className="flex items-center gap-1.5 text-warning">
+              <span className="h-2 w-2 rounded-full bg-warning" />
               0 At Risk
             </span>
-            <span className="flex items-center gap-1.5 text-red-500">
-              <span className="h-2 w-2 rounded-full bg-red-500" />
+            <span className="flex items-center gap-1.5 text-destructive">
+              <span className="h-2 w-2 rounded-full bg-destructive" />
               0 Breached
             </span>
           </div>
@@ -319,9 +321,9 @@ export function DashboardWorkspace() {
             <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
               Channel Volume
             </span>
-            <p className="text-xl font-black text-foreground mt-1">8 WA · 4 IG</p>
+            <p className="text-xl font-bold text-foreground mt-1">8 WA · 4 IG</p>
             <div className="w-full bg-muted h-1.5 rounded-full mt-2 overflow-hidden">
-              <div className="bg-[#74A09F] h-full rounded-full" style={{ width: '66%' }} />
+              <div className="bg-primary h-full rounded-full" style={{ width: '66%' }} />
             </div>
           </div>
 
@@ -329,15 +331,15 @@ export function DashboardWorkspace() {
             <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
               Average First Response
             </span>
-            <p className="text-xl font-black text-foreground mt-1">1.8 Minutes</p>
-            <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-1">Target is under 5.0m</p>
+            <p className="text-xl font-bold text-foreground mt-1 font-mono">1.8m</p>
+            <p className="text-xs text-success mt-1">Target is under 5.0m</p>
           </div>
 
           <div className="rounded-xl border border-border bg-muted/20 p-4">
             <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
               4h SLA Compliance
             </span>
-            <p className="text-xl font-black text-emerald-600 dark:text-emerald-400 mt-1">100% On Track</p>
+            <p className="text-xl font-bold text-success mt-1 font-mono">100%</p>
             <p className="text-xs text-muted-foreground mt-1">All conversations within SLA</p>
           </div>
         </div>
@@ -347,11 +349,11 @@ export function DashboardWorkspace() {
           {/* Left Column: Live Queue */}
           <div className="rounded-xl border border-border bg-muted/20 p-4">
             <div className="flex items-center justify-between pb-3 border-b border-border mb-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-foreground flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-emerald-500" />
+              <span className="text-xs font-semibold uppercase tracking-wider text-foreground flex items-center gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-success" />
                 Live Continuous Pipeline
               </span>
-              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-[#74A09F]/15 text-[#74A09F]">
+              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-primary/15 text-primary">
                 2 Active Orders
               </span>
             </div>
@@ -360,14 +362,14 @@ export function DashboardWorkspace() {
               <div className="flex items-center justify-between p-3 rounded-xl bg-card border border-border shadow-xs">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-xs text-foreground">#1138</span>
-                    <span className="text-[10px] text-muted-foreground">(12:16)</span>
+                    <span className="font-semibold text-xs text-foreground font-mono">#1138</span>
+                    <span className="text-[10px] text-muted-foreground font-mono">(12:16)</span>
                   </div>
                   <p className="text-xs text-muted-foreground mt-0.5">
                     Ramesh Rekonex · 1 item · WhatsApp
                   </p>
                 </div>
-                <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-success/10 text-success border border-success/20">
                   NEW
                 </span>
               </div>
@@ -375,14 +377,14 @@ export function DashboardWorkspace() {
               <div className="flex items-center justify-between p-3 rounded-xl bg-card border border-border shadow-xs">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-xs text-foreground">#1137</span>
-                    <span className="text-[10px] text-muted-foreground">(11:27)</span>
+                    <span className="font-semibold text-xs text-foreground font-mono">#1137</span>
+                    <span className="text-[10px] text-muted-foreground font-mono">(11:27)</span>
                   </div>
                   <p className="text-xs text-muted-foreground mt-0.5">
                     Naseef uk · 2 items · Instagram
                   </p>
                 </div>
-                <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-success/10 text-success border border-success/20">
                   NEW
                 </span>
               </div>
@@ -392,8 +394,8 @@ export function DashboardWorkspace() {
           {/* Right Column: SLA Watchlist */}
           <div className="rounded-xl border border-border bg-muted/20 p-4">
             <div className="flex items-center justify-between pb-3 border-b border-border mb-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-foreground flex items-center gap-1.5">
-                <Clock className="h-3.5 w-3.5 text-[#74A09F]" />
+              <span className="text-xs font-semibold uppercase tracking-wider text-foreground flex items-center gap-1.5">
+                <Clock className="h-3.5 w-3.5 text-primary" strokeWidth={2} />
                 SLA Urgency & Risk Watchlist
               </span>
               <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-card text-muted-foreground border border-border">
@@ -405,32 +407,32 @@ export function DashboardWorkspace() {
               <div className="flex items-center justify-between p-3 rounded-xl bg-card border border-border shadow-xs">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-xs text-foreground">#1138</span>
-                    <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                    <span className="font-semibold text-xs text-foreground font-mono">#1138</span>
+                    <span className="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded bg-success/10 text-success">
                       ON TRACK
                     </span>
                   </div>
                   <p className="text-xs text-muted-foreground mt-0.5">Ramesh Rekonex · Agent: Aravind</p>
                 </div>
                 <div className="text-right">
-                  <span className="text-xs font-bold text-foreground">2h 45m left</span>
-                  <p className="text-[10px] text-muted-foreground">Elapsed: 1h 15m</p>
+                  <span className="text-xs font-bold text-foreground font-mono">2h 45m left</span>
+                  <p className="text-[10px] text-muted-foreground font-mono">Elapsed: 1h 15m</p>
                 </div>
               </div>
 
               <div className="flex items-center justify-between p-3 rounded-xl bg-card border border-border shadow-xs">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-xs text-foreground">#1137</span>
-                    <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                    <span className="font-semibold text-xs text-foreground font-mono">#1137</span>
+                    <span className="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded bg-success/10 text-success">
                       ON TRACK
                     </span>
                   </div>
                   <p className="text-xs text-muted-foreground mt-0.5">Naseef uk · Agent: Sara Al-Mansoor</p>
                 </div>
                 <div className="text-right">
-                  <span className="text-xs font-bold text-foreground">3h 27m left</span>
-                  <p className="text-[10px] text-muted-foreground">Elapsed: 0h 33m</p>
+                  <span className="text-xs font-bold text-foreground font-mono">3h 27m left</span>
+                  <p className="text-[10px] text-muted-foreground font-mono">Elapsed: 0h 33m</p>
                 </div>
               </div>
             </div>
@@ -443,8 +445,8 @@ export function DashboardWorkspace() {
         {/* Agent Performance Table */}
         <div className="xl:col-span-2 rounded-2xl border border-border bg-card overflow-hidden shadow-card">
           <div className="px-5 py-4 border-b border-border flex items-center justify-between">
-            <h3 className="text-xs font-bold text-foreground uppercase tracking-wider flex items-center gap-2">
-              <Users className="h-4 w-4 text-[#74A09F]" />
+            <h3 className="text-xs font-semibold text-foreground uppercase tracking-wider flex items-center gap-2">
+              <Users className="h-4 w-4 text-primary" strokeWidth={2} />
               Agent Performance & Active Workloads
             </h3>
             <span className="text-xs font-medium text-muted-foreground">6 Agents Active</span>
@@ -453,7 +455,7 @@ export function DashboardWorkspace() {
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="text-[11px] text-muted-foreground uppercase tracking-wider border-b border-border bg-muted/30">
+                <tr className="text-[11px] text-muted-foreground uppercase tracking-wider border-b border-border bg-muted/40">
                   <th className="px-5 py-3 font-semibold">Agent</th>
                   <th className="px-4 py-3 font-semibold text-right">Active Chats</th>
                   <th className="px-4 py-3 font-semibold text-right">Resolved</th>
@@ -464,17 +466,17 @@ export function DashboardWorkspace() {
               <tbody className="divide-y divide-border/60 text-xs">
                 {agentPerformance.map((a) => (
                   <tr key={a.name} className="hover:bg-muted/40 transition-colors">
-                    <td className="px-5 py-3 font-semibold text-foreground flex items-center gap-2">
-                      <div className="h-6 w-6 rounded-full bg-[#74A09F]/20 text-[#74A09F] flex items-center justify-center text-[10px] font-bold">
+                    <td className="px-5 py-3 font-medium text-foreground flex items-center gap-2">
+                      <div className="h-6 w-6 rounded-full bg-primary/20 text-primary flex items-center justify-center text-[10px] font-bold">
                         {a.name.slice(0, 2).toUpperCase()}
                       </div>
                       {a.name}
                     </td>
-                    <td className="px-4 py-3 text-muted-foreground text-right font-medium">{a.active}</td>
-                    <td className="px-4 py-3 text-muted-foreground text-right font-medium">{a.resolved}</td>
-                    <td className="px-4 py-3 text-muted-foreground text-right font-medium">{a.first_response}</td>
+                    <td className="px-4 py-3 text-muted-foreground text-right font-medium font-mono">{a.active}</td>
+                    <td className="px-4 py-3 text-muted-foreground text-right font-medium font-mono">{a.resolved}</td>
+                    <td className="px-4 py-3 text-muted-foreground text-right font-medium font-mono">{a.first_response}</td>
                     <td className="px-5 py-3 text-right">
-                      <span className={clsx('font-bold', a.sla_breaches > 0 ? 'text-red-500' : 'text-emerald-500')}>
+                      <span className={clsx('font-bold font-mono', a.sla_breaches > 0 ? 'text-destructive' : 'text-success')}>
                         {a.sla_breaches}
                       </span>
                     </td>
@@ -488,11 +490,11 @@ export function DashboardWorkspace() {
         {/* Department Queue Depth */}
         <div className="rounded-2xl border border-border bg-card p-5 shadow-card space-y-4">
           <div className="flex items-center justify-between pb-2 border-b border-border">
-            <h3 className="text-xs font-bold text-foreground uppercase tracking-wider flex items-center gap-2">
-              <Layers className="h-4 w-4 text-[#74A09F]" />
+            <h3 className="text-xs font-semibold text-foreground uppercase tracking-wider flex items-center gap-2">
+              <Layers className="h-4 w-4 text-primary" strokeWidth={2} />
               Queue Depth By Dept
             </h3>
-            <span className="text-xs text-[#74A09F] font-semibold">Real-Time</span>
+            <span className="text-xs text-primary font-semibold">Real-Time</span>
           </div>
 
           <div className="space-y-4 pt-1">
@@ -500,11 +502,11 @@ export function DashboardWorkspace() {
               <div key={q.department}>
                 <div className="flex items-center justify-between mb-1.5">
                   <span className="text-xs font-medium text-foreground">{q.department}</span>
-                  <span className="text-xs font-bold text-foreground">{q.count}</span>
+                  <span className="text-xs font-bold text-foreground font-mono">{q.count}</span>
                 </div>
                 <div className="h-2 bg-muted rounded-full overflow-hidden border border-border/50">
                   <div
-                    className="h-full bg-[#74A09F] rounded-full transition-all duration-500"
+                    className="h-full bg-primary rounded-full transition-all duration-500"
                     style={{ width: `${Math.min(100, (q.count / MAX_QUEUE) * 100)}%` }}
                   />
                 </div>

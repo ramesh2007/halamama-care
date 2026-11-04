@@ -19,15 +19,15 @@ const STATUS_FILTERS: { value: EmailTicket['status'] | 'all'; label: string }[] 
 
 const PRIORITY_STYLES: Record<EmailTicket['priority'], string> = {
   low: 'text-muted-foreground bg-muted border-border',
-  medium: 'text-sky-600 dark:text-sky-400 bg-sky-500/10 border-sky-500/20',
-  high: 'text-amber-600 dark:text-amber-400 bg-amber-500/10 border-amber-500/20',
-  urgent: 'text-rose-600 dark:text-rose-400 bg-rose-500/10 border-rose-500/20',
+  medium: 'text-info bg-info/10 border-info/20',
+  high: 'text-warning bg-warning/10 border-warning/20',
+  urgent: 'text-destructive bg-destructive/10 border-destructive/20',
 };
 
 const STATUS_STYLES: Record<EmailTicket['status'], { label: string; cls: string }> = {
-  open: { label: 'Open', cls: 'text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border-emerald-500/20' },
-  pending_ops: { label: 'Pending Ops', cls: 'text-amber-600 dark:text-amber-400 bg-amber-500/10 border-amber-500/20' },
-  escalated: { label: 'Escalated', cls: 'text-rose-600 dark:text-rose-400 bg-rose-500/10 border-rose-500/20' },
+  open: { label: 'Open', cls: 'text-success bg-success/10 border-success/20' },
+  pending_ops: { label: 'Pending Ops', cls: 'text-warning bg-warning/10 border-warning/20' },
+  escalated: { label: 'Escalated', cls: 'text-destructive bg-destructive/10 border-destructive/20' },
   closed: { label: 'Closed', cls: 'text-muted-foreground bg-muted border-border' },
 };
 
@@ -64,7 +64,7 @@ export function TicketTable({ tickets, selectedId, onSelect }: TicketTableProps)
     <div className="flex-1 flex flex-col overflow-hidden">
       {/* Search & Filter Toolbar */}
       <div className="p-3.5 border-b border-border space-y-3 bg-card">
-        <div className="flex items-center gap-2 bg-muted/40 rounded-xl px-3 py-2 border border-border focus-within:border-[#74A09F] focus-within:bg-card focus-within:ring-2 focus-within:ring-[#74A09F]/20 transition-all">
+        <div className="flex items-center gap-2 h-9 bg-muted/60 rounded-xl px-3 border border-border focus-within:border-primary focus-within:bg-card focus-within:ring-2 focus-within:ring-primary/20 transition-all">
           <Search className="h-4 w-4 text-muted-foreground shrink-0" />
           <input
             type="text"
@@ -90,7 +90,7 @@ export function TicketTable({ tickets, selectedId, onSelect }: TicketTableProps)
         </div>
 
         {/* Status Filter Tabs */}
-        <div className="flex items-center bg-muted/70 p-1 rounded-xl border border-border/60 overflow-x-auto">
+        <div className="flex items-center bg-muted p-1 rounded-xl border border-border overflow-x-auto">
           {STATUS_FILTERS.map((f) => (
             <button
               key={f.value}
@@ -101,8 +101,8 @@ export function TicketTable({ tickets, selectedId, onSelect }: TicketTableProps)
               className={clsx(
                 'flex-1 px-2.5 py-1 rounded-lg text-2xs font-semibold transition-all whitespace-nowrap cursor-pointer text-center',
                 status === f.value
-                  ? 'bg-card text-foreground shadow-xs border border-border/60'
-                  : 'text-muted-foreground hover:text-foreground',
+                  ? 'bg-primary text-primary-foreground shadow-xs'
+                  : 'text-muted-foreground hover:text-foreground font-medium',
               )}
             >
               {f.label}
@@ -136,11 +136,11 @@ export function TicketTable({ tickets, selectedId, onSelect }: TicketTableProps)
                   className={clsx(
                     'cursor-pointer transition-colors',
                     isSelected
-                      ? 'bg-[#74A09F]/10 border-l-4 border-l-[#74A09F]'
+                      ? 'bg-primary/10 border-l-[3px] border-l-primary'
                       : 'hover:bg-muted/40',
                   )}
                 >
-                  <td className="px-3.5 py-3 text-xs font-mono font-bold text-[#74A09F] whitespace-nowrap">
+                  <td className="px-3.5 py-3 text-xs font-mono font-bold text-primary whitespace-nowrap">
                     {t.ticket_id}
                   </td>
                   <td className="px-3.5 py-3">
@@ -153,7 +153,7 @@ export function TicketTable({ tickets, selectedId, onSelect }: TicketTableProps)
                   <td className="px-3.5 py-3">
                     <span
                       className={clsx(
-                        'inline-flex px-2 py-0.5 rounded-full text-2xs font-bold border uppercase tracking-wider',
+                        'inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold border uppercase tracking-wider',
                         PRIORITY_STYLES[t.priority],
                       )}
                     >
@@ -163,7 +163,7 @@ export function TicketTable({ tickets, selectedId, onSelect }: TicketTableProps)
                   <td className="px-3.5 py-3">
                     <span
                       className={clsx(
-                        'inline-flex px-2 py-0.5 rounded-full text-2xs font-bold border whitespace-nowrap capitalize',
+                        'inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold border whitespace-nowrap capitalize',
                         st.cls,
                       )}
                     >
@@ -200,7 +200,7 @@ export function TicketTable({ tickets, selectedId, onSelect }: TicketTableProps)
           <button
             onClick={() => setPage((p) => Math.max(0, p - 1))}
             disabled={safePage === 0}
-            className="p-1 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+            className="h-8 w-8 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
             title="Previous page"
           >
             <ChevronLeft className="h-4 w-4" />
@@ -211,7 +211,7 @@ export function TicketTable({ tickets, selectedId, onSelect }: TicketTableProps)
           <button
             onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))}
             disabled={safePage >= pageCount - 1}
-            className="p-1 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+            className="h-8 w-8 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
             title="Next page"
           >
             <ChevronRight className="h-4 w-4" />

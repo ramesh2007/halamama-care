@@ -17,7 +17,7 @@ export function EmailThreadViewer({ messages }: EmailThreadViewerProps) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
         <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-2.5 text-muted-foreground">
-          <Mail className="h-6 w-6 text-[#74A09F]" />
+          <Mail className="h-6 w-6 text-primary" />
         </div>
         <p className="text-sm font-semibold text-foreground">No messages in this thread</p>
         <p className="text-xs text-muted-foreground mt-0.5">Use the reply box below to send the first response.</p>
@@ -36,7 +36,7 @@ export function EmailThreadViewer({ messages }: EmailThreadViewerProps) {
             className={clsx(
               'rounded-2xl border p-4 sm:p-5 shadow-xs transition-all',
               isOutbound
-                ? 'border-[#74A09F]/30 bg-[#74A09F]/5'
+                ? 'border-primary/30 bg-primary/5'
                 : 'border-border bg-card',
             )}
           >
@@ -47,7 +47,7 @@ export function EmailThreadViewer({ messages }: EmailThreadViewerProps) {
                   className={clsx(
                     'h-10 w-10 rounded-xl flex items-center justify-center shrink-0 font-bold text-xs',
                     isOutbound
-                      ? 'bg-[#74A09F] text-white shadow-2xs'
+                      ? 'bg-primary text-primary-foreground shadow-2xs'
                       : 'bg-muted text-foreground border border-border',
                   )}
                 >
@@ -65,7 +65,7 @@ export function EmailThreadViewer({ messages }: EmailThreadViewerProps) {
                       className={clsx(
                         'px-2 py-0.5 rounded-full text-[10px] font-bold border shrink-0',
                         isOutbound
-                          ? 'bg-[#74A09F]/15 text-[#74A09F] border-[#74A09F]/30'
+                          ? 'bg-primary/15 text-primary border-primary/30'
                           : 'bg-muted text-muted-foreground border-border',
                       )}
                     >
@@ -91,7 +91,7 @@ export function EmailThreadViewer({ messages }: EmailThreadViewerProps) {
             {/* Message Body */}
             {msg.body_html ? (
               <div
-                className="text-sm text-foreground/90 leading-relaxed [&_p]:mb-2 [&_strong]:font-semibold [&_a]:text-[#74A09F] [&_a]:underline"
+                className="text-sm text-foreground/90 leading-relaxed [&_p]:mb-2 [&_strong]:font-semibold [&_a]:text-primary [&_a]:underline"
                 dangerouslySetInnerHTML={{ __html: sanitizeHtml(msg.body_html) }}
               />
             ) : (
@@ -112,7 +112,7 @@ export function EmailThreadViewer({ messages }: EmailThreadViewerProps) {
                       key={att.name}
                       className="inline-flex items-center gap-2.5 rounded-xl bg-muted/50 hover:bg-muted border border-border/80 px-3 py-1.5 transition-colors cursor-pointer group shadow-2xs"
                     >
-                      <Paperclip className="h-3.5 w-3.5 text-[#74A09F] shrink-0" />
+                      <Paperclip className="h-3.5 w-3.5 text-primary shrink-0" />
                       <span className="text-xs font-medium text-foreground truncate max-w-[180px]">
                         {att.name}
                       </span>

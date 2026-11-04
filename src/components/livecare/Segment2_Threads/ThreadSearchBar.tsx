@@ -20,32 +20,32 @@ export function ThreadSearchBar() {
 
   return (
     <>
-      <div className="p-3 border-b border-border bg-card">
+      <div className="p-3 border-b border-border">
         <div className="flex items-center gap-2">
-          <div className="flex-1 flex items-center gap-2 bg-muted/70 dark:bg-[#141924] rounded-xl px-3 py-2 border border-border/60 dark:border-[#202738] focus-within:border-[#74A09F] focus-within:bg-card dark:focus-within:bg-[#182030] focus-within:ring-2 focus-within:ring-[#74A09F]/20 transition-all">
-            <Search className="h-4 w-4 text-muted-foreground shrink-0" />
+          <div className="flex-1 flex items-center gap-2 bg-muted/60 rounded-xl px-3 h-9 border border-border focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 focus-within:bg-card transition-all">
+            <Search className="h-4 w-4 text-muted-foreground shrink-0" strokeWidth={2} />
             <input
               type="text"
               value={localQuery}
               onChange={(e) => setLocalQuery(e.target.value)}
               placeholder="Search phone, order #, name..."
-              className="bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none w-full"
+              className="bg-transparent text-xs text-foreground placeholder:text-muted-foreground outline-none w-full"
             />
           </div>
 
           <button
             onClick={() => setIsNewChatOpen(true)}
-            className="p-2 rounded-xl bg-[#74A09F] text-white hover:bg-[#5E8B8A] border border-transparent transition-all cursor-pointer shadow-xs active:scale-95 flex items-center justify-center shrink-0"
+            className="h-9 w-9 rounded-xl bg-primary text-primary-foreground hover:opacity-90 transition-all cursor-pointer shadow-xs flex items-center justify-center shrink-0 active:scale-95"
             title="Start new WhatsApp conversation"
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="h-4 w-4" strokeWidth={2} />
           </button>
 
           <button
-            className="p-2 rounded-xl bg-muted/70 dark:bg-[#141924] text-muted-foreground hover:text-foreground hover:bg-muted dark:hover:bg-[#182030] border border-border/60 dark:border-[#202738] transition-colors cursor-pointer shrink-0"
+            className="h-9 w-9 rounded-xl bg-muted/70 text-muted-foreground hover:text-foreground hover:bg-muted border border-border transition-colors cursor-pointer shrink-0 flex items-center justify-center active:scale-95"
             title="Filters"
           >
-            <SlidersHorizontal className="h-4 w-4" />
+            <SlidersHorizontal className="h-4 w-4" strokeWidth={2} />
           </button>
         </div>
       </div>

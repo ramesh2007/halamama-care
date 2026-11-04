@@ -18,10 +18,10 @@ interface BadgeProps {
 
 const variantStyles: Record<BadgeVariant, string> = {
   default: 'bg-muted text-muted-foreground border-border',
-  success: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/30',
-  warning: 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30',
-  danger: 'bg-red-500/15 text-red-600 dark:text-red-400 border-red-500/30',
-  info: 'bg-blue-500/15 text-blue-600 dark:text-blue-400 border-blue-500/30',
+  success: 'bg-success/15 text-success border-success/30',
+  warning: 'bg-warning/15 text-warning border-warning/30',
+  danger: 'bg-destructive/15 text-destructive border-destructive/30',
+  info: 'bg-info/15 text-info border-info/30',
   purple: 'bg-purple-500/15 text-purple-600 dark:text-purple-400 border-purple-500/30',
   whatsapp: 'bg-channel-whatsapp/15 text-channel-whatsapp border-channel-whatsapp/30',
   instagram: 'bg-channel-instagram/15 text-channel-instagram border-channel-instagram/30',
@@ -30,16 +30,16 @@ const variantStyles: Record<BadgeVariant, string> = {
 };
 
 const sizeStyles: Record<BadgeSize, string> = {
-  xs: 'text-2xs px-1.5 py-0.5',
-  sm: 'text-xs px-2 py-0.5',
-  md: 'text-sm px-2.5 py-1',
+  xs: 'text-[9px] px-1.5 py-0.2 leading-tight',
+  sm: 'text-[10px] px-2 py-0.5 leading-tight',
+  md: 'text-xs px-2.5 py-1 leading-tight',
 };
 
 export function Badge({ children, variant = 'default', size = 'sm', dot, pulse, className }: BadgeProps) {
   return (
     <span
       className={clsx(
-        'inline-flex items-center gap-1.5 rounded-full border font-medium transition-colors',
+        'inline-flex items-center gap-1.5 rounded-full border font-semibold tracking-tight transition-colors',
         variantStyles[variant],
         sizeStyles[size],
         className
@@ -48,13 +48,13 @@ export function Badge({ children, variant = 'default', size = 'sm', dot, pulse, 
       {dot && (
         <span
           className={clsx(
-            'h-1.5 w-1.5 rounded-full',
+            'h-1.5 w-1.5 rounded-full shrink-0',
             pulse && 'animate-pulse',
-            variant === 'success' && 'bg-emerald-400',
-            variant === 'warning' && 'bg-amber-400',
-            variant === 'danger' && 'bg-red-400',
-            variant === 'info' && 'bg-blue-400',
-            variant === 'purple' && 'bg-purple-400',
+            variant === 'success' && 'bg-success',
+            variant === 'warning' && 'bg-warning',
+            variant === 'danger' && 'bg-destructive',
+            variant === 'info' && 'bg-info',
+            variant === 'purple' && 'bg-purple-500',
             variant === 'default' && 'bg-muted-foreground',
           )}
         />
@@ -77,7 +77,7 @@ export function CountBadge({ count, max = 99, className }: CountBadgeProps) {
   return (
     <span
       className={clsx(
-        'inline-flex items-center justify-center min-w-[18px] h-[18px] rounded-full bg-red-500 text-white text-2xs font-bold px-1',
+        'inline-flex items-center justify-center min-w-[18px] h-[18px] rounded-full bg-destructive text-destructive-foreground text-[10px] font-bold px-1 shadow-2xs leading-none',
         className
       )}
     >

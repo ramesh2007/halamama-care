@@ -1,3 +1,12 @@
+function withOpacity(variableName) {
+  return ({ opacityValue }) => {
+    if (opacityValue !== undefined) {
+      return `color-mix(in oklab, var(${variableName}) calc(${opacityValue} * 100%), transparent)`;
+    }
+    return `var(${variableName})`;
+  };
+}
+
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: 'class',
@@ -8,47 +17,72 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Halamama Brand Palette - Exact Primary #74A09F (from existing OMS)
+        // Semantic Theme Tokens matching HalaMama System
+        background: withOpacity('--background'),
+        foreground: withOpacity('--foreground'),
+        card: {
+          DEFAULT: withOpacity('--card'),
+          foreground: withOpacity('--card-foreground'),
+        },
+        popover: {
+          DEFAULT: withOpacity('--popover'),
+          foreground: withOpacity('--popover-foreground'),
+        },
+        primary: {
+          DEFAULT: withOpacity('--primary'),
+          foreground: withOpacity('--primary-foreground'),
+        },
+        muted: {
+          DEFAULT: withOpacity('--muted'),
+          foreground: withOpacity('--muted-foreground'),
+        },
+        border: withOpacity('--border'),
+        input: withOpacity('--input'),
+        ring: withOpacity('--ring'),
+        sidebar: {
+          DEFAULT: withOpacity('--sidebar'),
+          foreground: withOpacity('--sidebar-foreground'),
+          border: withOpacity('--sidebar-border'),
+        },
+        // Functional Status Colors
+        success: {
+          DEFAULT: withOpacity('--success'),
+          foreground: withOpacity('--success-foreground'),
+        },
+        warning: {
+          DEFAULT: withOpacity('--warning'),
+          foreground: withOpacity('--warning-foreground'),
+        },
+        destructive: {
+          DEFAULT: withOpacity('--destructive'),
+          foreground: withOpacity('--destructive-foreground'),
+        },
+        info: {
+          DEFAULT: withOpacity('--info'),
+          foreground: withOpacity('--info-foreground'),
+        },
+        // HalaMama Brand Palette
         brand: {
           50: '#f2f7f7',
           100: '#e0efee',
           200: '#c3dedd',
-          300: '#9cc4c2',
-          400: '#74a09f',
-          500: '#74a09f', // Exact requested primary #74A09F
-          600: '#5d8c8b', // Hover
-          700: '#4a7271',
-          800: '#3f5c5b',
-          900: '#374d4c',
-          950: '#1b2a2a',
+          300: '#9fc7c6',
+          400: '#85afae',
+          500: '#85afae', // Exact primary Light #85AFAE
+          600: '#6e9897',
+          700: '#547b7a',
+          800: '#3d5c5b',
+          900: '#2a403f',
+          950: '#102928',
         },
-        // Theme semantic tokens matching Halamama-RMO
-        background: 'var(--background)',
-        foreground: 'var(--foreground)',
-        card: {
-          DEFAULT: 'var(--card)',
-          foreground: 'var(--card-foreground)',
-        },
-        popover: {
-          DEFAULT: 'var(--popover)',
-          foreground: 'var(--popover-foreground)',
-        },
-        primary: {
-          DEFAULT: '#74a09f',
-          foreground: '#ffffff',
-        },
-        muted: {
-          DEFAULT: 'var(--muted)',
-          foreground: 'var(--muted-foreground)',
-        },
-        // Surface & Background (dynamically driven by CSS variables for Dark/Light)
+        // Surface aliases
         surface: {
-          DEFAULT: 'rgb(var(--surface-default) / <alpha-value>)',
-          secondary: 'rgb(var(--surface-secondary) / <alpha-value>)',
-          tertiary: 'rgb(var(--surface-tertiary) / <alpha-value>)',
-          elevated: 'rgb(var(--surface-elevated) / <alpha-value>)',
-          hover: 'rgb(var(--surface-hover) / <alpha-value>)',
-          border: 'rgb(var(--surface-border) / <alpha-value>)',
+          DEFAULT: withOpacity('--card'),
+          secondary: withOpacity('--card'),
+          tertiary: withOpacity('--muted'),
+          elevated: withOpacity('--card'),
+          hover: withOpacity('--muted'),
+          border: withOpacity('--border'),
         },
         // Channel Colors
         channel: {
@@ -59,32 +93,34 @@ export default {
         },
         // Status Tags
         status: {
-          'in-progress': '#3b82f6',
-          pending: '#f59e0b',
+          'in-progress': 'oklch(0.72 0.14 210)',
+          pending: 'oklch(0.78 0.17 70)',
           'follow-up': '#a855f7',
-          resolved: '#22c55e',
+          resolved: 'oklch(0.7 0.16 165)',
         },
         // Internal Whisper
         whisper: {
-          bg: '#fef3c7',
-          border: '#f59e0b',
-          text: '#92400e',
+          bg: 'oklch(0.78 0.17 70 / 12%)',
+          border: 'oklch(0.78 0.17 70 / 30%)',
+          text: 'oklch(0.78 0.17 70)',
         },
         // SLA States
         sla: {
-          safe: '#22c55e',
-          warning: '#f59e0b',
-          critical: '#ef4444',
+          safe: 'oklch(0.7 0.16 165)',
+          warning: 'oklch(0.78 0.17 70)',
+          critical: 'oklch(0.64 0.24 25)',
         },
       },
       fontFamily: {
-        sans: ['"Avenir Next LT Pro"', '"Avenir Next"', 'Avenir', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['"Avenir Next LT Pro"', '"Avenir Next"', 'Avenir', 'ui-sans-serif', 'system-ui', '-apple-system', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'],
         mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
       },
       fontSize: {
         '2xs': ['0.65rem', { lineHeight: '0.85rem' }],
       },
       spacing: {
+        'sidebar-expanded': '260px',
+        'sidebar-collapsed': '68px',
         'segment-1': '240px',
         'segment-2': '320px',
         'segment-4': '380px',
@@ -125,9 +161,9 @@ export default {
         },
       },
       boxShadow: {
-        'card': '0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px -1px rgba(0, 0, 0, 0.3)',
-        'card-hover': '0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3)',
-        'elevated': '0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.4)',
+        'card': '0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.03)',
+        'card-hover': '0 4px 20px rgba(0, 0, 0, 0.06)',
+        'elevated': '0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05)',
         'glow-brand': '0 0 20px rgba(133, 175, 174, 0.25)',
         'glow-danger': '0 0 20px rgba(239, 68, 68, 0.15)',
       },

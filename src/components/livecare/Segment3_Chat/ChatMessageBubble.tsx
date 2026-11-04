@@ -34,10 +34,10 @@ function linkify(text: string, isSender?: boolean) {
           target="_blank"
           rel="noopener noreferrer"
           className={clsx(
-            'underline break-all font-medium',
+            'underline break-all font-medium transition-colors',
             isSender
               ? 'text-emerald-800 hover:text-emerald-950 dark:text-emerald-200'
-              : 'text-[#5D8C8B] hover:text-[#4A7271] dark:text-[#88B8B7]',
+              : 'text-primary hover:opacity-80'
           )}
         >
           {part}
@@ -51,13 +51,13 @@ function linkify(text: string, isSender?: boolean) {
 function mediaIcon(mediaType: ChatMessage['media_type']) {
   switch (mediaType) {
     case 'audio':
-      return <FileAudio className="h-4 w-4" />;
+      return <FileAudio className="h-4 w-4" strokeWidth={2} />;
     case 'video':
-      return <FileVideo className="h-4 w-4" />;
+      return <FileVideo className="h-4 w-4" strokeWidth={2} />;
     case 'document':
-      return <FileText className="h-4 w-4" />;
+      return <FileText className="h-4 w-4" strokeWidth={2} />;
     default:
-      return <FileText className="h-4 w-4" />;
+      return <FileText className="h-4 w-4" strokeWidth={2} />;
   }
 }
 
@@ -65,30 +65,30 @@ function PaymentCard({ metadata }: { metadata: PaymentLinkMetadata }) {
   const isPaid = metadata.status === 'paid';
 
   return (
-    <div className="mt-2.5 rounded-xl border border-border/80 dark:border-white/10 bg-card dark:bg-[#131926] p-3.5 text-left shadow-xs">
+    <div className="mt-2.5 rounded-xl border border-border bg-card p-3.5 text-left shadow-xs">
       <div className="flex items-center justify-between gap-2 mb-2">
         <div className="flex items-center gap-1.5">
-          <div className="h-6 w-6 rounded-lg bg-[#74A09F]/15 flex items-center justify-center text-[#74A09F]">
-            <CreditCard className="h-3.5 w-3.5" />
+          <div className="h-6 w-6 rounded-lg bg-primary/15 flex items-center justify-center text-primary">
+            <CreditCard className="h-3.5 w-3.5" strokeWidth={2} />
           </div>
           <span className="text-xs font-semibold text-foreground">Payment Request</span>
         </div>
         <span
           className={clsx(
-            'px-2 py-0.5 rounded-full text-2xs font-semibold capitalize',
+            'px-2 py-0.5 rounded-full text-[10px] font-bold capitalize border',
             isPaid
-              ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
-              : 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20',
+              ? 'bg-success/10 text-success border-success/20'
+              : 'bg-warning/10 text-warning border-warning/20',
           )}
         >
           {metadata.status}
         </span>
       </div>
 
-      <div className="bg-muted/50 dark:bg-black/25 rounded-lg p-2.5 mb-2.5 border border-border/40 dark:border-white/5">
-        <p className="text-2xs text-muted-foreground uppercase tracking-wider mb-0.5">Amount to Pay</p>
-        <p className="text-base font-bold text-foreground">{formatCurrency(metadata.amount)}</p>
-        <p className="text-2xs text-muted-foreground font-mono mt-0.5">Ref: {metadata.invoice_id}</p>
+      <div className="bg-muted/60 rounded-xl p-2.5 mb-2.5 border border-border/50">
+        <p className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold mb-0.5">Amount to Pay</p>
+        <p className="text-base font-bold text-foreground font-mono">{formatCurrency(metadata.amount)}</p>
+        <p className="text-[10px] text-muted-foreground font-mono mt-0.5">Ref: {metadata.invoice_id}</p>
       </div>
 
       <div className="flex items-center justify-between gap-2">
@@ -96,12 +96,12 @@ function PaymentCard({ metadata }: { metadata: PaymentLinkMetadata }) {
           href={metadata.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#74A09F] hover:bg-[#5D8C8B] text-white text-xs font-medium transition-colors shadow-2xs"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary hover:opacity-90 text-primary-foreground text-xs font-semibold transition-all shadow-xs active:scale-95"
         >
           Pay via MyFatoorah
-          <ExternalLink className="h-3 w-3" />
+          <ExternalLink className="h-3 w-3" strokeWidth={2} />
         </a>
-        <span className="text-2xs text-muted-foreground">
+        <span className="text-[10px] text-muted-foreground">
           {isPaid ? 'Payment Confirmed' : 'Expires in 24h'}
         </span>
       </div>
@@ -118,22 +118,22 @@ export function ChatMessageBubble({ message }: ChatMessageBubbleProps) {
   if (message.sender_type === 'internal_note') {
     return (
       <div className="flex justify-center my-1">
-        <div className="max-w-lg w-full bg-amber-500/10 dark:bg-amber-500/15 border border-amber-500/30 dark:border-amber-500/40 rounded-xl px-4 py-3 shadow-xs">
-          <div className="flex items-center gap-2 mb-1.5 pb-1.5 border-b border-amber-500/20">
-            <div className="h-5 w-5 rounded-md bg-amber-500/20 flex items-center justify-center text-amber-700 dark:text-amber-300">
-              <Lock className="h-3 w-3" />
+        <div className="max-w-lg w-full bg-warning/10 dark:bg-warning/15 border border-warning/30 dark:border-warning/40 rounded-xl px-4 py-3 shadow-xs">
+          <div className="flex items-center gap-2 mb-1.5 pb-1.5 border-b border-warning/20">
+            <div className="h-5 w-5 rounded-md bg-warning/20 flex items-center justify-center text-warning">
+              <Lock className="h-3 w-3" strokeWidth={2} />
             </div>
-            <span className="text-2xs font-bold uppercase tracking-wider text-amber-800 dark:text-amber-300">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-warning">
               Internal Whisper
             </span>
-            <span className="text-2xs font-medium text-amber-700/80 dark:text-amber-400">
+            <span className="text-[10px] font-medium text-warning/80">
               • {message.sender_name}
             </span>
-            <span className="text-2xs text-amber-700/60 dark:text-amber-400/60 ml-auto font-mono">
+            <span className="text-[10px] text-warning/60 ml-auto font-mono">
               {formatMessageTime(message.created_at)}
             </span>
           </div>
-          <p className="text-sm text-amber-950 dark:text-amber-100 leading-relaxed font-normal whitespace-pre-wrap break-words">
+          <p className="text-sm text-foreground leading-relaxed font-normal whitespace-pre-wrap break-words">
             {message.text && linkify(message.text, false)}
           </p>
         </div>
@@ -158,7 +158,7 @@ export function ChatMessageBubble({ message }: ChatMessageBubbleProps) {
           <span
             className={clsx(
               'text-2xs font-semibold',
-              isCustomer && 'text-foreground/80 dark:text-slate-300',
+              isCustomer && 'text-foreground/80',
               isSender && 'text-emerald-700 dark:text-emerald-400',
             )}
           >
@@ -169,13 +169,13 @@ export function ChatMessageBubble({ message }: ChatMessageBubbleProps) {
           </span>
         </div>
 
-        {/* Bubble container: WhatsApp green for sender on right; Clean card for customer on left */}
+        {/* Bubble container: Light green for sender on right; White/Card for customer on left */}
         <div
           className={clsx(
             'px-4 py-2.5 text-sm leading-relaxed transition-all shadow-2xs',
             isSender
-              ? 'bg-[#D9FDD3] dark:bg-[#005C4B] text-zinc-900 dark:text-[#E9EDEF] border border-[#BCE8B5] dark:border-[#02735E] rounded-2xl rounded-tr-xs font-normal'
-              : 'bg-card dark:bg-[#181F2E] border border-border/80 dark:border-[#222B3D] text-foreground dark:text-[#E9EDEF] rounded-2xl rounded-tl-xs font-normal',
+              ? 'bg-[#D9FDD3] dark:bg-[#005C4B] text-zinc-900 dark:text-[#E9EDEF] border border-[#BCE8B5] dark:border-[#026B57] rounded-2xl rounded-tr-xs font-normal'
+              : 'bg-card dark:bg-[#202C33] border border-border/80 text-foreground rounded-2xl rounded-tl-xs font-normal',
           )}
         >
           {message.text && (
@@ -213,28 +213,28 @@ export function ChatMessageBubble({ message }: ChatMessageBubbleProps) {
 
         {/* Read / delivery receipt status for outbound sender messages */}
         {message.delivery_status && isSender && (
-          <div className="flex items-center gap-1 mt-0.5 px-1 text-2xs text-muted-foreground justify-end">
+          <div className="flex items-center gap-1 mt-0.5 px-1 text-[10px] text-muted-foreground justify-end font-mono">
             {message.delivery_status === 'sent' && (
               <span className="flex items-center gap-0.5" title="Sent">
-                <Check className="h-3 w-3 text-muted-foreground" />
+                <Check className="h-3 w-3 text-muted-foreground" strokeWidth={2} />
                 <span>Sent</span>
               </span>
             )}
             {message.delivery_status === 'delivered' && (
               <span className="flex items-center gap-0.5" title="Delivered">
-                <CheckCheck className="h-3 w-3 text-muted-foreground" />
+                <CheckCheck className="h-3 w-3 text-muted-foreground" strokeWidth={2} />
                 <span>Delivered</span>
               </span>
             )}
             {message.delivery_status === 'read' && (
-              <span className="flex items-center gap-0.5 text-sky-500 font-medium" title="Read">
-                <CheckCheck className="h-3 w-3 text-sky-500" />
+              <span className="flex items-center gap-0.5 text-info font-medium" title="Read">
+                <CheckCheck className="h-3 w-3 text-info" strokeWidth={2} />
                 <span>Read</span>
               </span>
             )}
             {message.delivery_status === 'failed' && (
-              <span className="flex items-center gap-0.5 text-rose-500 font-medium" title="Delivery failed">
-                <AlertCircle className="h-3 w-3 text-rose-500" />
+              <span className="flex items-center gap-0.5 text-destructive font-medium" title="Delivery failed">
+                <AlertCircle className="h-3 w-3 text-destructive" strokeWidth={2} />
                 <span>Failed</span>
               </span>
             )}

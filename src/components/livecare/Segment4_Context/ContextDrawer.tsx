@@ -34,8 +34,8 @@ export function ContextDrawer() {
   if (!selectedThreadId || !thread) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center text-center px-6 py-12">
-        <div className="h-14 w-14 rounded-2xl bg-[#74A09F]/15 flex items-center justify-center mb-4 text-[#74A09F]">
-          <User className="h-7 w-7" />
+        <div className="h-14 w-14 rounded-2xl bg-primary/15 flex items-center justify-center mb-4 text-primary shadow-xs">
+          <User className="h-7 w-7" strokeWidth={2} />
         </div>
         <p className="text-sm font-semibold text-foreground mb-1">Customer Context</p>
         <p className="text-xs text-muted-foreground max-w-[220px]">
@@ -61,7 +61,7 @@ export function ContextDrawer() {
     <div className="flex flex-col">
       {/* Segmented Header Tabs */}
       <div className="p-3 border-b border-border bg-card shrink-0">
-        <div className="flex items-center bg-muted/70 p-1 rounded-xl border border-border/60">
+        <div className="flex items-center bg-muted p-1 rounded-xl border border-border">
           {TABS.map((t) => (
             <button
               key={t.id}
@@ -69,8 +69,8 @@ export function ContextDrawer() {
               className={clsx(
                 'flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer',
                 tab === t.id
-                  ? 'bg-card text-foreground shadow-xs border border-border/60'
-                  : 'text-muted-foreground hover:text-foreground',
+                  ? 'bg-primary text-primary-foreground shadow-xs'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/80',
               )}
             >
               {t.icon}
@@ -119,8 +119,8 @@ export function ContextDrawer() {
               {installableOrders.map((order) => (
                 <div key={order.name} className="bg-card border border-border rounded-xl p-3.5 shadow-xs">
                   <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-xs font-mono font-bold text-[#74A09F]">{order.name}</span>
-                    <span className="px-2 py-0.5 rounded-full text-2xs font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
+                    <span className="text-xs font-mono font-bold text-primary">{order.name}</span>
+                    <span className="px-2 py-0.5 rounded-full text-2xs font-semibold bg-info/10 text-info border border-info/20">
                       {order.delivery_status}
                     </span>
                   </div>
@@ -132,7 +132,7 @@ export function ContextDrawer() {
                   </p>
                   <button
                     onClick={() => setSchedulingOrder(order)}
-                    className="w-full py-2 rounded-lg bg-[#74A09F] hover:bg-[#5D8C8B] text-white text-xs font-semibold transition-all shadow-xs cursor-pointer flex items-center justify-center gap-1.5"
+                    className="w-full h-8 rounded-xl bg-primary hover:opacity-90 text-primary-foreground text-xs font-semibold transition-all shadow-xs cursor-pointer active:scale-95 flex items-center justify-center gap-1.5"
                   >
                     <Calendar className="h-3.5 w-3.5" />
                     Book Technician Slot

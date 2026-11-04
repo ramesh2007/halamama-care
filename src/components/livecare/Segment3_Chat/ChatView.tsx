@@ -34,8 +34,8 @@ export function ChatView() {
   if (!tid || !thread) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center text-center px-8">
-        <div className="h-20 w-20 rounded-2xl bg-[#74A09F]/15 flex items-center justify-center mb-5">
-          <MessageSquare className="h-10 w-10 text-[#74A09F]" />
+        <div className="h-20 w-20 rounded-2xl bg-primary/15 flex items-center justify-center mb-5">
+          <MessageSquare className="h-10 w-10 text-primary" />
         </div>
         <h2 className="text-lg font-semibold text-foreground mb-2">Select a conversation</h2>
         <p className="text-sm text-muted-foreground max-w-sm">
@@ -49,16 +49,16 @@ export function ChatView() {
     <div className="flex-1 flex flex-col h-full min-h-0 bg-background">
       <ChatHeader thread={thread} />
 
-      <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 space-y-3.5 chat-pattern">
+      <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 space-y-4">
         {isLoading && threadMessages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center py-10">
-            <Loader2 className="h-6 w-6 animate-spin text-[#74A09F] mb-2" />
+            <Loader2 className="h-6 w-6 animate-spin text-primary mb-2" />
             <p className="text-xs text-muted-foreground">Loading WhatsApp messages...</p>
           </div>
         ) : threadMessages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center py-10">
             <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-2.5 text-muted-foreground">
-              <MessageSquare className="h-6 w-6 text-[#74A09F]" />
+              <MessageSquare className="h-6 w-6 text-primary" />
             </div>
             <p className="text-sm font-semibold text-foreground">No messages in this thread</p>
             <p className="text-xs text-muted-foreground mt-0.5">
@@ -67,8 +67,8 @@ export function ChatView() {
           </div>
         ) : (
           <>
-            <div className="flex justify-center my-1.5">
-              <span className="px-3 py-1 rounded-full text-2xs font-semibold bg-card/90 dark:bg-[#151B28]/95 text-muted-foreground border border-border/70 shadow-2xs backdrop-blur-xs">
+            <div className="flex justify-center my-1">
+              <span className="px-3 py-1 rounded-full text-2xs font-semibold bg-muted/80 text-muted-foreground border border-border/60 shadow-2xs">
                 Today
               </span>
             </div>

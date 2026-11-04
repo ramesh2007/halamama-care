@@ -53,8 +53,8 @@ export function ERPStockLookup() {
       {/* Search Input Box */}
       <div className="space-y-2">
         <div className="flex items-center gap-2">
-          <div className="flex-1 flex items-center gap-2 bg-muted/40 rounded-xl px-3 py-2 border border-border focus-within:border-[#74A09F] focus-within:bg-card focus-within:ring-2 focus-within:ring-[#74A09F]/20 transition-all">
-            <Search className="h-4 w-4 text-muted-foreground shrink-0" />
+          <div className="flex-1 flex items-center gap-2 bg-muted/50 rounded-xl px-3 h-9 border border-border focus-within:border-primary focus-within:bg-card focus-within:ring-2 focus-within:ring-primary/20 transition-all">
+            <Search className="h-4 w-4 text-muted-foreground shrink-0" strokeWidth={2} />
             <input
               type="text"
               value={input}
@@ -63,7 +63,7 @@ export function ERPStockLookup() {
                 if (e.key === 'Enter') handleSearch();
               }}
               placeholder="Search SKU or item name..."
-              className="bg-transparent text-xs text-foreground placeholder:text-muted-foreground outline-none w-full font-normal"
+              className="bg-transparent text-xs text-foreground placeholder:text-muted-foreground outline-none w-full font-normal font-mono"
             />
             {input && (
               <button
@@ -78,7 +78,7 @@ export function ERPStockLookup() {
           <button
             onClick={() => handleSearch()}
             disabled={isLoading || !input.trim()}
-            className="px-3.5 py-2 rounded-xl bg-[#74A09F] hover:bg-[#5D8C8B] disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-semibold transition-all shadow-xs cursor-pointer shrink-0"
+            className="h-9 px-3.5 rounded-xl bg-primary hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed text-primary-foreground text-xs font-semibold transition-all shadow-xs cursor-pointer shrink-0 active:scale-95"
           >
             {isLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : 'Search'}
           </button>
@@ -105,7 +105,7 @@ export function ERPStockLookup() {
 
       {isLoading && (
         <div className="flex items-center justify-center py-6 gap-2 text-xs text-muted-foreground">
-          <Loader2 className="h-4 w-4 animate-spin text-[#74A09F]" />
+          <Loader2 className="h-4 w-4 animate-spin text-primary" />
           <span>Querying inventory in ERPNext...</span>
         </div>
       )}
@@ -125,7 +125,7 @@ export function ERPStockLookup() {
               <p className="text-xs font-bold text-foreground">{result.item_name}</p>
               <p className="text-2xs text-muted-foreground font-mono">{result.item_code}</p>
             </div>
-            <span className="px-2 py-0.5 rounded-full text-2xs font-bold bg-[#74A09F]/15 text-[#74A09F] border border-[#74A09F]/20">
+            <span className="px-2 py-0.5 rounded-full text-2xs font-bold bg-primary/15 text-primary border border-primary/20">
               {result.warehouses.reduce((sum, w) => sum + w.actual_qty, 0)} In Total
             </span>
           </div>
@@ -144,10 +144,10 @@ export function ERPStockLookup() {
                   <td className="px-3.5 py-2 text-right">
                     <span
                       className={clsx(
-                        'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-2xs font-bold border',
+                        'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold border',
                         wh.actual_qty > 0
-                          ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20'
-                          : 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20',
+                          ? 'bg-success/10 text-success border-success/20'
+                          : 'bg-destructive/10 text-destructive border-destructive/20',
                       )}
                     >
                       {wh.actual_qty > 0 ? (

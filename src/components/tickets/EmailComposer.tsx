@@ -89,7 +89,7 @@ export function EmailComposer({ ticket }: EmailComposerProps) {
             type="text"
             value={to}
             onChange={(e) => setTo(e.target.value)}
-            className="flex-1 bg-muted/40 rounded-xl px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground border border-border focus:border-[#74A09F] focus:bg-card focus:ring-1 focus:ring-[#74A09F]/20 outline-none transition-all"
+            className="flex-1 bg-muted/40 rounded-xl px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground border border-border focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/20 outline-none transition-all"
           />
         </FieldRow>
         <FieldRow label="CC">
@@ -98,7 +98,7 @@ export function EmailComposer({ ticket }: EmailComposerProps) {
             value={cc}
             onChange={(e) => setCc(e.target.value)}
             placeholder="Add recipient emails separated by comma..."
-            className="flex-1 bg-muted/40 rounded-xl px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground border border-border focus:border-[#74A09F] focus:bg-card focus:ring-1 focus:ring-[#74A09F]/20 outline-none transition-all"
+            className="flex-1 bg-muted/40 rounded-xl px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground border border-border focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/20 outline-none transition-all"
           />
         </FieldRow>
         <FieldRow label="Subject">
@@ -106,13 +106,13 @@ export function EmailComposer({ ticket }: EmailComposerProps) {
             type="text"
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
-            className="flex-1 bg-muted/40 rounded-xl px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground border border-border focus:border-[#74A09F] focus:bg-card focus:ring-1 focus:ring-[#74A09F]/20 outline-none transition-all font-semibold"
+            className="flex-1 bg-muted/40 rounded-xl px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground border border-border focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/20 outline-none transition-all font-semibold"
           />
         </FieldRow>
       </div>
 
       {/* Editor Box */}
-      <div className="bg-card rounded-2xl border border-border overflow-hidden focus-within:border-[#74A09F] focus-within:ring-2 focus-within:ring-[#74A09F]/20 transition-all shadow-2xs">
+      <div className="bg-card rounded-2xl border border-border overflow-hidden focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition-all shadow-2xs">
         {/* Formatting Toolbar */}
         <div className="flex items-center gap-1 px-3 py-2 border-b border-border bg-muted/40">
           <ToolbarButton title="Bold" onClick={() => exec('bold')}>
@@ -145,7 +145,7 @@ export function EmailComposer({ ticket }: EmailComposerProps) {
           contentEditable
           suppressContentEditableWarning
           onInput={() => setStatus('idle')}
-          className="min-h-[110px] sm:min-h-[130px] px-3.5 py-3 text-xs sm:text-sm text-foreground leading-relaxed outline-none [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_a]:text-[#74A09F] [&_a]:underline"
+          className="min-h-[110px] sm:min-h-[130px] px-3.5 py-3 text-xs sm:text-sm text-foreground leading-relaxed outline-none [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_a]:text-primary [&_a]:underline"
         />
       </div>
 
@@ -157,14 +157,14 @@ export function EmailComposer({ ticket }: EmailComposerProps) {
               key={att.name}
               className="inline-flex items-center gap-2 rounded-xl bg-muted/70 border border-border px-3 py-1.5 shadow-2xs"
             >
-              <Paperclip className="h-3.5 w-3.5 text-[#74A09F]" />
+              <Paperclip className="h-3.5 w-3.5 text-primary" />
               <span className="text-xs font-medium text-foreground">{att.name}</span>
               <span className="text-2xs text-muted-foreground">
                 ({(att.size / 1024).toFixed(0)} KB)
               </span>
               <button
                 onClick={() => removeAttachment(att.name)}
-                className="text-muted-foreground hover:text-rose-500 transition-colors cursor-pointer ml-1"
+                className="text-muted-foreground hover:text-destructive transition-colors cursor-pointer ml-1"
                 title="Remove attachment"
               >
                 <X className="h-3 w-3" />
@@ -180,13 +180,13 @@ export function EmailComposer({ ticket }: EmailComposerProps) {
         className={clsx(
           'mt-3 rounded-xl border border-dashed px-4 py-2.5 text-center cursor-pointer transition-all',
           isDragActive
-            ? 'border-[#74A09F] bg-[#74A09F]/10'
-            : 'border-border hover:border-[#74A09F]/60 bg-muted/20 hover:bg-muted/40',
+            ? 'border-primary bg-primary/10'
+            : 'border-border hover:border-primary/60 bg-muted/20 hover:bg-muted/40',
         )}
       >
         <input {...getInputProps()} />
         <p className="text-xs text-muted-foreground font-medium flex items-center justify-center gap-1.5">
-          <Paperclip className="h-3.5 w-3.5 text-[#74A09F]" />
+          <Paperclip className="h-3.5 w-3.5 text-primary" />
           <span>Drag & drop files here, or click to browse</span>
         </p>
       </div>
@@ -194,7 +194,7 @@ export function EmailComposer({ ticket }: EmailComposerProps) {
       {/* Footer Controls */}
       <div className="flex items-center justify-between mt-3.5 pt-1">
         {status !== 'idle' ? (
-          <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+          <span className="inline-flex items-center gap-1.5 text-xs font-bold text-success">
             <Check className="h-4 w-4" />
             {status === 'sent' ? 'Email dispatched successfully!' : 'Draft saved to ticket'}
           </span>
@@ -204,7 +204,7 @@ export function EmailComposer({ ticket }: EmailComposerProps) {
         <div className="flex items-center gap-2 ml-auto">
           <button
             onClick={saveDraft}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-muted hover:bg-muted/80 text-foreground border border-border transition-all cursor-pointer shadow-2xs"
+            className="h-9 flex items-center gap-1.5 px-3.5 rounded-xl text-xs font-semibold bg-muted hover:bg-muted/80 text-foreground border border-border transition-all cursor-pointer shadow-2xs"
           >
             <Save className="h-3.5 w-3.5 text-muted-foreground" />
             <span>Save Draft</span>
@@ -212,7 +212,7 @@ export function EmailComposer({ ticket }: EmailComposerProps) {
           <button
             onClick={send}
             disabled={sendReplyMutation.isPending}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-[#74A09F] hover:bg-[#5D8C8B] text-white transition-all shadow-xs cursor-pointer active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="h-9 flex items-center gap-1.5 px-4 rounded-xl text-xs font-semibold bg-primary hover:opacity-90 text-primary-foreground transition-all shadow-xs cursor-pointer active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {sendReplyMutation.isPending ? (
               <>

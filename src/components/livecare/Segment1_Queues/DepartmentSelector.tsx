@@ -51,18 +51,18 @@ export function DepartmentSelector({ collapsed }: DepartmentSelectorProps) {
             key={dept.id}
             onClick={() => setActiveDepartment(dept.id)}
             className={clsx(
-              'w-full flex items-center gap-3 rounded-lg transition-all duration-150',
+              'w-full flex items-center gap-3 rounded-xl transition-all duration-150 cursor-pointer',
               collapsed ? 'p-2 justify-center' : 'px-3 py-2',
               activeDepartment === dept.id
-                ? 'bg-[#74A09F]/15 text-[#74A09F] font-semibold'
-                : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                ? 'bg-primary/15 text-primary font-semibold shadow-xs'
+                : 'text-muted-foreground hover:text-foreground hover:bg-muted font-medium'
             )}
             title={dept.label}
           >
             <div
               className={clsx(
-                'h-7 w-7 rounded-md flex items-center justify-center shrink-0',
-                activeDepartment === dept.id ? 'bg-[#74A09F]/20 text-[#74A09F]' : 'bg-transparent text-muted-foreground'
+                'h-7 w-7 rounded-lg flex items-center justify-center shrink-0',
+                activeDepartment === dept.id ? 'bg-primary/20 text-primary' : 'bg-transparent text-muted-foreground'
               )}
             >
               {dept.icon}
@@ -78,14 +78,14 @@ export function DepartmentSelector({ collapsed }: DepartmentSelectorProps) {
           <h3 className="text-2xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-1">
             Assignment
           </h3>
-          <label className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-foreground hover:bg-muted transition-colors cursor-pointer">
-            <input type="radio" name="assignment" defaultChecked className="accent-[#74A09F]" />
-            <Star className="h-3.5 w-3.5 text-amber-400" />
-            My Assigned Chats
+          <label className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-foreground hover:bg-muted transition-colors cursor-pointer">
+            <input type="radio" name="assignment" defaultChecked className="accent-primary" />
+            <Star className="h-3.5 w-3.5 text-warning" strokeWidth={2} />
+            <span className="font-medium">My Assigned Chats</span>
           </label>
-          <label className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-foreground hover:bg-muted transition-colors cursor-pointer">
-            <input type="radio" name="assignment" className="accent-[#74A09F]" />
-            Team Unassigned Pool
+          <label className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-foreground hover:bg-muted transition-colors cursor-pointer">
+            <input type="radio" name="assignment" className="accent-primary" />
+            <span className="font-medium">Team Unassigned Pool</span>
           </label>
         </div>
       )}

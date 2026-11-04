@@ -94,11 +94,11 @@ export function CustomerWalletCard({ customer }: CustomerWalletCardProps) {
       {/* Customer Profile Header */}
       <div className="flex items-start gap-3 mb-4">
         <div className="relative shrink-0">
-          <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-[#74A09F] to-[#456A69] flex items-center justify-center text-white font-bold text-base shadow-xs">
+          <div className="h-12 w-12 rounded-2xl bg-primary text-primary-foreground flex items-center justify-center font-bold text-base shadow-xs">
             {initials}
           </div>
           {isVIP && (
-            <div className="absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-amber-500 border-2 border-card flex items-center justify-center text-white" title="VIP Customer">
+            <div className="absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-warning border-2 border-card flex items-center justify-center text-warning-foreground" title="VIP Customer">
               <Sparkles className="h-2.5 w-2.5" />
             </div>
           )}
@@ -108,7 +108,7 @@ export function CustomerWalletCard({ customer }: CustomerWalletCardProps) {
           <div className="flex items-center gap-2 mb-0.5">
             <h3 className="text-sm font-bold text-foreground truncate">{customer.customer_name}</h3>
             {isVIP && (
-              <span className="px-2 py-0.5 rounded-full text-2xs font-bold bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/30 shrink-0">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-warning/15 text-warning border border-warning/30 shrink-0">
                 VIP
               </span>
             )}
@@ -120,10 +120,10 @@ export function CustomerWalletCard({ customer }: CustomerWalletCardProps) {
               className="group flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
               title="Click to copy phone number"
             >
-              <Phone className="h-3 w-3 text-[#74A09F]" />
+              <Phone className="h-3 w-3 text-primary" strokeWidth={2} />
               <span className="font-mono">{customer.phone}</span>
               {copiedPhone ? (
-                <Check className="h-3 w-3 text-emerald-500" />
+                <Check className="h-3 w-3 text-success" strokeWidth={2} />
               ) : (
                 <Copy className="h-2.5 w-2.5 opacity-0 group-hover:opacity-100 transition-opacity" />
               )}
@@ -131,7 +131,7 @@ export function CustomerWalletCard({ customer }: CustomerWalletCardProps) {
 
             {customer.email && (
               <p className="text-xs text-muted-foreground flex items-center gap-1.5 truncate">
-                <Mail className="h-3 w-3 text-[#74A09F]" />
+                <Mail className="h-3 w-3 text-primary" strokeWidth={2} />
                 <span className="truncate">{customer.email}</span>
               </p>
             )}
@@ -141,62 +141,62 @@ export function CustomerWalletCard({ customer }: CustomerWalletCardProps) {
 
       {/* 2x2 Lifetime Stats Grid */}
       <div className="grid grid-cols-2 gap-2.5 mb-4">
-        <div className="bg-muted/50 border border-border/70 rounded-xl p-3 shadow-2xs">
+        <div className="bg-muted/50 border border-border rounded-xl p-3 shadow-xs">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-2xs font-semibold uppercase tracking-wider text-muted-foreground">Tier</span>
-            <Sparkles className="h-3 w-3 text-amber-500" />
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Tier</span>
+            <Sparkles className="h-3 w-3 text-warning" strokeWidth={2} />
           </div>
           <p className="text-xs font-bold text-foreground capitalize">{customer.customer_group}</p>
         </div>
 
-        <div className="bg-muted/50 border border-border/70 rounded-xl p-3 shadow-2xs">
+        <div className="bg-muted/50 border border-border rounded-xl p-3 shadow-xs">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-2xs font-semibold uppercase tracking-wider text-muted-foreground">Orders</span>
-            <ShoppingBag className="h-3 w-3 text-[#74A09F]" />
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Orders</span>
+            <ShoppingBag className="h-3 w-3 text-primary" strokeWidth={2} />
           </div>
-          <p className="text-xs font-bold text-foreground">{customer.total_orders} Completed</p>
+          <p className="text-xs font-bold text-foreground font-mono">{customer.total_orders} Completed</p>
         </div>
 
-        <div className="bg-muted/50 border border-border/70 rounded-xl p-3 col-span-2 shadow-2xs">
+        <div className="bg-muted/50 border border-border rounded-xl p-3 col-span-2 shadow-xs">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-2xs font-semibold uppercase tracking-wider text-muted-foreground">Lifetime Spend</span>
-            <TrendingUp className="h-3 w-3 text-emerald-500" />
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Lifetime Spend</span>
+            <TrendingUp className="h-3 w-3 text-success" strokeWidth={2} />
           </div>
-          <p className="text-sm font-bold text-foreground">
+          <p className="text-sm font-bold text-foreground font-mono">
             {formatCurrency(customer.lifetime_spend ?? 0)}
           </p>
         </div>
       </div>
 
       {/* Store Credit Wallet Card */}
-      <div className="bg-gradient-to-br from-amber-500/10 via-amber-500/5 to-transparent border border-amber-500/30 rounded-2xl p-4 shadow-xs">
+      <div className="bg-warning/10 border border-warning/30 rounded-2xl p-4 shadow-xs">
         <div className="flex items-center justify-between mb-1.5">
           <div className="flex items-center gap-1.5">
-            <div className="h-6 w-6 rounded-lg bg-amber-500/20 flex items-center justify-center text-amber-600 dark:text-amber-400">
-              <Wallet className="h-3.5 w-3.5" />
+            <div className="h-6 w-6 rounded-lg bg-warning/20 flex items-center justify-center text-warning">
+              <Wallet className="h-3.5 w-3.5" strokeWidth={2} />
             </div>
-            <span className="text-2xs font-bold text-amber-700 dark:text-amber-300 uppercase tracking-wider">
+            <span className="text-[10px] font-bold text-warning uppercase tracking-wider">
               Store Credit Balance
             </span>
           </div>
-          <span className="text-2xs font-semibold text-amber-700/80 dark:text-amber-400/80">Active</span>
+          <span className="text-[10px] font-semibold text-warning">Active</span>
         </div>
 
-        <p className="text-2xl font-extrabold text-amber-600 dark:text-amber-400 tracking-tight my-1">
+        <p className="text-2xl font-bold text-warning tracking-tight my-1 font-mono">
           {formatCurrency(balance ?? 0)}
         </p>
 
-        <div className="flex items-center gap-2 mt-3 pt-2.5 border-t border-amber-500/20">
+        <div className="flex items-center gap-2 mt-3 pt-2.5 border-t border-warning/20">
           <button
             onClick={() => openAction('credit')}
-            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition-all shadow-xs cursor-pointer active:scale-95"
+            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-success hover:opacity-90 text-white text-xs font-semibold transition-all shadow-xs cursor-pointer active:scale-95"
           >
-            <Plus className="h-3.5 w-3.5" />
+            <Plus className="h-3.5 w-3.5" strokeWidth={2} />
             <span>Add Credit</span>
           </button>
           <button
             onClick={() => openAction('debit')}
-            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-card hover:bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/30 text-xs font-semibold transition-all shadow-2xs cursor-pointer active:scale-95"
+            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-card hover:bg-destructive/10 text-destructive border border-destructive/30 text-xs font-semibold transition-all shadow-xs cursor-pointer active:scale-95"
           >
             <Minus className="h-3.5 w-3.5" />
             <span>Deduct</span>
@@ -234,7 +234,7 @@ export function CustomerWalletCard({ customer }: CustomerWalletCardProps) {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="100.00"
-              className="w-full bg-muted/50 rounded-xl px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground border border-border focus:border-[#74A09F] focus:bg-card focus:ring-2 focus:ring-[#74A09F]/20 outline-none transition-all"
+              className="w-full h-9 bg-muted/60 rounded-xl px-3.5 text-xs text-foreground placeholder:text-muted-foreground border border-border focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/20 outline-none transition-all font-mono"
             />
           </div>
           <div>
@@ -244,7 +244,7 @@ export function CustomerWalletCard({ customer }: CustomerWalletCardProps) {
               value={note}
               onChange={(e) => setNote(e.target.value)}
               placeholder="e.g. Compensation for late delivery"
-              className="w-full bg-muted/50 rounded-xl px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground border border-border focus:border-[#74A09F] focus:bg-card focus:ring-2 focus:ring-[#74A09F]/20 outline-none transition-all"
+              className="w-full h-9 bg-muted/60 rounded-xl px-3.5 text-xs text-foreground placeholder:text-muted-foreground border border-border focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/20 outline-none transition-all"
             />
           </div>
         </div>

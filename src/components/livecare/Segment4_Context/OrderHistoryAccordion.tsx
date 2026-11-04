@@ -31,13 +31,13 @@ interface OrderHistoryAccordionProps {
 function getStatusBadge(status: DeliveryStatus) {
   switch (status) {
     case 'Delivered':
-      return 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20';
+      return 'bg-success/10 text-success border-success/20';
     case 'Out for Delivery':
     case 'In Transit':
-      return 'bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20';
+      return 'bg-info/10 text-info border-info/20';
     case 'Packed':
     case 'Picked':
-      return 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20';
+      return 'bg-warning/10 text-warning border-warning/20';
     default:
       return 'bg-muted text-muted-foreground border-border';
   }
@@ -50,14 +50,14 @@ export function OrderHistoryAccordion({ orders }: OrderHistoryAccordionProps) {
     <div className="p-4 bg-card">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <div className="h-6 w-6 rounded-lg bg-[#74A09F]/15 flex items-center justify-center text-[#74A09F]">
-            <Package className="h-3.5 w-3.5" />
+          <div className="h-6 w-6 rounded-lg bg-primary/15 flex items-center justify-center text-primary">
+            <Package className="h-3.5 w-3.5" strokeWidth={2} />
           </div>
           <span className="text-xs font-bold uppercase tracking-wider text-foreground">
             Order History
           </span>
         </div>
-        <span className="px-2 py-0.5 rounded-full text-2xs font-semibold bg-muted text-muted-foreground border border-border/60">
+        <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-muted text-muted-foreground border border-border">
           {orders.length} {orders.length === 1 ? 'Order' : 'Orders'}
         </span>
       </div>
@@ -79,8 +79,8 @@ export function OrderHistoryAccordion({ orders }: OrderHistoryAccordionProps) {
                 className={clsx(
                   'rounded-xl border transition-all overflow-hidden',
                   isOpen
-                    ? 'border-[#74A09F]/40 bg-card shadow-xs'
-                    : 'border-border bg-card/60 hover:border-border/80 shadow-2xs',
+                    ? 'border-primary/40 bg-card shadow-xs'
+                    : 'border-border bg-card hover:border-border/80 shadow-2xs',
                 )}
               >
                 <button
@@ -88,13 +88,13 @@ export function OrderHistoryAccordion({ orders }: OrderHistoryAccordionProps) {
                   className="w-full flex items-center justify-between px-3.5 py-3 text-left transition-colors cursor-pointer hover:bg-muted/40"
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
-                    <span className="text-xs font-mono font-bold text-[#74A09F]">{order.name}</span>
-                    <span className="text-xs font-bold text-foreground">
+                    <span className="text-xs font-mono font-bold text-primary">{order.name}</span>
+                    <span className="text-xs font-bold text-foreground font-mono">
                       {formatCurrency(order.grand_total)}
                     </span>
                     <span
                       className={clsx(
-                        'px-2 py-0.5 rounded-full text-2xs font-semibold border hidden sm:inline-flex',
+                        'px-2 py-0.5 rounded-full text-[10px] font-bold border hidden sm:inline-flex',
                         getStatusBadge(order.delivery_status),
                       )}
                     >
@@ -110,13 +110,13 @@ export function OrderHistoryAccordion({ orders }: OrderHistoryAccordionProps) {
                 </button>
 
                 {isOpen && (
-                  <div className="px-3.5 pb-3.5 pt-1 border-t border-border/60 space-y-3.5">
+                  <div className="px-3.5 pb-3.5 pt-1 border-t border-border space-y-3.5">
                     {/* Stepper Progress Bar */}
                     <div className="pt-2">
                       <div className="relative mb-2">
                         <div className="absolute top-[6px] left-[8px] right-[8px] h-1 bg-muted rounded-full" />
                         <div
-                          className="absolute top-[6px] left-[8px] h-1 bg-[#74A09F] rounded-full transition-all duration-300"
+                          className="absolute top-[6px] left-[8px] h-1 bg-primary rounded-full transition-all duration-300"
                           style={{ width: `calc(${progress}% - 8px)` }}
                         />
                         <div className="relative flex justify-between">
@@ -129,18 +129,18 @@ export function OrderHistoryAccordion({ orders }: OrderHistoryAccordionProps) {
                                 <div
                                   className={clsx(
                                     'h-3.5 w-3.5 rounded-full flex items-center justify-center transition-all',
-                                    isPassed && 'bg-[#74A09F] text-white',
-                                    isCurrent && 'bg-[#74A09F] ring-4 ring-[#74A09F]/20 text-white',
+                                    isPassed && 'bg-primary text-primary-foreground',
+                                    isCurrent && 'bg-primary ring-4 ring-primary/20 text-primary-foreground',
                                     !isPassed && !isCurrent && 'bg-muted border border-border',
                                   )}
                                 >
                                   {isPassed && <Check className="h-2 w-2 stroke-[3]" />}
-                                  {isCurrent && <div className="h-1.5 w-1.5 rounded-full bg-white" />}
+                                  {isCurrent && <div className="h-1.5 w-1.5 rounded-full bg-primary-foreground" />}
                                 </div>
                                 <span
                                   className={clsx(
                                     'text-[10px] mt-1.5 text-center leading-tight font-medium',
-                                    isCurrent ? 'text-[#74A09F] font-bold' : 'text-muted-foreground',
+                                    isCurrent ? 'text-primary font-bold' : 'text-muted-foreground',
                                   )}
                                 >
                                   {step.split(' ')[0]}
@@ -155,7 +155,7 @@ export function OrderHistoryAccordion({ orders }: OrderHistoryAccordionProps) {
                     {/* Driver details badge */}
                     {order.driver_name && (
                       <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-muted/60 border border-border/70 text-xs">
-                        <div className="h-6 w-6 rounded-lg bg-sky-500/10 flex items-center justify-center text-sky-500 shrink-0">
+                        <div className="h-6 w-6 rounded-lg bg-info/10 flex items-center justify-center text-info shrink-0">
                           <Truck className="h-3.5 w-3.5" />
                         </div>
                         <div className="min-w-0">
@@ -181,7 +181,7 @@ export function OrderHistoryAccordion({ orders }: OrderHistoryAccordionProps) {
                             className="flex items-center justify-between text-xs gap-2"
                           >
                             <span className="text-foreground font-medium truncate">
-                              <span className="font-bold text-[#74A09F]">{item.qty}x</span> {item.item_name}
+                              <span className="font-bold text-primary font-mono">{item.qty}x</span> {item.item_name}
                             </span>
                             <span className="text-2xs text-muted-foreground font-mono shrink-0">
                               {item.item_code}
@@ -193,7 +193,7 @@ export function OrderHistoryAccordion({ orders }: OrderHistoryAccordionProps) {
 
                     {/* Quick Order Actions */}
                     <div className="flex items-center justify-between pt-1">
-                      <button className="inline-flex items-center gap-1 text-xs font-semibold text-[#74A09F] hover:text-[#5D8C8B] transition-colors cursor-pointer">
+                      <button className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:opacity-80 transition-opacity cursor-pointer">
                         <ArrowUpRight className="h-3.5 w-3.5" />
                         <span>View in OMS</span>
                       </button>

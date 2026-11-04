@@ -94,10 +94,10 @@ export function InstallationSchedulerModal({
     >
       {result ? (
         <div className="space-y-3">
-          <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4">
+          <div className="rounded-xl border border-success/30 bg-success/10 p-4">
             <div className="flex items-center gap-2 mb-1">
-              <Check className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-              <span className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Slot Booked</span>
+              <Check className="h-4 w-4 text-success" />
+              <span className="text-sm font-bold text-success">Slot Booked</span>
             </div>
             <p className="text-2xs text-muted-foreground font-mono mb-2">{result.appointment_id}</p>
             <p className="text-xs text-foreground font-medium">
@@ -110,7 +110,7 @@ export function InstallationSchedulerModal({
         <div className="space-y-4">
           <div>
             <label className="flex items-center gap-1.5 text-xs font-semibold text-foreground mb-1.5">
-              <MapPin className="h-3.5 w-3.5 text-[#74A09F]" />
+              <MapPin className="h-3.5 w-3.5 text-primary" />
               Delivery Zone
             </label>
             <div className="flex flex-wrap gap-2">
@@ -119,9 +119,9 @@ export function InstallationSchedulerModal({
                   key={z}
                   onClick={() => setSelectedZone(z)}
                   className={clsx(
-                    'px-3 py-1.5 rounded-lg text-xs font-medium border transition-all cursor-pointer',
+                    'px-3 py-1.5 rounded-xl text-xs font-medium border transition-all cursor-pointer',
                     zone === z
-                      ? 'bg-[#74A09F]/15 text-[#74A09F] border-[#74A09F]/30 font-semibold'
+                      ? 'bg-primary/15 text-primary border-primary/30 font-semibold'
                       : 'text-muted-foreground border-border hover:bg-muted hover:text-foreground',
                   )}
                 >
@@ -133,7 +133,7 @@ export function InstallationSchedulerModal({
 
           <div>
             <label className="flex items-center gap-1.5 text-xs font-semibold text-foreground mb-1.5">
-              <Calendar className="h-3.5 w-3.5 text-[#74A09F]" />
+              <Calendar className="h-3.5 w-3.5 text-primary" />
               Date
             </label>
             <input
@@ -141,13 +141,13 @@ export function InstallationSchedulerModal({
               min={TODAY}
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full bg-muted/40 rounded-xl px-3.5 py-2.5 text-xs font-medium text-foreground border border-border focus:border-[#74A09F] focus:bg-card focus:ring-2 focus:ring-[#74A09F]/20 outline-none transition-all cursor-pointer"
+              className="w-full h-9 bg-muted/60 rounded-xl px-3.5 text-xs font-medium text-foreground border border-border focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/20 outline-none transition-all cursor-pointer"
             />
           </div>
 
           <div>
             <label className="flex items-center gap-1.5 text-xs font-semibold text-foreground mb-1.5">
-              <Clock className="h-3.5 w-3.5 text-[#74A09F]" />
+              <Clock className="h-3.5 w-3.5 text-primary" />
               Time Slot
             </label>
             <div className="flex flex-wrap gap-2">
@@ -156,9 +156,9 @@ export function InstallationSchedulerModal({
                   key={s}
                   onClick={() => setSlot(s)}
                   className={clsx(
-                    'px-3 py-1.5 rounded-lg text-xs font-medium border transition-all cursor-pointer',
+                    'px-3 py-1.5 rounded-xl text-xs font-medium border transition-all cursor-pointer',
                     slot === s
-                      ? 'bg-[#74A09F]/15 text-[#74A09F] border-[#74A09F]/30 font-semibold'
+                      ? 'bg-primary/15 text-primary border-primary/30 font-semibold'
                       : 'text-muted-foreground border-border hover:bg-muted hover:text-foreground',
                   )}
                 >
@@ -170,13 +170,13 @@ export function InstallationSchedulerModal({
 
           <div>
             <label className="flex items-center gap-1.5 text-xs font-semibold text-foreground mb-1.5">
-              <Users className="h-3.5 w-3.5 text-[#74A09F]" />
+              <Users className="h-3.5 w-3.5 text-primary" />
               Installation Team
             </label>
             <select
               value={teamId}
               onChange={(e) => setSelectedTeamId(e.target.value)}
-              className="w-full bg-muted/40 rounded-xl px-3.5 py-2.5 text-xs font-medium text-foreground border border-border focus:border-[#74A09F] focus:bg-card focus:ring-2 focus:ring-[#74A09F]/20 outline-none transition-all cursor-pointer"
+              className="w-full h-9 bg-muted/60 rounded-xl px-3.5 text-xs font-medium text-foreground border border-border focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/20 outline-none transition-all cursor-pointer"
             >
               {teams.map((team) => (
                 <option key={team.id} value={team.id}>

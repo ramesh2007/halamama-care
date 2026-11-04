@@ -163,17 +163,17 @@ export function ComposerBar({ thread }: ComposerBarProps) {
       {/* Top Bar: Segmented Switcher & Quick Helpers */}
       <div className="flex items-center justify-between gap-2 mb-3">
         {/* Segmented Mode Switcher */}
-        <div className="inline-flex items-center bg-muted/80 dark:bg-[#141924] p-0.5 rounded-xl border border-border/60 dark:border-[#202738]">
+        <div className="inline-flex items-center bg-muted/80 p-0.5 rounded-xl border border-border/60">
           <button
             onClick={() => setComposerMode('message')}
             className={clsx(
               'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer',
               composerMode === 'message'
-                ? 'bg-card dark:bg-[#1B2232] text-foreground shadow-xs border border-border/50 dark:border-[#263147]'
+                ? 'bg-card text-foreground shadow-xs border border-border/50'
                 : 'text-muted-foreground hover:text-foreground',
             )}
           >
-            <MessageSquare className="h-3.5 w-3.5 text-[#74A09F]" />
+            <MessageSquare className="h-3.5 w-3.5 text-primary" strokeWidth={2} />
             <span>WhatsApp Reply</span>
           </button>
           <button
@@ -181,11 +181,11 @@ export function ComposerBar({ thread }: ComposerBarProps) {
             className={clsx(
               'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer',
               composerMode === 'whisper'
-                ? 'bg-amber-500/15 text-amber-700 dark:text-amber-300 shadow-xs border border-amber-500/30'
+                ? 'bg-warning/15 text-warning shadow-xs border border-warning/30'
                 : 'text-muted-foreground hover:text-foreground',
             )}
           >
-            <Lock className="h-3.5 w-3.5 text-amber-500" />
+            <Lock className="h-3.5 w-3.5 text-warning" strokeWidth={2} />
             <span>Internal Note</span>
           </button>
         </div>
@@ -194,12 +194,12 @@ export function ComposerBar({ thread }: ComposerBarProps) {
         {composerMode === 'message' && (
           <button
             onClick={handleQuickInsertSlash}
-            className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-2xs font-medium text-muted-foreground hover:text-foreground bg-muted/60 dark:bg-[#141924] hover:bg-muted dark:hover:bg-[#182030] border border-border/60 dark:border-[#202738] transition-colors cursor-pointer"
+            className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-medium text-muted-foreground hover:text-foreground bg-muted/60 hover:bg-muted border border-border/60 transition-colors cursor-pointer"
             title="Press / to open canned responses"
           >
-            <Sparkles className="h-3 w-3 text-[#74A09F]" />
+            <Sparkles className="h-3 w-3 text-primary" strokeWidth={2} />
             <span>Canned Responses</span>
-            <kbd className="px-1.5 py-0.5 rounded bg-card dark:bg-[#1B2232] text-foreground text-[10px] font-mono border border-border/80 dark:border-[#263147]">
+            <kbd className="px-1.5 py-0.5 rounded bg-card text-foreground text-[10px] font-mono border border-border">
               /
             </kbd>
           </button>
@@ -209,26 +209,26 @@ export function ComposerBar({ thread }: ComposerBarProps) {
       {composerMode === 'whisper' ? (
         <InternalNoteComposer value={text} onChange={setText} onSend={handleSend} />
       ) : locked ? (
-        <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3.5">
+        <div className="rounded-xl border border-warning/30 bg-warning/10 px-4 py-3.5">
           <div className="flex items-center gap-2 mb-1">
-            <ShieldAlert className="h-4 w-4 text-amber-500 shrink-0" />
-            <span className="text-xs font-bold text-amber-700 dark:text-amber-400">
+            <ShieldAlert className="h-4 w-4 text-warning shrink-0" strokeWidth={2} />
+            <span className="text-xs font-bold text-warning">
               24-Hour Customer Window Expired
             </span>
           </div>
-          <p className="text-2xs text-amber-800/80 dark:text-amber-300/80 mb-3 leading-relaxed">
+          <p className="text-[11px] text-muted-foreground mb-3 leading-relaxed">
             Meta policy requires sending an approved HSM template to re-engage after 24 hours of customer inactivity.
           </p>
           <div className="flex flex-wrap items-center gap-2">
-            <button className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#74A09F] hover:bg-[#5D8C8B] text-white text-xs font-semibold transition-all shadow-xs cursor-pointer">
-              <Send className="h-3.5 w-3.5" />
+            <button className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-primary hover:opacity-90 text-primary-foreground text-xs font-semibold transition-all shadow-xs cursor-pointer active:scale-95">
+              <Send className="h-3.5 w-3.5" strokeWidth={2} />
               Send Meta Template (HSM)
             </button>
             <button
               onClick={() => setPaymentOpen(true)}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-card text-foreground hover:bg-muted border border-border text-xs font-semibold transition-all shadow-2xs cursor-pointer"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-card text-foreground hover:bg-muted border border-border text-xs font-semibold transition-all shadow-xs cursor-pointer active:scale-95"
             >
-              <CreditCard className="h-3.5 w-3.5 text-[#74A09F]" />
+              <CreditCard className="h-3.5 w-3.5 text-primary" strokeWidth={2} />
               Generate Payment Link
             </button>
           </div>
@@ -248,23 +248,23 @@ export function ComposerBar({ thread }: ComposerBarProps) {
             {/* Attachment Actions */}
             <div className="flex items-center gap-0.5 pb-0.5">
               <button
-                className="p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted dark:hover:bg-[#182030] border border-transparent hover:border-border/60 dark:hover:border-[#222A3A] transition-all cursor-pointer"
+                className="p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted border border-transparent hover:border-border/60 transition-all cursor-pointer"
                 title="Attach file"
               >
-                <Paperclip className="h-4 w-4" />
+                <Paperclip className="h-4 w-4" strokeWidth={2} />
               </button>
               <button
-                className="p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted dark:hover:bg-[#182030] border border-transparent hover:border-border/60 dark:hover:border-[#222A3A] transition-all cursor-pointer"
+                className="p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted border border-transparent hover:border-border/60 transition-all cursor-pointer"
                 title="Attach image"
               >
-                <ImageIcon className="h-4 w-4" />
+                <ImageIcon className="h-4 w-4" strokeWidth={2} />
               </button>
               <button
                 onClick={() => setPaymentOpen(true)}
-                className="p-2 rounded-xl text-muted-foreground hover:text-[#74A09F] hover:bg-[#74A09F]/10 border border-transparent hover:border-[#74A09F]/20 transition-all cursor-pointer"
+                className="p-2 rounded-xl text-muted-foreground hover:text-primary hover:bg-primary/10 border border-transparent hover:border-primary/20 transition-all cursor-pointer"
                 title="Generate payment link (MyFatoorah)"
               >
-                <CreditCard className="h-4 w-4" />
+                <CreditCard className="h-4 w-4" strokeWidth={2} />
               </button>
             </div>
 
@@ -277,7 +277,7 @@ export function ComposerBar({ thread }: ComposerBarProps) {
                 onChange={(e) => setText(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Type a message or press '/' for canned responses..."
-                className="w-full bg-muted/40 dark:bg-[#141924] rounded-xl px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground outline-none resize-none border border-border dark:border-[#202738] focus:border-[#74A09F] focus:bg-card dark:focus:bg-[#182030] focus:ring-2 focus:ring-[#74A09F]/20 transition-all"
+                className="w-full bg-muted/40 rounded-xl px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground outline-none resize-none border border-border focus:border-primary focus:bg-card focus:ring-2 focus:ring-primary/20 transition-all"
               />
             </div>
 
@@ -285,13 +285,13 @@ export function ComposerBar({ thread }: ComposerBarProps) {
             <button
               onClick={handleSend}
               disabled={!text.trim() || sendReplyMutation.isPending}
-              className="p-2.5 rounded-xl bg-[#74A09F] hover:bg-[#5D8C8B] disabled:opacity-40 disabled:cursor-not-allowed text-white transition-all shadow-xs cursor-pointer shrink-0 active:scale-95 flex items-center justify-center min-w-10 min-h-10"
+              className="h-9 w-9 rounded-xl bg-primary hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed text-primary-foreground transition-all shadow-xs cursor-pointer shrink-0 active:scale-95 flex items-center justify-center"
               title="Send WhatsApp Message"
             >
               {sendReplyMutation.isPending ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
-                <Send className="h-4 w-4" />
+                <Send className="h-4 w-4" strokeWidth={2} />
               )}
             </button>
           </div>

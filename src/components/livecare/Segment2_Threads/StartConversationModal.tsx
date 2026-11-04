@@ -72,7 +72,6 @@ export function StartConversationModal({ isOpen, onClose }: StartConversationMod
             size="sm"
             onClick={handleSubmit}
             disabled={startMutation.isPending || !phone.trim() || !message.trim()}
-            className="bg-[#74A09F] hover:bg-[#5E8B8A] text-white"
           >
             {startMutation.isPending ? (
               <>
@@ -91,15 +90,15 @@ export function StartConversationModal({ isOpen, onClose }: StartConversationMod
     >
       <form onSubmit={handleSubmit} className="space-y-4 py-1">
         {error && (
-          <div className="flex items-start gap-2 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-500 text-xs">
+          <div className="flex items-start gap-2 p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-xs">
             <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
-            <div className="flex-1 font-medium">{error}</div>
+            <div className="flex-1 font-semibold">{error}</div>
           </div>
         )}
 
         <div>
           <label className="block text-xs font-semibold text-foreground mb-1.5">
-            Customer Phone Number <span className="text-rose-500">*</span>
+            Customer Phone Number <span className="text-destructive">*</span>
           </label>
           <div className="relative flex items-center">
             <Phone className="absolute left-3 h-4 w-4 text-muted-foreground" />
@@ -108,7 +107,7 @@ export function StartConversationModal({ isOpen, onClose }: StartConversationMod
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="e.g. +974 5512 3456 or 974XXXXXXXX"
-              className="w-full pl-9 pr-3 py-2 text-sm rounded-xl bg-muted/60 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#74A09F]/50"
+              className="w-full h-9 pl-9 pr-3 text-xs rounded-xl bg-muted/60 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
               required
             />
           </div>
@@ -128,14 +127,14 @@ export function StartConversationModal({ isOpen, onClose }: StartConversationMod
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
               placeholder="e.g. Fatima Al-Kuwari"
-              className="w-full pl-9 pr-3 py-2 text-sm rounded-xl bg-muted/60 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#74A09F]/50"
+              className="w-full h-9 pl-9 pr-3 text-xs rounded-xl bg-muted/60 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
             />
           </div>
         </div>
 
         <div>
           <label className="block text-xs font-semibold text-foreground mb-1.5">
-            Initial Message <span className="text-rose-500">*</span>
+            Initial Message <span className="text-destructive">*</span>
           </label>
           <div className="relative">
             <textarea
@@ -143,13 +142,13 @@ export function StartConversationModal({ isOpen, onClose }: StartConversationMod
               onChange={(e) => setMessage(e.target.value)}
               rows={4}
               placeholder="Hello, this is Halamama Customer Care..."
-              className="w-full p-3 text-sm rounded-xl bg-muted/60 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#74A09F]/50 resize-none"
+              className="w-full p-3 text-xs rounded-xl bg-muted/60 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 resize-none transition-all"
               required
             />
           </div>
           <div className="flex items-center justify-between text-2xs text-muted-foreground mt-1">
             <span>This WhatsApp message will be sent immediately via Meta API.</span>
-            <span>{message.length} chars</span>
+            <span className="font-mono">{message.length} chars</span>
           </div>
         </div>
       </form>

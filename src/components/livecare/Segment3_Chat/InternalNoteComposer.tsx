@@ -12,10 +12,10 @@ interface InternalNoteComposerProps {
 
 export function InternalNoteComposer({ value, onChange, onSend }: InternalNoteComposerProps) {
   return (
-    <div className="relative rounded-xl bg-amber-500/10 dark:bg-amber-500/15 border border-amber-500/30 dark:border-amber-500/40 overflow-hidden shadow-2xs">
-      <div className="absolute top-2 right-2.5 flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-amber-500/20 pointer-events-none">
-        <Lock className="h-3 w-3 text-amber-800 dark:text-amber-300" />
-        <span className="text-2xs font-bold text-amber-800 dark:text-amber-300 tracking-wider uppercase">
+    <div className="relative rounded-2xl bg-warning/10 dark:bg-warning/15 border border-warning/30 dark:border-warning/40 overflow-hidden shadow-xs">
+      <div className="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-warning/20 pointer-events-none">
+        <Lock className="h-3 w-3 text-warning" strokeWidth={2} />
+        <span className="text-[10px] font-bold text-warning tracking-wider uppercase">
           Internal Only
         </span>
       </div>
@@ -31,19 +31,19 @@ export function InternalNoteComposer({ value, onChange, onSend }: InternalNoteCo
           }
         }}
         placeholder="Add an internal whisper note (visible to staff only)..."
-        className="w-full bg-transparent px-4 pt-7 pb-2 text-sm text-amber-950 dark:text-amber-100 placeholder-amber-700/50 dark:placeholder-amber-400/50 outline-none resize-none font-normal"
+        className="w-full bg-transparent px-4 pt-8 pb-2 text-sm text-foreground placeholder:text-muted-foreground outline-none resize-none font-normal"
       />
 
-      <div className="flex items-center justify-between px-3.5 pb-2.5 pt-1 border-t border-amber-500/20">
-        <span className="text-2xs font-medium text-amber-800/70 dark:text-amber-300/70">
+      <div className="flex items-center justify-between px-4 pb-2.5 pt-1 border-t border-warning/20">
+        <span className="text-[10px] font-medium text-warning">
           Will never be sent or visible to the customer
         </span>
         <button
           onClick={onSend}
           disabled={!value.trim()}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-semibold transition-all shadow-xs cursor-pointer"
+          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-warning hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed text-warning-foreground text-xs font-semibold transition-all shadow-xs cursor-pointer active:scale-95"
         >
-          <Send className="h-3 w-3" />
+          <Send className="h-3 w-3" strokeWidth={2} />
           Save Note
         </button>
       </div>

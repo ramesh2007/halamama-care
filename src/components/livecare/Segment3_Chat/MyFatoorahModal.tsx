@@ -98,36 +98,36 @@ export function MyFatoorahModal({ isOpen, onClose, thread, onGenerated }: MyFato
     >
       <div className="space-y-4">
         <div>
-          <label className="block text-xs font-semibold text-foreground mb-1.5">Amount (QAR)</label>
+          <label className="block text-xs font-medium text-foreground mb-1.5">Amount (QAR)</label>
           <input
             type="number"
             min="0"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             placeholder="450.00"
-            className="w-full bg-muted/50 rounded-xl px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground border border-border focus:border-[#74A09F] focus:ring-2 focus:ring-[#74A09F]/20 outline-none transition-all"
+            className="w-full h-9 bg-muted/60 rounded-xl px-3 text-sm text-foreground placeholder:text-muted-foreground border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all font-mono"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-foreground mb-1.5">Customer Phone / Email</label>
+          <label className="block text-xs font-medium text-foreground mb-1.5">Customer Phone / Email</label>
           <input
             type="text"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            className="w-full bg-muted/50 rounded-xl px-3.5 py-2.5 text-sm text-foreground border border-border focus:border-[#74A09F] focus:ring-2 focus:ring-[#74A09F]/20 outline-none transition-all"
+            className="w-full h-9 bg-muted/60 rounded-xl px-3 text-sm text-foreground border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all font-mono"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-foreground mb-1.5">Reference Document</label>
+          <label className="block text-xs font-medium text-foreground mb-1.5">Reference Document</label>
           <select
             value={orderRef}
             onChange={(e) => setOrderRef(e.target.value)}
-            className="w-full bg-muted/50 rounded-xl px-3.5 py-2.5 text-sm text-foreground border border-border focus:border-[#74A09F] focus:ring-2 focus:ring-[#74A09F]/20 outline-none transition-all"
+            className="w-full h-9 bg-muted/60 rounded-xl px-3 text-sm text-foreground border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all font-mono"
           >
             {ORDER_REF_OPTIONS.map((ref) => (
-              <option key={ref} value={ref}>
+              <option key={ref} value={ref} className="bg-card text-foreground">
                 {ref}
               </option>
             ))}
@@ -135,21 +135,21 @@ export function MyFatoorahModal({ isOpen, onClose, thread, onGenerated }: MyFato
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-foreground mb-1.5">Description (optional)</label>
+          <label className="block text-xs font-medium text-foreground mb-1.5">Description (optional)</label>
           <input
             type="text"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Payment for furniture order"
-            className="w-full bg-muted/50 rounded-xl px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground border border-border focus:border-[#74A09F] focus:ring-2 focus:ring-[#74A09F]/20 outline-none transition-all"
+            className="w-full h-9 bg-muted/60 rounded-xl px-3 text-sm text-foreground placeholder:text-muted-foreground border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
           />
         </div>
 
-        {error && <p className="text-xs text-rose-500 font-medium">{error}</p>}
+        {error && <p className="text-xs text-destructive font-medium">{error}</p>}
 
         {amount && Number(amount) > 0 && (
-          <p className="text-xs text-muted-foreground">
-            Card will show: <span className="font-semibold text-foreground">{formatCurrency(Number(amount))}</span>
+          <p className="text-xs text-muted-foreground font-mono">
+            Card will show: {formatCurrency(Number(amount))}
           </p>
         )}
       </div>
