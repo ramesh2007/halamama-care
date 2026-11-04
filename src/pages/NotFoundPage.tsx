@@ -8,10 +8,10 @@ export function NotFoundPage() {
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center p-6 bg-background text-foreground text-center select-none">
       <div className="relative mb-6">
-        <div className="h-24 w-24 rounded-2xl bg-[#74A09F]/15 text-[#74A09F] flex items-center justify-center shadow-lg ring-1 ring-[#74A09F]/20 mx-auto">
-          <AlertCircle className="h-12 w-12 text-[#74A09F]" />
+        <div className="h-24 w-24 rounded-2xl bg-primary/15 text-primary flex items-center justify-center shadow-lg ring-1 ring-primary/20 mx-auto">
+          <AlertCircle className="h-12 w-12 text-primary" />
         </div>
-        <span className="absolute -bottom-2 -right-2 px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#74A09F] text-white shadow-sm">
+        <span className="absolute -bottom-2 -right-2 px-2.5 py-0.5 rounded-full text-xs font-bold bg-primary text-primary-foreground shadow-sm">
           404
         </span>
       </div>

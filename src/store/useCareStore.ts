@@ -31,7 +31,7 @@ export function applyThemeMode(theme: ThemeMode) {
   }
   const meta = document.querySelector('meta[name="theme-color"]');
   if (meta) {
-    meta.setAttribute('content', theme === 'light' ? '#F8FAFD' : '#0B0E14');
+    meta.setAttribute('content', theme === 'light' ? '#F8FAFD' : '#0f1117');
   }
   try {
     localStorage.setItem('theme', theme);

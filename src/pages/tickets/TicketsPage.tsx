@@ -13,7 +13,7 @@ const TicketsWorkspace = lazy(() =>
 function PageLoading() {
   return (
     <div className="flex-1 flex items-center justify-center text-muted-foreground min-h-[400px]">
-      <Loader2 className="h-6 w-6 animate-spin text-[#74A09F]" />
+      <Loader2 className="h-6 w-6 animate-spin text-primary" />
     </div>
   );
 }

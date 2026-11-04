@@ -27,14 +27,14 @@ const STATUS_OPTIONS: { value: TicketStatus; label: string; dot: string; badgeCl
   {
     value: 'in_progress',
     label: 'In Progress',
-    dot: 'bg-blue-500',
-    badgeCls: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20',
+    dot: 'bg-info',
+    badgeCls: 'bg-info/10 text-info border-info/20',
   },
   {
     value: 'pending',
     label: 'Pending',
-    dot: 'bg-amber-500',
-    badgeCls: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20',
+    dot: 'bg-warning',
+    badgeCls: 'bg-warning/10 text-warning border-warning/20',
   },
   {
     value: 'follow_up',
@@ -45,8 +45,8 @@ const STATUS_OPTIONS: { value: TicketStatus; label: string; dot: string; badgeCl
   {
     value: 'resolved',
     label: 'Resolved',
-    dot: 'bg-emerald-500',
-    badgeCls: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20',
+    dot: 'bg-success',
+    badgeCls: 'bg-success/10 text-success border-success/20',
   },
 ];
 
@@ -61,8 +61,8 @@ const DEPARTMENT_OPTIONS: { value: DepartmentType; label: string }[] = [
 const CHANNEL_CONFIG: Record<string, { label: string; cls: string; dot: string }> = {
   whatsapp: {
     label: 'WhatsApp',
-    cls: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20',
-    dot: 'bg-emerald-500',
+    cls: 'bg-success/10 text-success border-success/20',
+    dot: 'bg-success',
   },
   instagram: {
     label: 'Instagram',
@@ -71,8 +71,8 @@ const CHANNEL_CONFIG: Record<string, { label: string; cls: string; dot: string }
   },
   messenger: {
     label: 'Messenger',
-    cls: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20',
-    dot: 'bg-blue-500',
+    cls: 'bg-info/10 text-info border-info/20',
+    dot: 'bg-info',
   },
   email: {
     label: 'Email',
@@ -128,7 +128,7 @@ export function ChatHeader({ thread }: ChatHeaderProps) {
       {/* ── Left Customer Info ────────────────────────────────────── */}
       <div className="flex items-center gap-3 min-w-0 flex-1 overflow-hidden">
         <div className="relative shrink-0">
-          <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-gradient-to-br from-[#74A09F]/20 to-[#5D8C8B]/30 border border-[#74A09F]/30 flex items-center justify-center text-xs sm:text-sm font-bold text-[#1e4e4d] dark:text-[#a0d5d4] shadow-xs">
+          <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center text-xs sm:text-sm font-bold text-primary shadow-xs">
             {initials}
           </div>
           <span
@@ -176,7 +176,7 @@ export function ChatHeader({ thread }: ChatHeaderProps) {
                   {thread.assigned_agent_name}
                 </span>
               ) : (
-                <span className="text-amber-500 italic shrink-0">Unassigned</span>
+                <span className="text-warning italic shrink-0">Unassigned</span>
               )}
             </span>
           </div>
@@ -187,10 +187,10 @@ export function ChatHeader({ thread }: ChatHeaderProps) {
       <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
         {/* SLA Status Indicator (Shown directly on very wide screens) */}
         {thread.sla_deadline && thread.status !== 'resolved' && (
-          <div className="hidden 2xl:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-muted text-xs font-medium border border-border/80 text-muted-foreground shrink-0">
-            <Clock className="h-3.5 w-3.5 text-[#74A09F]" />
+          <div className="hidden 2xl:flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-muted text-xs font-medium border border-border text-muted-foreground shrink-0">
+            <Clock className="h-3.5 w-3.5 text-primary" strokeWidth={2} />
             <span>SLA:</span>
-            <span className="font-semibold text-foreground">
+            <span className="font-semibold text-foreground font-mono">
               {formatTimeRemaining(thread.sla_deadline)}
             </span>
           </div>
@@ -228,14 +228,14 @@ export function ChatHeader({ thread }: ChatHeaderProps) {
                       className={clsx(
                         'flex items-center gap-2.5 w-full px-3 py-2 rounded-lg text-xs font-medium transition-colors cursor-pointer text-left',
                         thread.status === option.value
-                          ? 'bg-[#74A09F]/15 text-[#1e4e4d] dark:text-[#a0d5d4] font-semibold'
+                          ? 'bg-primary/15 text-primary font-semibold'
                           : 'text-foreground hover:bg-muted',
                       )}
                     >
                       <span className={clsx('h-2 w-2 rounded-full', option.dot)} />
                       <span className="flex-1">{option.label}</span>
                       {thread.status === option.value && (
-                        <Check className="h-3.5 w-3.5 text-[#74A09F]" />
+                        <Check className="h-3.5 w-3.5 text-primary" />
                       )}
                     </button>
                   ))}
@@ -249,7 +249,7 @@ export function ChatHeader({ thread }: ChatHeaderProps) {
         {thread.status !== 'resolved' ? (
           <button
             onClick={resolveThread}
-            className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-[#74A09F] hover:bg-[#5D8C8B] text-white transition-all flex items-center gap-1.5 cursor-pointer shadow-xs active:scale-95 shrink-0"
+            className="h-8 px-3 rounded-xl text-xs font-semibold bg-primary hover:opacity-90 text-primary-foreground transition-all flex items-center gap-1.5 cursor-pointer shadow-xs active:scale-95 shrink-0"
           >
             <Check className="h-3.5 w-3.5 stroke-[2.5]" />
             <span>Resolve</span>
@@ -257,7 +257,7 @@ export function ChatHeader({ thread }: ChatHeaderProps) {
         ) : (
           <button
             onClick={() => setStatus('in_progress')}
-            className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-muted/80 text-foreground border border-border/80 transition-all cursor-pointer shrink-0"
+            className="h-8 px-3 rounded-xl text-xs font-semibold bg-muted hover:bg-muted/80 text-foreground border border-border/80 transition-all cursor-pointer shrink-0"
           >
             Reopen
           </button>
@@ -270,7 +270,7 @@ export function ChatHeader({ thread }: ChatHeaderProps) {
               setActionsOpen((v) => !v);
               setTagOpen(false);
             }}
-            className="px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-muted hover:bg-muted/80 text-foreground border border-border/80 transition-all flex items-center gap-1 cursor-pointer shadow-2xs shrink-0"
+            className="h-8 px-2.5 rounded-xl text-xs font-semibold bg-muted hover:bg-muted/80 text-foreground border border-border/80 transition-all flex items-center gap-1 cursor-pointer shadow-2xs shrink-0"
             title="More Options"
           >
             <MoreVertical className="h-3.5 w-3.5 text-muted-foreground" />
@@ -286,7 +286,7 @@ export function ChatHeader({ thread }: ChatHeaderProps) {
                   <div className="px-3 py-2 bg-muted/40 rounded-lg mb-1">
                     <div className="flex items-center justify-between text-2xs mb-0.5">
                       <span className="text-muted-foreground font-medium flex items-center gap-1">
-                        <Clock className="h-3 w-3 text-[#74A09F]" />
+                        <Clock className="h-3 w-3 text-primary" />
                         SLA Target
                       </span>
                       <span className="font-bold text-foreground">
@@ -306,7 +306,7 @@ export function ChatHeader({ thread }: ChatHeaderProps) {
                     }}
                     className="flex items-center gap-2.5 w-full px-3 py-2 rounded-lg text-xs font-medium text-foreground hover:bg-muted transition-colors cursor-pointer text-left"
                   >
-                    <UserPlus className="h-3.5 w-3.5 text-[#74A09F]" />
+                    <UserPlus className="h-3.5 w-3.5 text-primary" strokeWidth={2} />
                     <span className="flex-1">Reassign Department</span>
                   </button>
 
@@ -316,9 +316,9 @@ export function ChatHeader({ thread }: ChatHeaderProps) {
                     className="flex items-center gap-2.5 w-full px-3 py-2 rounded-lg text-xs font-medium text-foreground hover:bg-muted transition-colors cursor-pointer text-left"
                   >
                     {copied ? (
-                      <CheckCheck className="h-3.5 w-3.5 text-emerald-500" />
+                      <CheckCheck className="h-3.5 w-3.5 text-success" strokeWidth={2} />
                     ) : (
-                      <Copy className="h-3.5 w-3.5 text-muted-foreground" />
+                      <Copy className="h-3.5 w-3.5 text-muted-foreground" strokeWidth={2} />
                     )}
                     <span className="flex-1">
                       {copied ? 'Copied to Clipboard' : 'Copy Phone Number'}
@@ -357,12 +357,12 @@ export function ChatHeader({ thread }: ChatHeaderProps) {
               className={clsx(
                 'w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm transition-all border cursor-pointer',
                 pendingDept === dept.value
-                  ? 'bg-[#74A09F]/15 text-[#1e4e4d] dark:text-[#a0d5d4] border-[#74A09F]/40 font-semibold shadow-xs'
+                  ? 'bg-primary/15 text-foreground border-primary/40 font-semibold shadow-xs'
                   : 'text-foreground border-border hover:bg-muted',
               )}
             >
               <span>{dept.label}</span>
-              {pendingDept === dept.value && <Check className="h-4 w-4 text-[#74A09F]" />}
+              {pendingDept === dept.value && <Check className="h-4 w-4 text-primary" strokeWidth={2} />}
             </button>
           ))}
         </div>

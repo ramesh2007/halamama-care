@@ -14,10 +14,10 @@ interface TagItem {
 
 const STATUS_TAGS: TagItem[] = [
   { id: 'all', label: 'All Statuses', color: 'text-foreground', dotColor: 'bg-muted-foreground' },
-  { id: 'in_progress', label: 'In Progress', color: 'text-blue-500 dark:text-blue-400', dotColor: 'bg-blue-500' },
-  { id: 'pending', label: 'Pending Reply', color: 'text-amber-500 dark:text-amber-400', dotColor: 'bg-amber-500' },
-  { id: 'follow_up', label: 'Follow Up', color: 'text-purple-500 dark:text-purple-400', dotColor: 'bg-purple-500' },
-  { id: 'resolved', label: 'Resolved', color: 'text-emerald-500 dark:text-emerald-400', dotColor: 'bg-emerald-500' },
+  { id: 'in_progress', label: 'In Progress', color: 'text-info', dotColor: 'bg-info' },
+  { id: 'pending', label: 'Pending Reply', color: 'text-warning', dotColor: 'bg-warning' },
+  { id: 'follow_up', label: 'Follow Up', color: 'text-purple-500', dotColor: 'bg-purple-500' },
+  { id: 'resolved', label: 'Resolved', color: 'text-success', dotColor: 'bg-success' },
 ];
 
 interface TagFilterGroupProps {
@@ -41,10 +41,10 @@ export function TagFilterGroup({ collapsed }: TagFilterGroupProps) {
             key={tag.id}
             onClick={() => setActiveStatusFilter(tag.id)}
             className={clsx(
-              'w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-150',
+              'w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all duration-150 cursor-pointer',
               activeStatusFilter === tag.id
-                ? 'bg-[#74A09F]/15 font-semibold text-[#74A09F]'
-                : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                ? 'bg-primary/15 font-semibold text-primary shadow-xs'
+                : 'text-muted-foreground hover:text-foreground hover:bg-muted font-medium'
             )}
           >
             <span className={clsx('h-2 w-2 rounded-full shrink-0', tag.dotColor)} />

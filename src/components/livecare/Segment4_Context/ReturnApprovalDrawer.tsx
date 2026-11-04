@@ -94,7 +94,7 @@ export function ReturnApprovalDrawer({ customer, orders }: ReturnApprovalDrawerP
   return (
     <div className="p-4 bg-card">
       <div className="flex items-center gap-2 mb-4">
-        <div className="h-6 w-6 rounded-lg bg-amber-500/15 flex items-center justify-center text-amber-600 dark:text-amber-400">
+        <div className="h-6 w-6 rounded-lg bg-warning/15 flex items-center justify-center text-warning">
           <RefreshCw className="h-3.5 w-3.5" />
         </div>
         <span className="text-xs font-bold uppercase tracking-wider text-foreground">
@@ -118,7 +118,7 @@ export function ReturnApprovalDrawer({ customer, orders }: ReturnApprovalDrawerP
                 setOrderId(e.target.value);
                 setSelected([]);
               }}
-              className="w-full bg-muted/40 rounded-xl px-3.5 py-2.5 text-xs font-medium text-foreground border border-border focus:border-[#74A09F] focus:bg-card focus:ring-2 focus:ring-[#74A09F]/20 outline-none transition-all cursor-pointer"
+              className="w-full h-9 bg-muted/60 rounded-xl px-3.5 text-xs font-medium text-foreground border border-border focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/20 outline-none transition-all cursor-pointer"
             >
               {orders.map((o) => (
                 <option key={o.name} value={o.name}>
@@ -141,7 +141,7 @@ export function ReturnApprovalDrawer({ customer, orders }: ReturnApprovalDrawerP
                       className={clsx(
                         'rounded-xl border p-3 transition-all',
                         isSelected
-                          ? 'border-[#74A09F] bg-[#74A09F]/5 shadow-2xs'
+                          ? 'border-primary bg-primary/5 shadow-2xs'
                           : 'border-border bg-card/60 hover:bg-muted/30',
                       )}
                     >
@@ -150,7 +150,7 @@ export function ReturnApprovalDrawer({ customer, orders }: ReturnApprovalDrawerP
                           type="checkbox"
                           checked={isSelected}
                           onChange={() => toggleItem(item)}
-                          className="mt-0.5 accent-[#74A09F]"
+                          className="mt-0.5 accent-primary"
                         />
                         <span className="flex-1 min-w-0">
                           <span className="block text-xs font-semibold text-foreground">{item.item_name}</span>
@@ -172,7 +172,7 @@ export function ReturnApprovalDrawer({ customer, orders }: ReturnApprovalDrawerP
                                   Math.max(1, Math.min(item.qty, Number(e.target.value) || 1)),
                                 )
                               }
-                              className="w-12 bg-muted/70 rounded-lg px-1.5 py-1 text-xs font-bold text-foreground text-center border border-border outline-none focus:border-[#74A09F]"
+                              className="w-12 bg-muted/70 rounded-lg px-1.5 py-1 text-xs font-bold text-foreground text-center border border-border outline-none focus:border-primary"
                             />
                           </div>
                         )}
@@ -216,7 +216,7 @@ export function ReturnApprovalDrawer({ customer, orders }: ReturnApprovalDrawerP
                   className={clsx(
                     'px-3 py-1.5 rounded-lg text-xs font-medium border transition-all cursor-pointer',
                     disposition === d.value
-                      ? 'bg-[#74A09F]/15 text-[#74A09F] border-[#74A09F]/30 font-semibold'
+                      ? 'bg-primary/15 text-primary border-primary/30 font-semibold'
                       : 'text-muted-foreground border-border hover:bg-muted hover:text-foreground',
                   )}
                 >
@@ -233,7 +233,7 @@ export function ReturnApprovalDrawer({ customer, orders }: ReturnApprovalDrawerP
               onChange={(e) => setNotes(e.target.value)}
               rows={2}
               placeholder="Provide reason or condition details..."
-              className="w-full bg-muted/40 rounded-xl px-3.5 py-2 text-xs text-foreground placeholder:text-muted-foreground border border-border focus:border-[#74A09F] focus:bg-card focus:ring-2 focus:ring-[#74A09F]/20 outline-none resize-none transition-all"
+              className="w-full bg-muted/60 rounded-xl px-3.5 py-2 text-xs text-foreground placeholder:text-muted-foreground border border-border focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/20 outline-none resize-none transition-all"
             />
           </div>
 
@@ -243,8 +243,8 @@ export function ReturnApprovalDrawer({ customer, orders }: ReturnApprovalDrawerP
           </div>
 
           {total > 200 && (
-            <p className="flex items-center gap-1.5 text-2xs text-amber-600 dark:text-amber-400 font-medium">
-              <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
+            <p className="flex items-center gap-1.5 text-2xs text-warning font-semibold">
+              <AlertTriangle className="h-3.5 w-3.5 shrink-0 text-warning" strokeWidth={2} />
               Exceeds QAR 200 — requires Operations Manager approval.
             </p>
           )}
@@ -252,7 +252,7 @@ export function ReturnApprovalDrawer({ customer, orders }: ReturnApprovalDrawerP
           <button
             onClick={handleSubmit}
             disabled={selected.length === 0 || submitting}
-            className="w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-bold transition-all shadow-xs cursor-pointer active:scale-95"
+            className="w-full py-2.5 rounded-xl bg-primary hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed text-primary-foreground text-xs font-bold transition-all shadow-xs cursor-pointer active:scale-95"
           >
             {submitting ? 'Submitting…' : 'Submit Return Request'}
           </button>
@@ -277,24 +277,24 @@ function ResultView({
     <div className="space-y-3">
       <div
         className={clsx(
-          'rounded-xl border p-4 shadow-xs',
+          'rounded-2xl border p-4 shadow-xs',
           result.auto_approved
-            ? 'border-emerald-500/30 bg-emerald-500/10'
-            : 'border-amber-500/30 bg-amber-500/10',
+            ? 'border-success/30 bg-success/10'
+            : 'border-warning/30 bg-warning/10',
         )}
       >
         <div className="flex items-center gap-2 mb-1.5">
           {result.auto_approved ? (
-            <Check className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+            <Check className="h-4 w-4 text-success" strokeWidth={2} />
           ) : (
-            <ShieldAlert className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+            <ShieldAlert className="h-4 w-4 text-warning" strokeWidth={2} />
           )}
           <span
             className={clsx(
               'text-xs font-bold',
               result.auto_approved
-                ? 'text-emerald-700 dark:text-emerald-300'
-                : 'text-amber-700 dark:text-amber-300',
+                ? 'text-success'
+                : 'text-warning',
             )}
           >
             {result.auto_approved ? 'Return Auto-Approved' : 'Pending Operations Approval'}
@@ -306,29 +306,29 @@ function ResultView({
 
       {!result.auto_approved &&
         (approval ? (
-          <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-3.5 shadow-2xs">
-            <p className="text-xs font-bold text-emerald-700 dark:text-emerald-300">
+          <div className="rounded-xl border border-success/30 bg-success/10 p-3.5 shadow-2xs">
+            <p className="text-xs font-bold text-success">
               {approval === 'approved' ? 'Return approved — credit issued.' : 'Return request rejected.'}
             </p>
           </div>
         ) : isManager ? (
-          <div className="rounded-xl border border-amber-500/30 bg-card p-3.5 shadow-xs">
+          <div className="rounded-xl border border-warning/30 bg-card p-3.5 shadow-xs">
             <p className="text-2xs font-semibold text-muted-foreground uppercase tracking-wider mb-2.5">
               Operations Manager Action Required
             </p>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setApproval('rejected')}
-                className="flex-1 flex items-center justify-center gap-1 px-3 py-2 rounded-xl bg-card hover:bg-rose-500/10 text-rose-600 dark:text-rose-400 text-xs font-semibold border border-rose-500/30 transition-all cursor-pointer"
+                className="flex-1 flex items-center justify-center gap-1 px-3 py-2 rounded-xl bg-card hover:bg-destructive/10 text-destructive text-xs font-semibold border border-destructive/30 transition-all cursor-pointer active:scale-95"
               >
-                <X className="h-3.5 w-3.5" />
+                <X className="h-3.5 w-3.5" strokeWidth={2} />
                 Reject
               </button>
               <button
                 onClick={() => setApproval('approved')}
-                className="flex-1 flex items-center justify-center gap-1 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition-all shadow-xs cursor-pointer"
+                className="flex-1 flex items-center justify-center gap-1 px-3 py-2 rounded-xl bg-success hover:opacity-90 text-white text-xs font-semibold transition-all shadow-xs cursor-pointer active:scale-95"
               >
-                <Check className="h-3.5 w-3.5" />
+                <Check className="h-3.5 w-3.5" strokeWidth={2} />
                 Approve & Credit
               </button>
             </div>
@@ -336,7 +336,7 @@ function ResultView({
         ) : (
           <div className="rounded-xl border border-border bg-muted/40 p-3 text-center">
             <p className="flex items-center justify-center gap-1.5 text-2xs font-medium text-muted-foreground">
-              <ShieldAlert className="h-3.5 w-3.5 text-amber-500" />
+              <ShieldAlert className="h-3.5 w-3.5 text-warning" strokeWidth={2} />
               Pending Operations Manager Approval
             </p>
           </div>
@@ -344,7 +344,7 @@ function ResultView({
 
       <button
         onClick={onReset}
-        className="w-full py-2.5 rounded-xl bg-muted/60 hover:bg-muted text-foreground text-xs font-semibold border border-border transition-all cursor-pointer"
+        className="w-full py-2.5 rounded-xl bg-muted/60 hover:bg-muted text-foreground text-xs font-semibold border border-border transition-all cursor-pointer active:scale-95"
       >
         New Return Request
       </button>

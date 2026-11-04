@@ -40,11 +40,11 @@ const channelColors: Record<string, string> = {
   messenger: 'text-channel-messenger bg-channel-messenger/10',
 };
 
-const statusColors: Record<string, { bg: string; text: string; border: string }> = {
-  in_progress: { bg: 'bg-blue-500/10', text: 'text-blue-600 dark:text-blue-400', border: 'border-blue-500/20' },
-  pending: { bg: 'bg-amber-500/10', text: 'text-amber-600 dark:text-amber-400', border: 'border-amber-500/20' },
-  follow_up: { bg: 'bg-purple-500/10', text: 'text-purple-600 dark:text-purple-400', border: 'border-purple-500/20' },
-  resolved: { bg: 'bg-emerald-500/10', text: 'text-emerald-600 dark:text-emerald-400', border: 'border-emerald-500/20' },
+const statusColors: Record<string, { bg: string; text: string }> = {
+  in_progress: { bg: 'bg-info/15', text: 'text-info' },
+  pending: { bg: 'bg-warning/15', text: 'text-warning' },
+  follow_up: { bg: 'bg-purple-500/15', text: 'text-purple-500' },
+  resolved: { bg: 'bg-success/15', text: 'text-success' },
 };
 
 const statusLabels: Record<string, string> = {
@@ -62,26 +62,24 @@ export function ThreadCard({ thread, isSelected, onClick }: ThreadCardProps) {
     <button
       onClick={onClick}
       className={clsx(
-        'w-full text-left px-3.5 py-3 border-l-2 transition-all duration-150 border-b border-border/40 hover:bg-muted/70 dark:hover:bg-[#161C28]',
+        'w-full text-left px-3.5 py-3 border-l-[3px] transition-all duration-150 cursor-pointer',
         isSelected
-          ? 'bg-[#74A09F]/15 dark:bg-[#74A09F]/20 border-l-[#74A09F] shadow-2xs'
-          : 'border-l-transparent',
-        thread.unread_count > 0 && !isSelected && 'bg-muted/50 dark:bg-[#141A26]/80',
+          ? 'bg-primary/10 border-l-primary shadow-2xs'
+          : 'border-l-transparent hover:bg-muted/60',
+        thread.unread_count > 0 && !isSelected && 'bg-muted/30',
         sla?.urgency === 'critical' && 'animate-sla-pulse'
       )}
     >
       <div className="flex items-start gap-3">
         {/* Avatar / Channel Icon */}
         <div className="relative shrink-0">
-          <div className="h-10 w-10 rounded-full bg-muted dark:bg-[#171D2A] border border-border/60 flex items-center justify-center">
-            <span className="text-sm font-semibold text-foreground">
-              {thread.customer_name.split(' ').map((n) => n[0]).join('').slice(0, 2)}
-            </span>
+          <div className="h-10 w-10 rounded-full bg-muted border border-border flex items-center justify-center font-semibold text-foreground text-xs">
+            {thread.customer_name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()}
           </div>
           {/* Channel badge */}
           <div
             className={clsx(
-              'absolute -bottom-0.5 -right-0.5 h-5 w-5 rounded-full flex items-center justify-center ring-2 ring-card',
+              'absolute -bottom-0.5 -right-0.5 h-4.5 w-4.5 rounded-full flex items-center justify-center border-2 border-card shadow-2xs',
               channelColors[thread.channel] || 'bg-muted text-muted-foreground'
             )}
           >
@@ -100,14 +98,14 @@ export function ThreadCard({ thread, isSelected, onClick }: ThreadCardProps) {
             >
               {thread.customer_name}
             </span>
-            <span className="text-2xs text-muted-foreground shrink-0 font-mono">
+            <span className="text-[10px] text-muted-foreground font-mono shrink-0">
               {formatThreadTimestamp(thread.last_message_at)}
             </span>
           </div>
 
           <p
             className={clsx(
-              'text-xs truncate mb-1.5',
+              'text-xs truncate mb-2',
               thread.unread_count > 0 ? 'text-foreground font-medium' : 'text-muted-foreground'
             )}
           >
@@ -119,24 +117,23 @@ export function ThreadCard({ thread, isSelected, onClick }: ThreadCardProps) {
             {/* Status Tag */}
             <span
               className={clsx(
-                'inline-flex items-center gap-1 text-2xs font-medium px-1.5 py-0.5 rounded-full border',
+                'inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full border border-current/20',
                 statusStyle.bg,
-                statusStyle.text,
-                statusStyle.border,
+                statusStyle.text
               )}
             >
-              <span className={clsx('h-1.5 w-1.5 rounded-full', statusStyle.text.replace('text-', 'bg-'))} />
+              <span className={clsx('h-1.5 w-1.5 rounded-full bg-current')} />
               {statusLabels[thread.status]}
             </span>
 
             {/* Department */}
-            <span className="text-2xs text-muted-foreground font-medium capitalize">
+            <span className="text-[10px] text-muted-foreground font-medium capitalize">
               {thread.department}
             </span>
 
             {/* Bot Active Indicator */}
             {thread.is_bot_active && (
-              <span className="inline-flex items-center gap-0.5 text-2xs text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-1.5 py-0.5 rounded-full">
+              <span className="inline-flex items-center gap-0.5 text-[10px] text-info bg-info/10 border border-info/20 px-1.5 py-0.5 rounded-full font-medium">
                 <Bot className="h-3 w-3" />
                 Bot
               </span>
@@ -148,10 +145,10 @@ export function ThreadCard({ thread, isSelected, onClick }: ThreadCardProps) {
             {sla && thread.status !== 'resolved' && (
               <span
                 className={clsx(
-                  'text-2xs font-medium px-1.5 py-0.5 rounded-full border',
-                  sla.urgency === 'critical' && 'bg-red-500/15 text-red-500 dark:text-red-400 border-red-500/25',
-                  sla.urgency === 'warning' && 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/25',
-                  sla.urgency === 'safe' && 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/25'
+                  'text-[10px] font-bold font-mono px-2 py-0.5 rounded-full border',
+                  sla.urgency === 'critical' && 'bg-destructive/15 text-destructive border-destructive/30',
+                  sla.urgency === 'warning' && 'bg-warning/15 text-warning border-warning/30',
+                  sla.urgency === 'safe' && 'bg-success/10 text-success border-success/20'
                 )}
               >
                 {sla.text}

@@ -1,6 +1,6 @@
 // ─── Care Sidebar (Exact RMO UI Structure) ──────────────────────────────────
 // Navigation bar matching /Users/insasofttechnologies/React-js.js/Halamama-RMO
-// with /halamama_green.svg branding, collapse states, #74A09F accents, and badges.
+// with /halamama_green.svg branding, collapse states, sage primary accents, and badges.
 
 import { useEffect } from 'react';
 import { clsx } from 'clsx';
@@ -73,13 +73,13 @@ export function CareSidebar({ collapsed, onToggle }: CareSidebarProps) {
   return (
     <aside
       className={clsx(
-        'h-full border-r border-border bg-card flex flex-col transition-all duration-300 shrink-0 z-30 select-none shadow-sm',
-        collapsed ? 'w-16' : 'w-64'
+        'h-full border-r border-sidebar-border bg-sidebar text-sidebar-foreground flex flex-col transition-all duration-300 shrink-0 z-30 select-none shadow-xs',
+        collapsed ? 'w-[68px]' : 'w-[260px]'
       )}
     >
       {/* ── Top Header / Logo + Toggle (Matching RMO) ─────────────── */}
       {collapsed ? (
-        <div className="flex flex-col items-center justify-center gap-2.5 px-2 py-4 border-b border-border/50">
+        <div className="flex flex-col items-center justify-center gap-2.5 px-2 py-4 border-b border-sidebar-border/80">
           <button
             type="button"
             onClick={() => {
@@ -89,10 +89,10 @@ export function CareSidebar({ collapsed, onToggle }: CareSidebarProps) {
             className="group flex items-center justify-center cursor-pointer"
             title="Halamama Care"
           >
-            <div className="h-9 w-9 rounded-xl bg-card ring-1 ring-border p-1.5 flex items-center justify-center shadow-xs transition-transform group-hover:scale-105">
+            <div className="h-9 w-9 rounded-xl overflow-hidden flex items-center justify-center shadow-xs ring-1 ring-sidebar-border/60 p-1 bg-card transition-transform group-hover:scale-105">
               <img
-                src="/halamama_green.svg"
-                alt="Halamama Care"
+                src="https://halamama.com/cdn/shop/files/ma_gren_background_faviocn.png"
+                alt="Halamama"
                 className="h-full w-full object-contain"
               />
             </div>
@@ -104,29 +104,31 @@ export function CareSidebar({ collapsed, onToggle }: CareSidebarProps) {
             title="Expand sidebar (⌘B)"
             aria-label="Expand sidebar"
           >
-            <PanelLeftOpen className="h-4.5 w-4.5" />
+            <PanelLeftOpen className="h-4 w-4" />
           </button>
         </div>
       ) : (
-        <div className="flex items-center justify-between px-5 py-4 border-b border-border/50">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-sidebar-border/80">
           <button
             type="button"
             onClick={() => {
               setActiveTab('dashboard');
               navigate('/dashboard');
             }}
-            className="group flex items-center cursor-pointer text-left gap-2"
+            className="group flex items-center gap-2.5 cursor-pointer text-left"
           >
+            <img
+              src="https://halamama.com/cdn/shop/files/ma_gren_background_faviocn.png"
+              alt="Halamama"
+              className="h-7 w-7 rounded-lg object-contain shrink-0 transition-transform duration-300 group-hover:scale-105"
+            />
             <div className="relative transition-transform duration-300 group-hover:scale-[1.02]">
               <img
                 src="/halamama_green.svg"
-                alt="Halamama Care"
-                className="h-auto w-full max-w-[125px] object-contain"
+                alt="Halamama"
+                className="h-auto w-full max-w-[115px] object-contain"
               />
             </div>
-            <span className="text-2xs font-bold uppercase tracking-wider text-[#74A09F] bg-[#74A09F]/10 px-1.5 py-0.5 rounded border border-[#74A09F]/20">
-              Care
-            </span>
           </button>
           <button
             type="button"
@@ -135,7 +137,7 @@ export function CareSidebar({ collapsed, onToggle }: CareSidebarProps) {
             title="Collapse sidebar (⌘B)"
             aria-label="Collapse sidebar"
           >
-            <PanelLeftClose className="h-4.5 w-4.5" />
+            <PanelLeftClose className="h-4 w-4" />
           </button>
         </div>
       )}
@@ -143,7 +145,7 @@ export function CareSidebar({ collapsed, onToggle }: CareSidebarProps) {
       {/* ── Nav Links (Matching RMO Sidebar Item Styling) ─────────── */}
       <div className="flex-1 overflow-y-auto px-3 py-3 space-y-1">
         {!collapsed && (
-          <p className="px-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+          <p className="px-3 pb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
             Customer Care
           </p>
         )}
@@ -162,35 +164,35 @@ export function CareSidebar({ collapsed, onToggle }: CareSidebarProps) {
                 navigate(item.path);
               }}
               className={clsx(
-                'group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all relative cursor-pointer',
+                'group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all relative cursor-pointer',
                 isActive
-                  ? 'bg-[#74A09F]/15 text-[#1e4e4d] dark:text-[#a0d5d4] shadow-sm border-l-2 border-[#74A09F]'
-                  : 'text-foreground/75 hover:bg-muted/60 hover:text-foreground',
+                  ? 'bg-primary/12 text-foreground font-semibold shadow-xs'
+                  : 'text-muted-foreground hover:bg-muted/70 hover:text-foreground font-medium',
                 collapsed && 'justify-center px-0'
               )}
               title={collapsed ? item.label : undefined}
             >
               {isActive && (
-                <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 rounded-r-full bg-[#74A09F]" />
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 rounded-r-full bg-primary" />
               )}
               <Icon
                 className={clsx(
-                  'h-4.5 w-4.5 shrink-0 transition-colors',
-                  isActive ? 'text-[#74A09F]' : 'text-muted-foreground group-hover:text-foreground'
+                  'h-4 w-4 shrink-0 transition-colors',
+                  isActive ? 'text-primary' : 'text-muted-foreground group-hover:text-foreground'
                 )}
-                strokeWidth={isActive ? 2.4 : 2}
+                strokeWidth={2}
               />
 
               {!collapsed && (
                 <>
-                  <span className="flex-1 text-left">{item.label}</span>
+                  <span className="flex-1 text-left text-sm">{item.label}</span>
                   {item.badge && (
                     <span
                       className={clsx(
-                        'min-w-[22px] h-5 px-1.5 rounded-full text-[10px] font-semibold grid place-items-center transition-colors',
+                        'min-w-[20px] h-5 px-1.5 rounded-full text-[10px] font-bold grid place-items-center transition-colors',
                         isActive
-                          ? 'bg-[#74A09F] text-white shadow-xs'
-                          : 'bg-[#74A09F]/12 text-[#74A09F]'
+                          ? 'bg-primary text-primary-foreground shadow-2xs'
+                          : 'bg-muted text-muted-foreground'
                       )}
                     >
                       {item.badge}
@@ -198,8 +200,8 @@ export function CareSidebar({ collapsed, onToggle }: CareSidebarProps) {
                   )}
                   {item.isLive && !item.badge && (
                     <span className="flex h-2 w-2 relative">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-success" />
                     </span>
                   )}
                 </>
@@ -210,37 +212,37 @@ export function CareSidebar({ collapsed, onToggle }: CareSidebarProps) {
 
         <div className="pt-4 space-y-1">
           {!collapsed && (
-            <p className="px-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <p className="px-3 pb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
               Preferences
             </p>
           )}
 
           <button
             className={clsx(
-              'group flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-foreground/75 hover:bg-muted/60 hover:text-foreground transition-colors cursor-pointer',
+              'group flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/70 hover:text-foreground transition-colors cursor-pointer',
               collapsed && 'justify-center px-0'
             )}
             title="Settings"
           >
-            <Settings className="h-4.5 w-4.5 shrink-0 text-muted-foreground group-hover:text-foreground" />
+            <Settings className="h-4 w-4 shrink-0 text-muted-foreground group-hover:text-foreground" strokeWidth={2} />
             {!collapsed && <span>Settings</span>}
           </button>
 
           <button
             className={clsx(
-              'group flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-foreground/75 hover:bg-muted/60 hover:text-foreground transition-colors cursor-pointer',
+              'group flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted/70 hover:text-foreground transition-colors cursor-pointer',
               collapsed && 'justify-center px-0'
             )}
             title="Help & Support"
           >
-            <HelpCircle className="h-4.5 w-4.5 shrink-0 text-muted-foreground group-hover:text-foreground" />
+            <HelpCircle className="h-4 w-4 shrink-0 text-muted-foreground group-hover:text-foreground" strokeWidth={2} />
             {!collapsed && <span>Help & Docs</span>}
           </button>
         </div>
       </div>
 
       {/* ── Bottom Collapse Menu (Matching RMO) ───────────────────── */}
-      <div className="p-3 border-t border-border/60 shrink-0">
+      <div className="p-3 border-t border-sidebar-border/80 shrink-0">
         <button
           onClick={onToggle}
           className={clsx(

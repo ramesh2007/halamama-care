@@ -84,21 +84,21 @@ export function ChannelFilterList({ collapsed }: ChannelFilterListProps) {
         <button
           onClick={() => setActiveChannelFilter('all')}
           className={clsx(
-            'w-full flex items-center gap-3 rounded-lg transition-all duration-150',
+            'w-full flex items-center gap-3 rounded-xl transition-all duration-150 cursor-pointer',
             collapsed ? 'p-2 justify-center' : 'px-3 py-2',
             activeChannelFilter === 'all'
-              ? 'bg-[#74A09F]/15 text-[#74A09F] font-semibold'
-              : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+              ? 'bg-primary/15 text-primary font-semibold shadow-xs'
+              : 'text-muted-foreground hover:text-foreground hover:bg-muted font-medium'
           )}
           title="All Channels"
         >
           <div className="h-8 w-8 rounded-lg bg-muted flex items-center justify-center shrink-0">
-            <MessageCircle className="h-4 w-4" />
+            <MessageCircle className="h-4 w-4" strokeWidth={2} />
           </div>
           {!collapsed && (
             <>
               <span className="flex-1 text-sm text-left">All Channels</span>
-              <span className="text-xs text-muted-foreground font-medium">
+              <span className="text-xs text-muted-foreground font-mono font-medium">
                 {CHANNELS.reduce((sum, c) => sum + c.count, 0)}
               </span>
             </>
@@ -111,11 +111,11 @@ export function ChannelFilterList({ collapsed }: ChannelFilterListProps) {
             key={channel.id}
             onClick={() => setActiveChannelFilter(channel.id)}
             className={clsx(
-              'w-full flex items-center gap-3 rounded-lg transition-all duration-150',
+              'w-full flex items-center gap-3 rounded-xl transition-all duration-150 cursor-pointer',
               collapsed ? 'p-2 justify-center' : 'px-3 py-2',
               activeChannelFilter === channel.id
-                ? `${channel.bgColor} ${channel.color} border ${channel.borderColor} font-medium`
-                : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                ? `${channel.bgColor} ${channel.color} border ${channel.borderColor} font-semibold shadow-xs`
+                : 'text-muted-foreground hover:text-foreground hover:bg-muted font-medium'
             )}
             title={channel.label}
           >
@@ -132,7 +132,7 @@ export function ChannelFilterList({ collapsed }: ChannelFilterListProps) {
                 <span className="flex-1 text-sm text-left">{channel.label}</span>
                 <span
                   className={clsx(
-                    'text-xs font-medium px-1.5 py-0.5 rounded-full',
+                    'text-xs font-mono font-medium px-2 py-0.5 rounded-full',
                     activeChannelFilter === channel.id
                       ? `${channel.bgColor} ${channel.color}`
                       : 'text-muted-foreground'

@@ -20,9 +20,9 @@ import { clsx } from 'clsx';
 import type { EmailTicket } from '../../types/care';
 
 const STATUS_OPTIONS: { value: EmailTicket['status']; label: string; cls: string }[] = [
-  { value: 'open', label: 'Open', cls: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' },
-  { value: 'pending_ops', label: 'Pending Ops', cls: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20' },
-  { value: 'escalated', label: 'Escalated', cls: 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20' },
+  { value: 'open', label: 'Open', cls: 'bg-success/10 text-success border-success/20' },
+  { value: 'pending_ops', label: 'Pending Ops', cls: 'bg-warning/10 text-warning border-warning/20' },
+  { value: 'escalated', label: 'Escalated', cls: 'bg-destructive/10 text-destructive border-destructive/20' },
   { value: 'closed', label: 'Closed', cls: 'bg-muted text-muted-foreground border-border' },
 ];
 
@@ -87,7 +87,7 @@ export function TicketsWorkspace() {
       <div className="w-[42%] min-w-[380px] max-w-[520px] border-r border-border bg-card flex flex-col shrink-0">
         <div className="px-5 py-3.5 border-b border-border flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="h-8 w-8 rounded-xl bg-[#74A09F]/15 flex items-center justify-center text-[#74A09F]">
+            <div className="h-8 w-8 rounded-xl bg-primary/15 flex items-center justify-center text-primary">
               <Mail className="h-4 w-4" />
             </div>
             <div>
@@ -96,12 +96,12 @@ export function TicketsWorkspace() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-2xs font-bold bg-[#74A09F]/15 text-[#74A09F] border border-[#74A09F]/20">
+            <span className="px-2.5 py-0.5 rounded-full text-2xs font-bold bg-primary/15 text-primary border border-primary/20">
               {openTicketsCount} Open
             </span>
             <button
               onClick={() => setIsCreateModalOpen(true)}
-              className="p-1.5 rounded-xl bg-muted hover:bg-muted/80 text-foreground border border-border transition-colors cursor-pointer"
+              className="h-8 w-8 rounded-xl bg-muted hover:bg-muted/80 text-foreground border border-border flex items-center justify-center transition-colors cursor-pointer active:scale-95"
               title="Create new support ticket"
             >
               <Plus className="h-3.5 w-3.5" />
@@ -119,7 +119,7 @@ export function TicketsWorkspace() {
             <div className="px-6 py-3.5 border-b border-border bg-card/95 backdrop-blur-sm flex items-center justify-between shrink-0 shadow-xs">
               <div className="min-w-0 flex-1 mr-4">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="font-mono text-xs font-bold text-[#74A09F] bg-[#74A09F]/10 px-2 py-0.5 rounded-md border border-[#74A09F]/20">
+                  <span className="font-mono text-xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-md border border-primary/20">
                     {ticket.ticket_id}
                   </span>
                   <h2 className="text-sm font-bold text-foreground truncate tracking-tight">
@@ -141,9 +141,9 @@ export function TicketsWorkspace() {
                 <span
                   className={clsx(
                     'px-2.5 py-1 rounded-full text-2xs font-bold border uppercase tracking-wider',
-                    ticket.priority === 'urgent' && 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20',
-                    ticket.priority === 'high' && 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20',
-                    ticket.priority === 'medium' && 'bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20',
+                    ticket.priority === 'urgent' && 'bg-destructive/10 text-destructive border-destructive/20',
+                    ticket.priority === 'high' && 'bg-warning/10 text-warning border-warning/20',
+                    ticket.priority === 'medium' && 'bg-info/10 text-info border-info/20',
                     ticket.priority === 'low' && 'bg-muted text-muted-foreground border-border',
                   )}
                 >
@@ -156,9 +156,9 @@ export function TicketsWorkspace() {
                     onClick={() => setIsStatusMenuOpen((prev) => !prev)}
                     className={clsx(
                       'px-2.5 py-1 rounded-full text-2xs font-bold border capitalize flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs',
-                      ticket.status === 'open' && 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20',
-                      ticket.status === 'pending_ops' && 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20 hover:bg-amber-500/20',
-                      ticket.status === 'escalated' && 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20 hover:bg-rose-500/20',
+                      ticket.status === 'open' && 'bg-success/10 text-success border-success/20 hover:bg-success/20',
+                      ticket.status === 'pending_ops' && 'bg-warning/10 text-warning border-warning/20 hover:bg-warning/20',
+                      ticket.status === 'escalated' && 'bg-destructive/10 text-destructive border-destructive/20 hover:bg-destructive/20',
                       ticket.status === 'closed' && 'bg-muted text-muted-foreground border-border hover:bg-muted/80',
                     )}
                   >
@@ -173,7 +173,7 @@ export function TicketsWorkspace() {
                         className="fixed inset-0 z-30"
                         onClick={() => setIsStatusMenuOpen(false)}
                       />
-                      <div className="absolute right-0 mt-2 w-40 rounded-xl bg-card border border-border shadow-lg p-1.5 z-40 space-y-1">
+                      <div className="absolute right-0 mt-2 w-40 rounded-xl bg-card border border-border shadow-elevated p-1.5 z-40 space-y-1">
                         <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground px-2 py-1">
                           Set Ticket Status
                         </p>
@@ -184,13 +184,13 @@ export function TicketsWorkspace() {
                             className={clsx(
                               'w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors flex items-center justify-between cursor-pointer',
                               ticket.status === opt.value
-                                ? 'bg-[#74A09F]/15 text-[#74A09F]'
+                                ? 'bg-primary/15 text-primary'
                                 : 'text-foreground hover:bg-muted',
                             )}
                           >
                             <span>{opt.label}</span>
                             {ticket.status === opt.value && (
-                              <CheckCircle2 className="h-3.5 w-3.5 text-[#74A09F]" />
+                              <CheckCircle2 className="h-3.5 w-3.5 text-primary" />
                             )}
                           </button>
                         ))}
@@ -210,7 +210,7 @@ export function TicketsWorkspace() {
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center text-center p-8">
             <div className="h-16 w-16 rounded-2xl bg-muted flex items-center justify-center mb-3 text-muted-foreground">
-              <Ticket className="h-8 w-8 text-[#74A09F]" />
+              <Ticket className="h-8 w-8 text-primary" />
             </div>
             <p className="text-base font-bold text-foreground mb-1">Select an Email Ticket</p>
             <p className="text-xs text-muted-foreground max-w-xs">
@@ -222,11 +222,11 @@ export function TicketsWorkspace() {
 
       {/* ── Create Ticket Modal ── */}
       {isCreateModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
-          <div className="bg-card rounded-2xl border border-border shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-[12px]">
+          <div className="bg-card rounded-2xl border border-border shadow-elevated w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
             <div className="px-5 py-4 border-b border-border flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-xl bg-[#74A09F]/15 flex items-center justify-center text-[#74A09F]">
+                <div className="h-8 w-8 rounded-xl bg-primary/15 flex items-center justify-center text-primary">
                   <Mail className="h-4 w-4" />
                 </div>
                 <h3 className="text-sm font-bold text-foreground">Create Support Ticket</h3>
@@ -250,7 +250,7 @@ export function TicketsWorkspace() {
                   value={newSenderName}
                   onChange={(e) => setNewSenderName(e.target.value)}
                   placeholder="e.g. Tariq Mansoor"
-                  className="w-full bg-muted/40 rounded-xl px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground border border-border focus:border-[#74A09F] focus:bg-card focus:ring-1 focus:ring-[#74A09F]/20 outline-none"
+                  className="w-full h-9 bg-muted/60 rounded-xl px-3 text-xs text-foreground placeholder:text-muted-foreground border border-border focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/20 outline-none transition-all"
                 />
               </div>
 
@@ -264,7 +264,7 @@ export function TicketsWorkspace() {
                   value={newSenderEmail}
                   onChange={(e) => setNewSenderEmail(e.target.value)}
                   placeholder="e.g. tariq@domain.qa"
-                  className="w-full bg-muted/40 rounded-xl px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground border border-border focus:border-[#74A09F] focus:bg-card focus:ring-1 focus:ring-[#74A09F]/20 outline-none"
+                  className="w-full h-9 bg-muted/60 rounded-xl px-3 text-xs text-foreground placeholder:text-muted-foreground border border-border focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/20 outline-none transition-all"
                 />
               </div>
 
@@ -278,7 +278,7 @@ export function TicketsWorkspace() {
                   value={newSubject}
                   onChange={(e) => setNewSubject(e.target.value)}
                   placeholder="e.g. Delayed Delivery Inquiry"
-                  className="w-full bg-muted/40 rounded-xl px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground border border-border focus:border-[#74A09F] focus:bg-card focus:ring-1 focus:ring-[#74A09F]/20 outline-none"
+                  className="w-full h-9 bg-muted/60 rounded-xl px-3 text-xs text-foreground placeholder:text-muted-foreground border border-border focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/20 outline-none transition-all"
                 />
               </div>
 
@@ -290,7 +290,7 @@ export function TicketsWorkspace() {
                   <select
                     value={newDepartment}
                     onChange={(e) => setNewDepartment(e.target.value as any)}
-                    className="w-full bg-muted/40 rounded-xl px-3 py-2 text-xs text-foreground border border-border focus:border-[#74A09F] focus:bg-card outline-none cursor-pointer"
+                    className="w-full h-9 bg-muted/60 rounded-xl px-3 text-xs text-foreground border border-border focus:border-primary focus:bg-card outline-none cursor-pointer transition-all"
                   >
                     <option value="support">Support</option>
                     <option value="operations">Operations</option>
@@ -305,7 +305,7 @@ export function TicketsWorkspace() {
                   <select
                     value={newPriority}
                     onChange={(e) => setNewPriority(e.target.value as any)}
-                    className="w-full bg-muted/40 rounded-xl px-3 py-2 text-xs text-foreground border border-border focus:border-[#74A09F] focus:bg-card outline-none cursor-pointer"
+                    className="w-full h-9 bg-muted/60 rounded-xl px-3 text-xs text-foreground border border-border focus:border-primary focus:bg-card outline-none cursor-pointer transition-all"
                   >
                     <option value="low">Low</option>
                     <option value="medium">Medium</option>
@@ -319,14 +319,14 @@ export function TicketsWorkspace() {
                 <button
                   type="button"
                   onClick={() => setIsCreateModalOpen(false)}
-                  className="px-3.5 py-2 rounded-xl text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
+                  className="h-9 px-3.5 rounded-xl text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={createTicketMutation.isPending}
-                  className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-[#74A09F] hover:bg-[#5D8C8B] text-white shadow-xs transition-all cursor-pointer disabled:opacity-50"
+                  className="h-9 flex items-center gap-1.5 px-4 rounded-xl text-xs font-semibold bg-primary hover:opacity-90 text-primary-foreground shadow-xs transition-all cursor-pointer active:scale-95 disabled:opacity-50"
                 >
                   {createTicketMutation.isPending ? (
                     <Loader2 className="h-3.5 w-3.5 animate-spin" />

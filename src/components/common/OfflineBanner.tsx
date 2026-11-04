@@ -11,9 +11,9 @@ export function OfflineBanner() {
   if (isConnected) return null;
 
   return (
-    <div className="flex items-center justify-center gap-2 bg-red-500/15 border-b border-red-500/30 px-4 py-1.5">
-      <WifiOff className="h-3.5 w-3.5 text-red-400 animate-pulse" />
-      <span className="text-xs font-medium text-red-300">
+    <div className="flex items-center justify-center gap-2 bg-destructive/10 border-b border-destructive/20 px-4 py-1.5">
+      <WifiOff className="h-3.5 w-3.5 text-destructive animate-pulse" />
+      <span className="text-xs font-medium text-destructive">
         Reconnecting… real-time updates are paused.
       </span>
     </div>

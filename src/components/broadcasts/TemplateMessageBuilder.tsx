@@ -148,7 +148,7 @@ export function TemplateMessageBuilder({ onCompleted }: TemplateMessageBuilderPr
           {/* Section: Campaign Details */}
           <div className="rounded-2xl border border-border bg-card p-5 sm:p-6 shadow-xs space-y-4">
             <div className="flex items-center gap-2.5 pb-3 border-b border-border">
-              <div className="h-8 w-8 rounded-xl bg-[#74A09F]/15 flex items-center justify-center text-[#74A09F]">
+              <div className="h-8 w-8 rounded-xl bg-primary/15 flex items-center justify-center text-primary">
                 <Layers className="h-4 w-4" />
               </div>
               <div>
@@ -167,7 +167,7 @@ export function TemplateMessageBuilder({ onCompleted }: TemplateMessageBuilderPr
                 value={campaignName}
                 onChange={(e) => setCampaignName(e.target.value)}
                 placeholder="e.g. Winter Sale Weekend Blast 2026"
-                className="w-full bg-muted/40 rounded-xl px-3.5 py-2.5 text-xs text-foreground placeholder:text-muted-foreground border border-border focus:border-[#74A09F] focus:bg-card focus:ring-2 focus:ring-[#74A09F]/20 outline-none transition-all"
+                className="w-full h-9 bg-muted/60 rounded-xl px-3.5 text-xs text-foreground placeholder:text-muted-foreground border border-border focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/20 outline-none transition-all"
               />
             </div>
 
@@ -175,7 +175,7 @@ export function TemplateMessageBuilder({ onCompleted }: TemplateMessageBuilderPr
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <label className="text-xs font-bold text-foreground">Meta-Approved Template</label>
-                <span className="inline-flex items-center gap-1 text-2xs font-bold text-emerald-600 dark:text-emerald-400">
+                <span className="inline-flex items-center gap-1 text-[10px] font-bold text-success">
                   <CheckCircle2 className="h-3 w-3" />
                   Meta Verified
                 </span>
@@ -183,7 +183,7 @@ export function TemplateMessageBuilder({ onCompleted }: TemplateMessageBuilderPr
               <select
                 value={templateId}
                 onChange={(e) => handleTemplateChange(e.target.value)}
-                className="w-full bg-muted/40 rounded-xl px-3.5 py-2.5 text-xs text-foreground border border-border focus:border-[#74A09F] focus:bg-card focus:ring-2 focus:ring-[#74A09F]/20 outline-none transition-all cursor-pointer font-medium"
+                className="w-full h-9 bg-muted/60 rounded-xl px-3.5 text-xs text-foreground border border-border focus:border-primary focus:bg-card outline-none transition-all cursor-pointer font-medium"
               >
                 {approvedTemplates.map((t) => (
                   <option key={t.id} value={t.id}>
@@ -196,10 +196,10 @@ export function TemplateMessageBuilder({ onCompleted }: TemplateMessageBuilderPr
             {/* Template Info Card */}
             {template && (
               <div className="p-3.5 rounded-xl bg-muted/50 border border-border/80 flex items-start gap-3">
-                <Sparkles className="h-4 w-4 text-[#74A09F] shrink-0 mt-0.5" />
+                <Sparkles className="h-4 w-4 text-primary shrink-0 mt-0.5" />
                 <div className="text-xs leading-relaxed text-foreground/80 space-y-1">
                   <p className="font-semibold text-foreground">
-                    Category: <span className="text-[#74A09F]">{template.category}</span>
+                    Category: <span className="text-primary">{template.category}</span>
                   </p>
                   <p className="font-mono text-2xs text-muted-foreground break-all">
                     {template.body}
@@ -214,7 +214,7 @@ export function TemplateMessageBuilder({ onCompleted }: TemplateMessageBuilderPr
             <div className="rounded-2xl border border-border bg-card p-5 sm:p-6 shadow-xs space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-border">
                 <div className="flex items-center gap-2.5">
-                  <div className="h-8 w-8 rounded-xl bg-[#74A09F]/15 flex items-center justify-center text-[#74A09F]">
+                  <div className="h-8 w-8 rounded-xl bg-primary/15 flex items-center justify-center text-primary">
                     <Sparkles className="h-4 w-4" />
                   </div>
                   <div>
@@ -231,7 +231,7 @@ export function TemplateMessageBuilder({ onCompleted }: TemplateMessageBuilderPr
                     });
                     setValues(next);
                   }}
-                  className="flex items-center gap-1 text-2xs font-bold text-[#74A09F] hover:underline cursor-pointer"
+                  className="flex items-center gap-1 text-[10px] font-bold text-primary hover:underline cursor-pointer"
                 >
                   <RefreshCw className="h-3 w-3" />
                   Fill Sample Data
@@ -244,7 +244,7 @@ export function TemplateMessageBuilder({ onCompleted }: TemplateMessageBuilderPr
                   return (
                     <div key={variable} className="space-y-1">
                       <div className="flex items-center justify-between text-2xs">
-                        <span className="font-mono font-bold text-[#74A09F] bg-[#74A09F]/10 px-2 py-0.5 rounded-md border border-[#74A09F]/20">
+                        <span className="font-mono font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-md border border-primary/20">
                           Parameter {variable}
                         </span>
                         {sampleHint && (
@@ -260,7 +260,7 @@ export function TemplateMessageBuilder({ onCompleted }: TemplateMessageBuilderPr
                           setValues((prev) => ({ ...prev, [variable]: e.target.value }))
                         }
                         placeholder={sampleHint ? `e.g. ${sampleHint}` : `Enter value for ${variable}`}
-                        className="w-full bg-muted/40 rounded-xl px-3.5 py-2 text-xs text-foreground placeholder:text-muted-foreground border border-border focus:border-[#74A09F] focus:bg-card focus:ring-2 focus:ring-[#74A09F]/20 outline-none transition-all"
+                        className="w-full h-9 bg-muted/60 rounded-xl px-3.5 text-xs text-foreground placeholder:text-muted-foreground border border-border focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/20 outline-none transition-all"
                       />
                     </div>
                   );
@@ -273,7 +273,7 @@ export function TemplateMessageBuilder({ onCompleted }: TemplateMessageBuilderPr
           <div className="rounded-2xl border border-border bg-card p-5 sm:p-6 shadow-xs space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-border">
               <div className="flex items-center gap-2.5">
-                <div className="h-8 w-8 rounded-xl bg-sky-500/15 flex items-center justify-center text-sky-600 dark:text-sky-400">
+                <div className="h-8 w-8 rounded-xl bg-info/15 flex items-center justify-center text-info">
                   <Users className="h-4 w-4" />
                 </div>
                 <div>
@@ -281,7 +281,7 @@ export function TemplateMessageBuilder({ onCompleted }: TemplateMessageBuilderPr
                   <p className="text-2xs text-muted-foreground">Choose customer segments to receive this broadcast</p>
                 </div>
               </div>
-              <span className="px-2.5 py-1 rounded-full text-2xs font-bold bg-[#74A09F]/15 text-[#74A09F] border border-[#74A09F]/20">
+              <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-primary/15 text-primary border border-primary/20">
                 {totalAudienceSize.toLocaleString()} Reach
               </span>
             </div>
@@ -296,7 +296,7 @@ export function TemplateMessageBuilder({ onCompleted }: TemplateMessageBuilderPr
                     className={clsx(
                       'p-3.5 rounded-xl border transition-all cursor-pointer select-none flex items-start gap-3',
                       isSelected
-                        ? 'border-[#74A09F] bg-[#74A09F]/10 ring-1 ring-[#74A09F]/30'
+                        ? 'border-primary bg-primary/10 ring-1 ring-primary/30'
                         : 'border-border bg-muted/30 hover:bg-muted/60',
                     )}
                   >
@@ -304,12 +304,12 @@ export function TemplateMessageBuilder({ onCompleted }: TemplateMessageBuilderPr
                       type="checkbox"
                       checked={isSelected}
                       onChange={() => {}}
-                      className="mt-0.5 rounded accent-[#74A09F] cursor-pointer"
+                      className="mt-0.5 rounded accent-primary cursor-pointer"
                     />
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-1 mb-1">
                         <p className="text-xs font-bold text-foreground truncate">{opt.title}</p>
-                        <span className="text-[10px] font-bold text-muted-foreground">
+                        <span className="text-[10px] font-bold text-muted-foreground font-mono">
                           {opt.count.toLocaleString()}
                         </span>
                       </div>
@@ -321,8 +321,8 @@ export function TemplateMessageBuilder({ onCompleted }: TemplateMessageBuilderPr
             </div>
 
             {/* Rate Limiting Notice */}
-            <div className="flex items-start gap-2.5 p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-800 dark:text-amber-300">
-              <Info className="h-4 w-4 shrink-0 mt-0.5 text-amber-600 dark:text-amber-400" />
+            <div className="flex items-start gap-2.5 p-3 rounded-xl bg-warning/10 border border-warning/20 text-warning">
+              <Info className="h-4 w-4 shrink-0 mt-0.5 text-warning" />
               <div className="text-2xs space-y-0.5 leading-relaxed">
                 <p className="font-bold">Meta WhatsApp Business API Rate Limiting</p>
                 <p className="text-foreground/80 dark:text-foreground/70">
@@ -336,7 +336,7 @@ export function TemplateMessageBuilder({ onCompleted }: TemplateMessageBuilderPr
           <div className="flex items-center justify-between gap-3 pt-2">
             <span className="text-xs text-muted-foreground font-medium">
               Ready to broadcast to{' '}
-              <strong className="text-foreground">{totalAudienceSize.toLocaleString()}</strong> recipients
+              <strong className="text-foreground font-mono">{totalAudienceSize.toLocaleString()}</strong> recipients
             </span>
             <div className="flex items-center gap-2">
               <button
@@ -345,7 +345,7 @@ export function TemplateMessageBuilder({ onCompleted }: TemplateMessageBuilderPr
                   setAudience(['orders', 'geo']);
                   setValues({});
                 }}
-                className="px-4 py-2.5 rounded-xl text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
+                className="h-9 px-4 rounded-xl text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
               >
                 Reset
               </button>
@@ -354,10 +354,10 @@ export function TemplateMessageBuilder({ onCompleted }: TemplateMessageBuilderPr
                 onClick={handleSend}
                 disabled={sent || audience.length === 0}
                 className={clsx(
-                  'flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white transition-all shadow-xs cursor-pointer active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed',
+                  'h-9 flex items-center gap-2 px-5 rounded-xl text-xs font-semibold transition-all shadow-xs cursor-pointer active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed',
                   sent
-                    ? 'bg-emerald-600'
-                    : 'bg-[#74A09F] hover:bg-[#5D8C8B]',
+                    ? 'bg-success text-success-foreground'
+                    : 'bg-primary hover:opacity-90 text-primary-foreground',
                 )}
               >
                 {sent ? (
@@ -380,7 +380,7 @@ export function TemplateMessageBuilder({ onCompleted }: TemplateMessageBuilderPr
         <div className="lg:col-span-5 sticky top-4 space-y-3">
           <div className="flex items-center justify-between px-1">
             <label className="flex items-center gap-1.5 text-xs font-bold text-foreground">
-              <Eye className="h-4 w-4 text-[#74A09F]" />
+              <Eye className="h-4 w-4 text-primary" />
               <span>Real-Time WhatsApp Preview</span>
             </label>
             <span className="text-2xs font-mono text-muted-foreground">iPhone 15 Mockup</span>
@@ -437,7 +437,7 @@ export function TemplateMessageBuilder({ onCompleted }: TemplateMessageBuilderPr
 
                 {/* Interactive Action Buttons Mockup */}
                 <div className="max-w-[85%] ml-auto space-y-1.5">
-                  <div className="bg-card/90 dark:bg-zinc-800 text-center py-1.5 px-3 rounded-xl border border-border shadow-xs text-xs font-semibold text-[#74A09F] cursor-pointer hover:bg-card">
+                  <div className="bg-card/90 dark:bg-zinc-800 text-center py-1.5 px-3 rounded-xl border border-border shadow-xs text-xs font-semibold text-primary cursor-pointer hover:bg-card">
                     {template?.name.includes('Order') || template?.name.includes('Delivery')
                       ? '📍 Track Order'
                       : '🛍️ Shop Collection'}

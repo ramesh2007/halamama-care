@@ -28,18 +28,18 @@ const STATUS: Record<BroadcastCampaign['status'], { label: string; cls: string; 
   },
   scheduled: {
     label: 'Scheduled',
-    cls: 'text-sky-600 dark:text-sky-400 bg-sky-500/10 border-sky-500/20',
-    dot: 'bg-sky-500',
+    cls: 'text-info bg-info/10 border-info/20',
+    dot: 'bg-info',
   },
   sent: {
     label: 'Sent',
-    cls: 'text-amber-600 dark:text-amber-400 bg-amber-500/10 border-amber-500/20',
-    dot: 'bg-amber-500',
+    cls: 'text-warning bg-warning/10 border-warning/20',
+    dot: 'bg-warning',
   },
   completed: {
     label: 'Completed',
-    cls: 'text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
-    dot: 'bg-emerald-500',
+    cls: 'text-success bg-success/10 border-success/20',
+    dot: 'bg-success',
   },
 };
 
@@ -96,20 +96,20 @@ export function BroadcastCampaignList({ onNavigateBuilder }: BroadcastCampaignLi
       {/* ── Top KPI Stat Cards ── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* Total Campaigns */}
-        <div className="rounded-2xl border border-border bg-card p-4 shadow-xs">
+        <div className="premium-card rounded-2xl p-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-2xs font-bold uppercase tracking-wider text-muted-foreground">
               Total Campaigns
             </span>
-            <div className="h-8 w-8 rounded-xl bg-[#74A09F]/15 flex items-center justify-center text-[#74A09F]">
+            <div className="h-8 w-8 rounded-xl bg-primary/15 flex items-center justify-center text-primary">
               <MessageSquare className="h-4 w-4" />
             </div>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-extrabold text-foreground tracking-tight">
+            <span className="font-mono text-2xl font-extrabold text-foreground tracking-tight">
               {campaigns.length}
             </span>
-            <span className="text-2xs font-medium text-emerald-600 dark:text-emerald-400">
+            <span className="text-2xs font-medium text-success">
               Active channel
             </span>
           </div>
@@ -119,17 +119,17 @@ export function BroadcastCampaignList({ onNavigateBuilder }: BroadcastCampaignLi
         </div>
 
         {/* Total Audience Reached */}
-        <div className="rounded-2xl border border-border bg-card p-4 shadow-xs">
+        <div className="premium-card rounded-2xl p-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-2xs font-bold uppercase tracking-wider text-muted-foreground">
               Audience Reached
             </span>
-            <div className="h-8 w-8 rounded-xl bg-sky-500/15 flex items-center justify-center text-sky-600 dark:text-sky-400">
+            <div className="h-8 w-8 rounded-xl bg-info/15 flex items-center justify-center text-info">
               <Users className="h-4 w-4" />
             </div>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-extrabold text-foreground tracking-tight">
+            <span className="font-mono text-2xl font-extrabold text-foreground tracking-tight">
               {totalAudience.toLocaleString()}
             </span>
             <span className="text-2xs font-medium text-muted-foreground">customers</span>
@@ -140,52 +140,52 @@ export function BroadcastCampaignList({ onNavigateBuilder }: BroadcastCampaignLi
         </div>
 
         {/* Avg Delivery Rate */}
-        <div className="rounded-2xl border border-border bg-card p-4 shadow-xs">
+        <div className="premium-card rounded-2xl p-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-2xs font-bold uppercase tracking-wider text-muted-foreground">
               Avg Delivery Rate
             </span>
-            <div className="h-8 w-8 rounded-xl bg-emerald-500/15 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+            <div className="h-8 w-8 rounded-xl bg-success/15 flex items-center justify-center text-success">
               <CheckCircle2 className="h-4 w-4" />
             </div>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-extrabold text-foreground tracking-tight">
+            <span className="font-mono text-2xl font-extrabold text-foreground tracking-tight">
               {avgDelivery}%
             </span>
-            <span className="text-2xs font-semibold text-emerald-600 dark:text-emerald-400">
+            <span className="text-2xs font-semibold text-success">
               High tier
             </span>
           </div>
           <div className="w-full bg-muted rounded-full h-1.5 mt-2 overflow-hidden">
             <div
-              className="bg-emerald-500 h-1.5 rounded-full transition-all duration-500"
+              className="bg-success h-1.5 rounded-full transition-all duration-500"
               style={{ width: `${avgDelivery}%` }}
             />
           </div>
         </div>
 
         {/* Avg Read Rate */}
-        <div className="rounded-2xl border border-border bg-card p-4 shadow-xs">
+        <div className="premium-card rounded-2xl p-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-2xs font-bold uppercase tracking-wider text-muted-foreground">
               Avg Read Rate
             </span>
-            <div className="h-8 w-8 rounded-xl bg-indigo-500/15 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+            <div className="h-8 w-8 rounded-xl bg-primary/15 flex items-center justify-center text-primary">
               <BarChart3 className="h-4 w-4" />
             </div>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-extrabold text-foreground tracking-tight">
+            <span className="font-mono text-2xl font-extrabold text-foreground tracking-tight">
               {avgRead}%
             </span>
-            <span className="text-2xs font-semibold text-indigo-600 dark:text-indigo-400">
+            <span className="text-2xs font-semibold text-primary">
               Verified read
             </span>
           </div>
           <div className="w-full bg-muted rounded-full h-1.5 mt-2 overflow-hidden">
             <div
-              className="bg-indigo-500 h-1.5 rounded-full transition-all duration-500"
+              className="bg-primary h-1.5 rounded-full transition-all duration-500"
               style={{ width: `${avgRead}%` }}
             />
           </div>
@@ -195,7 +195,7 @@ export function BroadcastCampaignList({ onNavigateBuilder }: BroadcastCampaignLi
       {/* ── Filter & Search Toolbar ── */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-card p-3 rounded-2xl border border-border shadow-xs">
         {/* Search */}
-        <div className="flex items-center gap-2 bg-muted/40 rounded-xl px-3 py-2 border border-border flex-1 max-w-md focus-within:border-[#74A09F] focus-within:bg-card focus-within:ring-2 focus-within:ring-[#74A09F]/20 transition-all">
+        <div className="flex items-center gap-2 h-9 bg-muted/60 rounded-xl px-3 border border-border flex-1 max-w-md focus-within:border-primary focus-within:bg-card focus-within:ring-2 focus-within:ring-primary/20 transition-all">
           <Search className="h-4 w-4 text-muted-foreground shrink-0" />
           <input
             type="text"
@@ -215,7 +215,7 @@ export function BroadcastCampaignList({ onNavigateBuilder }: BroadcastCampaignLi
         </div>
 
         {/* Filter Pills */}
-        <div className="flex items-center bg-muted/70 p-1 rounded-xl border border-border/60 overflow-x-auto">
+        <div className="flex items-center bg-muted p-1 rounded-xl border border-border overflow-x-auto">
           {FILTER_TABS.map((tab) => (
             <button
               key={tab.value}
@@ -223,8 +223,8 @@ export function BroadcastCampaignList({ onNavigateBuilder }: BroadcastCampaignLi
               className={clsx(
                 'px-3 py-1.5 rounded-lg text-2xs font-semibold whitespace-nowrap transition-all cursor-pointer',
                 statusFilter === tab.value
-                  ? 'bg-card text-foreground shadow-xs border border-border/60'
-                  : 'text-muted-foreground hover:text-foreground',
+                  ? 'bg-primary text-primary-foreground shadow-xs'
+                  : 'text-muted-foreground hover:text-foreground font-medium',
               )}
             >
               {tab.label}
@@ -260,11 +260,11 @@ export function BroadcastCampaignList({ onNavigateBuilder }: BroadcastCampaignLi
                     {/* Campaign Name */}
                     <td className="py-3.5 px-4">
                       <div className="flex items-center gap-2.5">
-                        <div className="h-8 w-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0">
+                        <div className="h-8 w-8 rounded-xl bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0">
                           <Send className="h-4 w-4" />
                         </div>
                         <div>
-                          <p className="text-xs font-bold text-foreground group-hover:text-[#74A09F] transition-colors">
+                          <p className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">
                             {c.name}
                           </p>
                           <span className="text-[10px] font-mono text-muted-foreground">
@@ -277,7 +277,7 @@ export function BroadcastCampaignList({ onNavigateBuilder }: BroadcastCampaignLi
                     {/* Template */}
                     <td className="py-3.5 px-4">
                       <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium bg-muted text-foreground border border-border">
-                        <Sparkles className="h-3 w-3 text-[#74A09F]" />
+                        <Sparkles className="h-3 w-3 text-primary" />
                         <span className="truncate max-w-[180px]">{c.template_name}</span>
                       </span>
                     </td>
@@ -304,9 +304,9 @@ export function BroadcastCampaignList({ onNavigateBuilder }: BroadcastCampaignLi
                             className={clsx(
                               'h-1.5 rounded-full transition-all duration-300',
                               c.delivery_rate > 90
-                                ? 'bg-emerald-500'
+                                ? 'bg-success'
                                 : c.delivery_rate > 0
-                                  ? 'bg-amber-500'
+                                  ? 'bg-warning'
                                   : 'bg-transparent',
                             )}
                             style={{ width: `${c.delivery_rate}%` }}
@@ -329,9 +329,9 @@ export function BroadcastCampaignList({ onNavigateBuilder }: BroadcastCampaignLi
                             className={clsx(
                               'h-1.5 rounded-full transition-all duration-300',
                               c.read_rate > 70
-                                ? 'bg-[#74A09F]'
+                                ? 'bg-primary'
                                 : c.read_rate > 0
-                                  ? 'bg-indigo-400'
+                                  ? 'bg-primary/60'
                                   : 'bg-transparent',
                             )}
                             style={{ width: `${c.read_rate}%` }}
@@ -343,7 +343,7 @@ export function BroadcastCampaignList({ onNavigateBuilder }: BroadcastCampaignLi
                     {/* Failed */}
                     <td className="py-3.5 px-4 text-center">
                       {c.failed_count > 0 ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-2xs font-bold bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-destructive/10 text-destructive border border-destructive/20">
                           <AlertCircle className="h-3 w-3" />
                           {c.failed_count}
                         </span>
@@ -356,7 +356,7 @@ export function BroadcastCampaignList({ onNavigateBuilder }: BroadcastCampaignLi
                     <td className="py-3.5 px-4">
                       <span
                         className={clsx(
-                          'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-2xs font-bold border',
+                          'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold border',
                           st.cls,
                         )}
                       >
@@ -369,11 +369,11 @@ export function BroadcastCampaignList({ onNavigateBuilder }: BroadcastCampaignLi
                     <td className="py-3.5 px-4 text-right whitespace-nowrap">
                       {c.sent_at ? (
                         <div className="inline-flex items-center gap-1.5 text-2xs font-mono text-muted-foreground">
-                          <CheckCircle2 className="h-3 w-3 text-emerald-500" />
+                          <CheckCircle2 className="h-3 w-3 text-success" />
                           <span>{formatThreadTimestamp(c.sent_at)}</span>
                         </div>
                       ) : c.scheduled_at ? (
-                        <div className="inline-flex items-center gap-1.5 text-2xs font-mono text-sky-600 dark:text-sky-400 font-semibold">
+                        <div className="inline-flex items-center gap-1.5 text-2xs font-mono text-info font-semibold">
                           <Clock className="h-3 w-3" />
                           <span>{formatThreadTimestamp(c.scheduled_at)}</span>
                         </div>
@@ -392,7 +392,7 @@ export function BroadcastCampaignList({ onNavigateBuilder }: BroadcastCampaignLi
         {filteredCampaigns.length === 0 && (
           <div className="py-16 text-center px-4">
             <div className="h-12 w-12 rounded-2xl bg-muted flex items-center justify-center mx-auto mb-3 text-muted-foreground">
-              <MessageSquare className="h-6 w-6 text-[#74A09F]" />
+              <MessageSquare className="h-6 w-6 text-primary" />
             </div>
             <p className="text-sm font-bold text-foreground">No broadcast campaigns found</p>
             <p className="text-xs text-muted-foreground mt-1 max-w-sm mx-auto">
@@ -403,7 +403,7 @@ export function BroadcastCampaignList({ onNavigateBuilder }: BroadcastCampaignLi
             {onNavigateBuilder && (
               <button
                 onClick={onNavigateBuilder}
-                className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-[#74A09F] hover:bg-[#5D8C8B] text-white shadow-xs transition-all cursor-pointer"
+                className="mt-4 inline-flex items-center gap-1.5 h-9 px-4 rounded-xl text-xs font-semibold bg-primary hover:opacity-90 text-primary-foreground shadow-xs transition-all cursor-pointer active:scale-95"
               >
                 <Plus className="h-3.5 w-3.5" />
                 <span>Create New Campaign</span>

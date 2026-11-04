@@ -4,12 +4,24 @@
 @font-face {
   font-family: "Avenir Next LT Pro";
   font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src:
+    local("Avenir Next LT Pro Light"),
+    local("AvenirLTPro-Light"),
+    url("/fonts/AvenirNextLTPro-Light.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Avenir Next LT Pro";
+  font-style: normal;
   font-weight: 400;
   font-display: swap;
   src:
     local("Avenir Next LT Pro"),
     local("AvenirLTPro-Regular"),
-    url("/fonts/AvenirNextLTPro-Regular.woff2") format("woff2");
+    url("/fonts/AvenirNextLTPro-Regular.woff2") format("woff2"),
+    url("/fonts/AvenirNextLTPro-Regular.otf") format("opentype");
 }
 
 @font-face {
@@ -29,7 +41,8 @@
   font-display: swap;
   src:
     local("Avenir LT Pro 75 Demi"),
-    url("/fonts/AvenirNextLTPro-Demi.woff2") format("woff2");
+    url("/fonts/AvenirNextLTPro-Demi.woff2") format("woff2"),
+    url("/fonts/AvenirNextLTPro-Demi.otf") format("opentype");
 }
 
 @font-face {
@@ -39,7 +52,18 @@
   font-display: swap;
   src:
     local("Avenir LT Pro 85 Heavy"),
-    url("/fonts/AvenirNextLTPro-Bold.woff2") format("woff2");
+    url("/fonts/AvenirNextLTPro-Bold.woff2") format("woff2"),
+    url("/fonts/AvenirNextLTPro-Bold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Avenir Next LT Pro";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src:
+    local("Avenir LT Pro Heavy"),
+    url("/fonts/AvenirNextLTPro-Heavy.otf") format("opentype");
 }
 
 @tailwind base;
@@ -49,86 +73,85 @@
 /* ─── Base Layer & Theme Variables ───────────────────────────────────────── */
 @layer base {
   :root {
-    /* Requested Background #F8FAFD */
-    --background: #F8FAFD;
-    --foreground: #0F172A;
+    --font-sans: "Avenir Next LT Pro", "Avenir Next", "Avenir",
+      ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+      Roboto, "Helvetica Neue", Arial, sans-serif;
 
+    /* Exact Brand Colors (Light Theme) */
+    --primary: #85AFAE;
+    --primary-foreground: #102928;
+    --background: #F8FAFC;
+    --foreground: #0F172A;
     --card: #FFFFFF;
     --card-foreground: #0F172A;
     --popover: #FFFFFF;
     --popover-foreground: #0F172A;
 
-    /* Exact Primary #74A09F */
-    --primary: #74A09F;
-    --primary-foreground: #FFFFFF;
+    --muted: oklch(0.965 0.008 250);
+    --muted-foreground: oklch(0.52 0.03 260);
+    --border: oklch(0.92 0.01 255);
+    --input: oklch(0.92 0.01 255);
+    --ring: #85AFAE;
 
-    --muted: #F1F5F9;
-    --muted-foreground: #64748B;
-    --accent: #EEF6F6;
-    --accent-foreground: #1D4342;
-    --border: #E2E8F0;
-    --input: #E2E8F0;
-    --ring: #74A09F;
+    --sidebar: oklch(0.99 0.003 265);
+    --sidebar-foreground: #0F172A;
+    --sidebar-border: oklch(0.92 0.01 255);
 
-    --sidebar: #FFFFFF;
-    --sidebar-foreground: #334155;
-    --sidebar-border: #E2E8F0;
+    /* Functional Status Colors */
+    --success: oklch(0.7 0.16 165);
+    --success-foreground: #FFFFFF;
+    --warning: oklch(0.78 0.17 70);
+    --warning-foreground: #102928;
+    --destructive: oklch(0.64 0.24 25);
+    --destructive-foreground: #FFFFFF;
+    --info: oklch(0.72 0.14 210);
+    --info-foreground: #FFFFFF;
 
-    /* Surface RGB Variables for Tailwind */
-    --surface-default: 248 250 253;   /* #F8FAFD - requested background */
-    --surface-secondary: 255 255 255; /* #FFFFFF - pure crisp white cards/sidebar */
-    --surface-tertiary: 241 245 249;  /* #F1F5F9 - recessed inputs/search */
-    --surface-elevated: 255 255 255;  /* #FFFFFF - elevated dropdowns */
-    --surface-hover: 238 242 246;     /* #EEF2F6 - hover */
-    --surface-border: 226 232 240;    /* #E2E8F0 - crisp border */
-
-    --scrollbar-thumb: #CBD5E1;
-    --scrollbar-hover: #94A3B8;
+    --scrollbar-thumb: oklch(0.88 0.01 255);
+    --scrollbar-hover: oklch(0.72 0.02 260);
     --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.03);
-    --shadow-glow: 0 0 24px rgba(116, 160, 159, 0.28);
-    --gradient-primary: linear-gradient(135deg, #74A09F, #5D8C8B);
+    --shadow-glow: 0 0 24px rgba(133, 175, 174, 0.28);
+    --gradient-primary: linear-gradient(135deg, #85AFAE, #6E9897);
 
     color-scheme: light;
   }
 
   html.dark, .dark {
-    /* Refined Modern Dark Theme (Clean Obsidian Slate Palette) */
-    --background: #0B0E14;
-    --foreground: #F1F5F9;
+    /* Exact Brand Colors (Dark Theme) */
+    --primary: #9FC7C6;
+    --primary-foreground: #102928;
+    --background: oklch(0.16 0.025 265);
+    --foreground: #F8FAFC;
+    --card: oklch(0.21 0.03 265);
+    --card-foreground: #F8FAFC;
+    --popover: oklch(0.21 0.03 265);
+    --popover-foreground: #F8FAFC;
 
-    --card: #11151F;
-    --card-foreground: #F1F5F9;
-    --popover: #151A26;
-    --popover-foreground: #F1F5F9;
+    --muted: oklch(0.24 0.03 265);
+    --muted-foreground: oklch(0.7 0.02 260);
+    --border: oklch(0.30 0.02 265);
+    --input: oklch(0.30 0.02 265);
+    --ring: #9FC7C6;
 
-    --primary: #74A09F;
-    --primary-foreground: #FFFFFF;
+    --sidebar: oklch(0.18 0.028 265);
+    --sidebar-foreground: #F8FAFC;
+    --sidebar-border: oklch(0.28 0.02 265);
 
-    --muted: #161C28;
-    --muted-foreground: #94A3B8;
-    --accent: #1C2333;
-    --accent-foreground: #F1F5F9;
-    --border: #1E2638;
-    --input: #1E2638;
-    --ring: #74A09F;
+    /* Functional Status Colors */
+    --success: oklch(0.7 0.16 165);
+    --success-foreground: #FFFFFF;
+    --warning: oklch(0.78 0.17 70);
+    --warning-foreground: #102928;
+    --destructive: oklch(0.64 0.24 25);
+    --destructive-foreground: #FFFFFF;
+    --info: oklch(0.72 0.14 210);
+    --info-foreground: #FFFFFF;
 
-    --sidebar: #10141E;
-    --sidebar-foreground: #CBD5E1;
-    --sidebar-border: #1E2638;
-
-    /* Surface RGB Variables for Tailwind */
-    --surface-default: 11 14 20;      /* #0B0E14 - clean dark BG */
-    --surface-secondary: 17 21 31;    /* #11151F - panel / card surface */
-    --surface-tertiary: 22 28 40;     /* #161C28 - inputs / recessed */
-    --surface-elevated: 28 35 51;     /* #1C2333 - dropdowns / popovers */
-    --surface-hover: 34 42 61;        /* #222A3D - hover */
-    --surface-border: 30 38 56;       /* #1E2638 - hairline border */
-
-    --scrollbar-thumb: #232B3E;
-    --scrollbar-hover: #333F58;
-    --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
-    --shadow-glow: 0 0 24px rgba(116, 160, 159, 0.28);
-    --gradient-primary: linear-gradient(135deg, #74A09F, #5D8C8B);
+    --scrollbar-thumb: oklch(0.32 0.02 265);
+    --scrollbar-hover: oklch(0.42 0.02 265);
+    --card-shadow: 0 4px 20px color-mix(in oklab, var(--foreground) 3%, transparent);
+    --shadow-glow: 0 0 24px rgba(159, 199, 198, 0.25);
+    --gradient-primary: linear-gradient(135deg, #9FC7C6, #85AFAE);
 
     color-scheme: dark;
   }
@@ -140,7 +163,7 @@
   }
 
   html, body {
-    font-family: 'Avenir Next LT Pro', 'Avenir Next', 'Avenir', 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: var(--font-sans);
     background-color: var(--background);
     color: var(--foreground);
     overflow: hidden;
@@ -190,15 +213,27 @@
     outline: none;
   }
 
-  /* Focus visible with #74A09F accent */
+  /* Focus visible with Primary accent */
   :focus-visible {
-    outline: 2px solid rgba(116, 160, 159, 0.6);
+    outline: 2px solid var(--primary);
     outline-offset: 2px;
-    border-radius: 4px;
+    border-radius: 6px;
   }
 }
 
-/* ─── Card & Shadow Styles ───────────────────────────────────────────────── */
+/* ─── Premium Card & Container Styles (Specification 5) ───────────────────── */
+.premium-card {
+  background: linear-gradient(
+    180deg,
+    var(--card) 0%,
+    color-mix(in oklab, var(--card) 94%, var(--background)) 100%
+  );
+  border: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px color-mix(in oklab, var(--foreground) 3%, transparent);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 .shadow-card {
   box-shadow: var(--card-shadow);
 }
@@ -213,22 +248,10 @@
 
 /* Glass morphism card */
 .glass-card {
-  background-color: rgb(var(--surface-secondary) / 0.85);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgb(var(--surface-border));
-  border-radius: 0.75rem;
+  background-color: color-mix(in oklab, var(--card) 85%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
   box-shadow: var(--card-shadow);
-}
-
-/* Chat Canvas Subtle Pattern */
-.chat-pattern {
-  background-color: var(--background);
-  background-image: radial-gradient(rgba(116, 160, 159, 0.05) 1px, transparent 1px);
-  background-size: 24px 24px;
-}
-
-html.dark .chat-pattern, .dark .chat-pattern {
-  background-color: #0B0E14;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 24px 24px;
 }

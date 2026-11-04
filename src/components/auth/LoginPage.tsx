@@ -57,15 +57,15 @@ export function LoginPage({ onSuccess }: LoginPageProps) {
         {/* Soft Brand Ambient Glows */}
         <div
           className="absolute -top-40 -left-40 h-[600px] w-[600px] rounded-full opacity-[0.10] blur-3xl"
-          style={{ background: 'linear-gradient(135deg, #74A09F, #5D8C8B)' }}
+          style={{ background: 'linear-gradient(135deg, #85AFAE, #9FC7C6)' }}
         />
         <div
           className="absolute -bottom-60 -right-40 h-[500px] w-[500px] rounded-full opacity-[0.08] blur-3xl"
-          style={{ background: 'linear-gradient(135deg, #74A09F, #38BDF8)' }}
+          style={{ background: 'linear-gradient(135deg, #85AFAE, #38BDF8)' }}
         />
         <div
           className="absolute top-1/4 right-1/4 h-[300px] w-[300px] rounded-full opacity-[0.06] blur-3xl"
-          style={{ background: 'linear-gradient(135deg, #10B981, #74A09F)' }}
+          style={{ background: 'linear-gradient(135deg, #10B981, #85AFAE)' }}
         />
 
         {/* Subtle Background Grid Pattern */}
@@ -83,13 +83,13 @@ export function LoginPage({ onSuccess }: LoginPageProps) {
       <div className="absolute top-4 right-4 z-20">
         <button
           onClick={toggleTheme}
-          className="h-10 w-10 rounded-xl bg-card border border-border text-muted-foreground hover:text-foreground grid place-items-center transition-colors shadow-sm cursor-pointer"
+          className="h-9 w-9 rounded-xl bg-card border border-border text-muted-foreground hover:text-foreground grid place-items-center transition-colors shadow-sm cursor-pointer"
           title={theme === 'dark' ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
         >
           {theme === 'dark' ? (
-            <Sun className="h-4.5 w-4.5 text-amber-400" />
+            <Sun className="h-4 w-4 text-amber-400" />
           ) : (
-            <Moon className="h-4.5 w-4.5 text-[#74A09F]" />
+            <Moon className="h-4 w-4 text-primary" />
           )}
         </button>
       </div>
@@ -102,12 +102,12 @@ export function LoginPage({ onSuccess }: LoginPageProps) {
       >
         <div className="overflow-hidden rounded-2xl border border-border/80 bg-card shadow-elevated">
           {/* Top Brand Strip */}
-          <div className="h-1 w-full bg-gradient-to-r from-[#74A09F] to-[#5D8C8B]" />
+          <div className="h-1 w-full bg-primary" />
 
           <div className="p-8 sm:p-10">
             {/* Logo Badge & Welcome Header */}
             <div className="mb-8 text-center">
-              <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-white dark:bg-[#151A26] shadow-sm ring-1 ring-border p-2.5">
+              <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-sm ring-1 ring-border p-2.5">
                 <img
                   src="/halamama_green.svg"
                   alt="Halamama"
@@ -118,14 +118,14 @@ export function LoginPage({ onSuccess }: LoginPageProps) {
                 Welcome back
               </h1>
               <p className="mt-2 text-sm text-muted-foreground">
-                Sign in to Halamama Care
+                Sign in to the Halamama Care
               </p>
             </div>
 
             {/* Login Form */}
             <form onSubmit={handleSubmit} className="space-y-5">
               {error && (
-                <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-xs font-medium text-red-500 animate-fade-in">
+                <div className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-xs font-semibold text-destructive animate-fade-in">
                   {error}
                 </div>
               )}
@@ -139,7 +139,7 @@ export function LoginPage({ onSuccess }: LoginPageProps) {
                   Email
                 </label>
                 <div className="group relative">
-                  <Mail className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-[#74A09F]" />
+                  <Mail className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-primary" />
                   <input
                     ref={emailRef}
                     id="login-email"
@@ -149,7 +149,7 @@ export function LoginPage({ onSuccess }: LoginPageProps) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="admin@halamama.com"
-                    className="h-12 w-full rounded-xl border border-border bg-muted/40 pl-11 pr-4 text-sm font-medium text-foreground placeholder:text-muted-foreground/60 transition-all focus:border-[#74A09F]/60 focus:bg-card focus:outline-none focus:ring-2 focus:ring-[#74A09F]/20"
+                    className="h-11 w-full rounded-xl border border-border bg-muted/40 pl-11 pr-4 text-sm font-medium text-foreground placeholder:text-muted-foreground/60 transition-all focus:border-primary focus:bg-card focus:outline-none focus:ring-2 focus:ring-primary/20"
                   />
                 </div>
               </div>
@@ -166,13 +166,13 @@ export function LoginPage({ onSuccess }: LoginPageProps) {
                   <button
                     type="button"
                     tabIndex={-1}
-                    className="text-xs font-medium text-[#74A09F] hover:text-[#5D8C8B] transition-colors cursor-pointer"
+                    className="text-xs font-semibold text-primary hover:opacity-80 transition-opacity cursor-pointer"
                   >
                     Forgot?
                   </button>
                 </div>
                 <div className="group relative">
-                  <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-[#74A09F]" />
+                  <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-primary" />
                   <input
                     id="login-password"
                     type={showPassword ? 'text' : 'password'}
@@ -181,7 +181,7 @@ export function LoginPage({ onSuccess }: LoginPageProps) {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="h-12 w-full rounded-xl border border-border bg-muted/40 pl-11 pr-12 text-sm font-medium text-foreground placeholder:text-muted-foreground/60 transition-all focus:border-[#74A09F]/60 focus:bg-card focus:outline-none focus:ring-2 focus:ring-[#74A09F]/20"
+                    className="h-11 w-full rounded-xl border border-border bg-muted/40 pl-11 pr-12 text-sm font-medium text-foreground placeholder:text-muted-foreground/60 transition-all focus:border-primary focus:bg-card focus:outline-none focus:ring-2 focus:ring-primary/20"
                   />
                   <button
                     type="button"
@@ -199,17 +199,17 @@ export function LoginPage({ onSuccess }: LoginPageProps) {
                 </div>
               </div>
 
-              {/* Submit Button in Exact Requested #74A09F */}
+              {/* Submit Button in Exact Requested Brand Primary */}
               <button
                 type="submit"
                 disabled={loading}
-                className="group relative flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#74A09F] hover:bg-[#5D8C8B] font-semibold text-white shadow-glow transition-all active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
+                className="group relative flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-primary hover:opacity-90 font-semibold text-primary-foreground shadow-xs transition-all active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
               >
                 {loading ? (
                   <Loader2 className="h-5 w-5 animate-spin" />
                 ) : (
                   <>
-                    Sign in
+                    <span>Sign in</span>
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                   </>
                 )}
@@ -219,14 +219,14 @@ export function LoginPage({ onSuccess }: LoginPageProps) {
             {/* Demo Credentials Box */}
             <div
               onClick={handleUseDemo}
-              className="mt-6 rounded-xl border border-border/80 bg-muted/30 p-4 transition-colors hover:border-[#74A09F]/60 cursor-pointer"
+              className="mt-6 rounded-xl border border-border/80 bg-muted/30 p-4 transition-colors hover:border-primary/60 cursor-pointer"
               title="Click to fill demo credentials"
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
                   Demo credentials
                 </span>
-                <span className="text-xs text-[#74A09F] font-semibold">Click to use</span>
+                <span className="text-xs text-primary font-semibold">Click to use</span>
               </div>
               <div className="flex items-center justify-between text-xs py-0.5">
                 <span className="text-muted-foreground">Email</span>
