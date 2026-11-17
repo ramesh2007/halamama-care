@@ -4,7 +4,7 @@
 // with automated real-time polling and audio alerts on inbound messages.
 
 import { useEffect, useMemo, useRef } from 'react';
-import { MessageSquare, Loader2 } from 'lucide-react';
+import { MessageSquare, Loader2, AlertCircle, RefreshCw } from 'lucide-react';
 import { useCareStore } from '../../../store/useCareStore';
 import { useThreadMessages } from '../../../hooks/api';
 import { ChatHeader } from './ChatHeader';
@@ -20,7 +20,7 @@ export function ChatView() {
   const thread = threads.find((t) => String(t.id) === tid);
 
   // Poll conversation messages from Laravel backend every 3s
-  const { data: polledMessages, isLoading } = useThreadMessages(tid);
+  const { data: polledMessages, isLoading, isError, error, refetch } = useThreadMessages(tid);
 
   const storeMessages = tid ? messages[tid] : undefined;
 
@@ -65,6 +65,23 @@ export function ChatView() {
           <div className="flex flex-col items-center justify-center h-full text-center py-10">
             <Loader2 className="h-6 w-6 animate-spin text-primary mb-2" />
             <p className="text-xs text-muted-foreground">Loading WhatsApp messages...</p>
+          </div>
+        ) : isError && threadMessages.length === 0 ? (
+          <div className="flex flex-col items-center justify-center h-full text-center py-10">
+            <div className="h-12 w-12 rounded-full bg-destructive/10 flex items-center justify-center mb-2.5 text-destructive">
+              <AlertCircle className="h-6 w-6" />
+            </div>
+            <p className="text-sm font-semibold text-foreground">Failed to load WhatsApp messages</p>
+            <p className="text-xs text-muted-foreground mt-0.5 max-w-xs mb-3">
+              {(error as any)?.message || 'Could not connect to WhatsApp backend.'}
+            </p>
+            <button
+              onClick={() => refetch()}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary text-primary-foreground text-xs font-semibold hover:opacity-90 transition-all cursor-pointer"
+            >
+              <RefreshCw className="h-3.5 w-3.5" />
+              <span>Retry</span>
+            </button>
           </div>
         ) : threadMessages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center py-10">

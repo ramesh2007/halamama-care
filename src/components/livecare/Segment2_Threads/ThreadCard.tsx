@@ -74,7 +74,13 @@ export function ThreadCard({ thread, isSelected, onClick }: ThreadCardProps) {
         {/* Avatar / Channel Icon */}
         <div className="relative shrink-0">
           <div className="h-10 w-10 rounded-full bg-muted border border-border flex items-center justify-center font-semibold text-foreground text-xs">
-            {thread.customer_name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()}
+            {(thread.customer_name || 'Customer')
+              .trim()
+              .split(/\s+/)
+              .map((n) => n[0] || '')
+              .join('')
+              .slice(0, 2)
+              .toUpperCase() || 'WA'}
           </div>
           {/* Channel badge */}
           <div

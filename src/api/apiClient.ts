@@ -33,10 +33,24 @@ apiClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor — handle auth errors globally without disrupting live chat
+// Response interceptor — handle auth errors and CORS/network fallback globally
 apiClient.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
+    // If request failed with Network Error / CORS in development and hasn't retried with proxy yet
+    if (
+      import.meta.env.DEV &&
+      error.message === 'Network Error' &&
+      error.config &&
+      !error.config._retriedProxy &&
+      !String(error.config.baseURL).startsWith('/api')
+    ) {
+      console.info('[apiClient] Direct API call blocked by CORS; retrying via Vite dev proxy /api...');
+      error.config._retriedProxy = true;
+      error.config.baseURL = '/api';
+      return apiClient(error.config);
+    }
+
     if (error.response?.status === 401 && !window.location.pathname.includes('/login')) {
       const isAuthRequest = error.config?.url?.includes('/auth/');
       if (isAuthRequest) {

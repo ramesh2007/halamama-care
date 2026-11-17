@@ -15,6 +15,7 @@ import type {
   UserRole,
 } from '../types/care';
 import { MOCK_THREADS, MOCK_MESSAGES } from '../mocks';
+import { shouldUseMock } from '../api/config';
 
 export type ActiveTab = 'dashboard' | 'live_care' | 'tickets' | 'broadcasts';
 export type ThemeMode = 'dark' | 'light';
@@ -166,7 +167,7 @@ export const useCareStore = create<CareStoreState>((set) => ({
   setSelectedThreadId: (id) => set({ selectedThreadId: id }),
 
   // Thread List
-  threads: MOCK_THREADS,
+  threads: shouldUseMock('threads') ? MOCK_THREADS : [],
   setThreads: (threads) => set({ threads }),
   updateThread: (threadId, updates) =>
     set((state) => ({
@@ -183,7 +184,7 @@ export const useCareStore = create<CareStoreState>((set) => ({
   setActiveOrders: (orders) => set({ activeOrders: orders }),
 
   // Messages
-  messages: MOCK_MESSAGES,
+  messages: shouldUseMock('threads') ? MOCK_MESSAGES : {},
   setMessages: (threadId, messages) =>
     set((state) => ({
       messages: { ...state.messages, [threadId]: messages },

@@ -10,8 +10,15 @@ export default defineConfig({
     },
   },
   server: {
-    port: 5174,
+    port: 5173,
     host: true,
+    proxy: {
+      '/api': {
+        target: 'https://delivery-management.hmws.qatar123.com/public',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
   },
 })
 

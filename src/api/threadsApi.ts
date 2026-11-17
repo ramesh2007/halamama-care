@@ -245,7 +245,7 @@ export async function getThreads(params?: ThreadFilterParams): Promise<Conversat
   } catch (err: any) {
     const errorMsg = err?.response?.data?.message || err?.message || 'Unknown error';
     console.warn(`[threadsApi] Failed to fetch live conversations from Laravel: ${errorMsg}`, err);
-    return filterThreadsList(MOCK_THREADS, params);
+    throw err;
   }
 }
 
@@ -307,11 +307,12 @@ export async function getThreadMessages(
 
     return rawList.map((m: any) => normalizeMessage(m, tid));
   } catch (err: any) {
+    const errorMsg = err?.response?.data?.message || err?.message || 'Unknown error';
     console.warn(
-      `[threadsApi] Failed to fetch messages for conversation ${tid}: ${err?.message}`,
+      `[threadsApi] Failed to fetch messages for conversation ${tid}: ${errorMsg}`,
       err,
     );
-    return MOCK_MESSAGES[tid] || [];
+    throw err;
   }
 }
 

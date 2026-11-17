@@ -8,12 +8,23 @@
 // In production:
 //   Set VITE_USE_MOCK_DATA=false and configure VITE_API_BASE_URL.
 
+function getInitialBaseUrl(): string {
+  // In dev mode, if not running on port 5173 (which is Laravel's allowed CORS origin),
+  // route through Vite's local dev proxy /api to prevent CORS block
+  if (typeof window !== 'undefined' && import.meta.env.DEV) {
+    if (window.location.port && window.location.port !== '5173') {
+      return '/api';
+    }
+  }
+  return import.meta.env.VITE_API_BASE_URL || 'https://delivery-management.hmws.qatar123.com/public/api';
+}
+
 export const API_CONFIG = {
   // Master toggle: set to false to point all services to real endpoints
   USE_MOCKS: import.meta.env.VITE_USE_MOCK_DATA !== 'false',
 
   // Base API URL for backend services
-  BASE_URL: import.meta.env.VITE_API_BASE_URL || 'https://delivery-management.hmws.qatar123.com/public/api',
+  BASE_URL: getInitialBaseUrl(),
 
   // Request timeout in milliseconds
   TIMEOUT: 15000,

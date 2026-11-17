@@ -3,18 +3,27 @@
 
 import { formatDistanceToNow, format, differenceInHours, differenceInMinutes, isToday, isYesterday } from 'date-fns';
 
+function parseDateSafe(dateString?: string | null): Date | null {
+  if (!dateString) return null;
+  const d = new Date(dateString);
+  return isNaN(d.getTime()) ? null : d;
+}
+
 export function formatRelativeTime(dateString: string): string {
-  const date = new Date(dateString);
+  const date = parseDateSafe(dateString);
+  if (!date) return '';
   return formatDistanceToNow(date, { addSuffix: true });
 }
 
 export function formatMessageTime(dateString: string): string {
-  const date = new Date(dateString);
+  const date = parseDateSafe(dateString);
+  if (!date) return '';
   return format(date, 'h:mm a');
 }
 
 export function formatThreadTimestamp(dateString: string): string {
-  const date = new Date(dateString);
+  const date = parseDateSafe(dateString);
+  if (!date) return '';
 
   if (isToday(date)) {
     return format(date, 'h:mm a');
@@ -26,7 +35,10 @@ export function formatThreadTimestamp(dateString: string): string {
 }
 
 export function formatSLACountdown(deadlineString: string): { text: string; urgency: 'safe' | 'warning' | 'critical' } {
-  const deadline = new Date(deadlineString);
+  const deadline = parseDateSafe(deadlineString);
+  if (!deadline) {
+    return { text: 'N/A', urgency: 'safe' };
+  }
   const now = new Date();
   const minutesLeft = differenceInMinutes(deadline, now);
 
@@ -54,11 +66,14 @@ export function formatTimeRemaining(deadlineString: string): string {
 }
 
 export function isWithin24Hours(dateString: string): boolean {
-  const date = new Date(dateString);
+  const date = parseDateSafe(dateString);
+  if (!date) return false;
   const hours = differenceInHours(new Date(), date);
   return hours < 24;
 }
 
 export function formatFullDate(dateString: string): string {
-  return format(new Date(dateString), 'dd MMM yyyy, h:mm a');
+  const date = parseDateSafe(dateString);
+  if (!date) return '';
+  return format(date, 'dd MMM yyyy, h:mm a');
 }
