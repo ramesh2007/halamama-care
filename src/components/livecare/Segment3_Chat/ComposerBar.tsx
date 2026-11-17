@@ -63,8 +63,8 @@ export function ComposerBar({ thread }: ComposerBarProps) {
 
   const safeHighlight = filteredResponses.length > 0 ? highlightIndex % filteredResponses.length : 0;
 
-  const locked =
-    !thread.last_customer_message_at || !isWithin24Hours(thread.last_customer_message_at);
+  const isExpiredWindow =
+    Boolean(thread.last_customer_message_at) && !isWithin24Hours(thread.last_customer_message_at!);
 
   const selectCanned = (response: CannedResponse) => {
     const slashIndex = text.lastIndexOf('/');
@@ -206,33 +206,26 @@ export function ComposerBar({ thread }: ComposerBarProps) {
         )}
       </div>
 
-      {composerMode === 'whisper' ? (
-        <InternalNoteComposer value={text} onChange={setText} onSend={handleSend} />
-      ) : locked ? (
-        <div className="rounded-xl border border-warning/30 bg-warning/10 px-4 py-3.5">
-          <div className="flex items-center gap-2 mb-1">
-            <ShieldAlert className="h-4 w-4 text-warning shrink-0" strokeWidth={2} />
-            <span className="text-xs font-bold text-warning">
-              24-Hour Customer Window Expired
+      {isExpiredWindow && composerMode === 'message' && (
+        <div className="flex items-center justify-between gap-2 mb-2.5 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/25 text-amber-700 dark:text-amber-300 text-2xs">
+          <div className="flex items-center gap-1.5 min-w-0">
+            <ShieldAlert className="h-3.5 w-3.5 text-amber-500 shrink-0" />
+            <span className="truncate">
+              24-Hour customer window passed. Outbound message will be delivered via WhatsApp Business API.
             </span>
           </div>
-          <p className="text-[11px] text-muted-foreground mb-3 leading-relaxed">
-            Meta policy requires sending an approved HSM template to re-engage after 24 hours of customer inactivity.
-          </p>
-          <div className="flex flex-wrap items-center gap-2">
-            <button className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-primary hover:opacity-90 text-primary-foreground text-xs font-semibold transition-all shadow-xs cursor-pointer active:scale-95">
-              <Send className="h-3.5 w-3.5" strokeWidth={2} />
-              Send Meta Template (HSM)
-            </button>
-            <button
-              onClick={() => setPaymentOpen(true)}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-card text-foreground hover:bg-muted border border-border text-xs font-semibold transition-all shadow-xs cursor-pointer active:scale-95"
-            >
-              <CreditCard className="h-3.5 w-3.5 text-primary" strokeWidth={2} />
-              Generate Payment Link
-            </button>
-          </div>
+          <button
+            onClick={() => setPaymentOpen(true)}
+            className="inline-flex items-center gap-1 font-semibold text-[#74A09F] hover:underline shrink-0 cursor-pointer"
+          >
+            <CreditCard className="h-3 w-3" />
+            <span className="hidden sm:inline">Payment Link</span>
+          </button>
         </div>
+      )}
+
+      {composerMode === 'whisper' ? (
+        <InternalNoteComposer value={text} onChange={setText} onSend={handleSend} />
       ) : (
         <div className="relative">
           {isPicking && filteredResponses.length > 0 && (

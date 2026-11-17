@@ -148,7 +148,12 @@ export function normalizeMessage(raw: any, fallbackThreadId: string): ChatMessag
   const rawDirection = String(raw.direction || '').toLowerCase();
 
   if (rawSender === 'system' || rawSender === 'bot' || raw.is_bot) {
-    senderType = 'bot';
+    // If it's the welcome bot auto-reply
+    if (text.toLowerCase().includes('welcome to halamama') || text.toLowerCase().includes('welcome')) {
+      senderType = 'bot';
+    } else {
+      senderType = 'agent';
+    }
   } else if (
     rawSender === 'agent' ||
     rawSender === 'user' ||
@@ -351,7 +356,11 @@ export async function sendChatMessage(
     });
 
     if (data) {
-      const rawMsg = data?.message ?? data?.data ?? data?.message_obj ?? data;
+      // In Laravel: data = { success: true, message: "Reply sent successfully.", data: { id: 50, ... } }
+      const rawMsg = (data?.data && typeof data.data === 'object')
+        ? data.data
+        : (typeof data?.message === 'object' ? data.message : data);
+
       if (
         typeof rawMsg === 'object' &&
         (rawMsg.id || rawMsg.message_body || rawMsg.message || rawMsg.text)
@@ -363,7 +372,7 @@ export async function sendChatMessage(
     return newMsg;
   } catch (err) {
     console.warn(`[threadsApi] Failed to send reply to Laravel:`, err);
-    return newMsg;
+    throw err;
   }
 }
 
@@ -398,7 +407,7 @@ export async function startConversation(
     sender_name: CURRENT_AGENT.name,
     text: payload.message,
     created_at: now,
-    delivery_status: 'delivered',
+    delivery_status: 'sent',
   };
 
   if (shouldUseMock('threads')) {
@@ -417,28 +426,41 @@ export async function startConversation(
       name: payload.customer_name,
     });
 
-    const rawConv = data?.data ?? data?.conversation ?? data;
-    const conversation = normalizeConversation({
-      ...rawConv,
-      phone: payload.phone,
-      customer_name: payload.customer_name || payload.phone,
-      last_message: payload.message,
-    });
+    // In Laravel: { success: true, message: "...", conversation_id: 5, data: { id: 52, conversation_id: 5, ... } }
+    const convId = String(
+      data?.conversation_id ??
+      data?.conversation?.id ??
+      data?.data?.conversation_id ??
+      mockConvId,
+    );
 
-    const rawMsg = data?.message ?? data?.initial_message;
-    const message = rawMsg
-      ? normalizeMessage(rawMsg, conversation.id)
+    const conversation: ConversationThread = {
+      id: convId,
+      customer_name: payload.customer_name || `+${payload.phone.replace(/^\+/, '')}`,
+      customer_phone: payload.phone,
+      channel: 'whatsapp',
+      department: 'general',
+      status: 'in_progress',
+      last_message_preview: payload.message,
+      last_message_at: now,
+      last_customer_message_at: now,
+      unread_count: 0,
+      is_bot_active: false,
+    };
+
+    const rawMsg = data?.data && typeof data.data === 'object' ? data.data : data?.message;
+    const message = (rawMsg && typeof rawMsg === 'object' && rawMsg.id)
+      ? normalizeMessage(rawMsg, convId)
       : {
           ...fallbackMessage,
-          thread_id: conversation.id,
+          thread_id: convId,
         };
 
     return { conversation, message };
-  } catch (err) {
-    console.warn('[threadsApi] Failed to start conversation on Laravel, using local:', err);
-    MOCK_THREADS.unshift(fallbackConversation);
-    MOCK_MESSAGES[mockConvId] = [fallbackMessage];
-    return { conversation: fallbackConversation, message: fallbackMessage };
+  } catch (err: any) {
+    const errorMsg = err?.response?.data?.message || err?.message || 'Unknown error';
+    console.warn(`[threadsApi] Failed to start conversation on Laravel (${errorMsg}):`, err);
+    throw err;
   }
 }
 

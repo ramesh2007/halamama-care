@@ -3,7 +3,7 @@
 // currently selected thread. Connects to Laravel /api/customer-care/conversations/{id}/messages
 // with automated real-time polling and audio alerts on inbound messages.
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { MessageSquare, Loader2 } from 'lucide-react';
 import { useCareStore } from '../../../store/useCareStore';
 import { useThreadMessages } from '../../../hooks/api';
@@ -23,7 +23,18 @@ export function ChatView() {
   const { data: polledMessages, isLoading } = useThreadMessages(tid);
 
   const storeMessages = tid ? messages[tid] : undefined;
-  const threadMessages = storeMessages && storeMessages.length > 0 ? storeMessages : (polledMessages || []);
+
+  // Real-time authoritative messages from backend merged with any in-flight optimistic messages
+  const threadMessages = useMemo(() => {
+    if (!polledMessages || polledMessages.length === 0) {
+      return storeMessages || [];
+    }
+    const polledIds = new Set(polledMessages.map((m) => String(m.id)));
+    const pendingLocal = (storeMessages || []).filter(
+      (m) => m.id.startsWith('msg-') && !polledIds.has(String(m.id))
+    );
+    return [...polledMessages, ...pendingLocal];
+  }, [polledMessages, storeMessages]);
 
   const bottomRef = useRef<HTMLDivElement>(null);
 
