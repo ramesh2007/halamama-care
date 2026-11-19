@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:zip": "npm run build && rm -f care-build.zip && (cd dist && zip -r ../care-build.zip . -x '.*DS_Store*')",
+    "zip": "npm run build:zip",
     "lint": "oxlint",
     "preview": "vite preview"
   },
