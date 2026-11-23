@@ -23,8 +23,12 @@ export function ThreadList() {
 
   const [isNewChatOpen, setIsNewChatOpen] = useState(false);
 
-  // Poll conversations from Laravel /api/customer-care/conversations
-  const { isLoading, isError, error, refetch, isFetching } = useThreads();
+  // Poll conversations from Laravel (WhatsApp, Messenger, Instagram, or Unified)
+  const { isLoading, isError, error, refetch, isFetching } = useThreads({
+    channel: activeChannelFilter !== 'all' ? activeChannelFilter : undefined,
+    status: activeStatusFilter !== 'all' ? activeStatusFilter : undefined,
+    search: searchQuery || undefined,
+  });
 
   // Filter threads based on active filters
   const filteredThreads = useMemo(() => {
@@ -66,10 +70,18 @@ export function ThreadList() {
           <div className="flex items-center gap-2">
             <span
               className="inline-flex items-center gap-1.5 text-2xs font-semibold text-success bg-success/10 px-2 py-0.5 rounded-full border border-success/20"
-              title="Live polling WhatsApp messages every 5s"
+              title="Live polling conversations every 5s"
             >
               <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
-              <span>WhatsApp Live</span>
+              <span>
+                {activeChannelFilter === 'whatsapp'
+                  ? 'WhatsApp Live'
+                  : activeChannelFilter === 'instagram'
+                    ? 'Instagram Live'
+                    : activeChannelFilter === 'messenger'
+                      ? 'Messenger Live'
+                      : 'Omni-Channel Live'}
+              </span>
             </span>
 
             <button

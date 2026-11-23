@@ -95,7 +95,15 @@ export function ChatHeader({ thread }: ChatHeaderProps) {
 
   const currentStatus = STATUS_OPTIONS.find((s) => s.value === thread.status) || STATUS_OPTIONS[0];
   const channelInfo = CHANNEL_CONFIG[thread.channel] || CHANNEL_CONFIG.whatsapp;
-  const initials = thread.customer_name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase();
+  const initials =
+    (thread.customer_name || 'Customer')
+      .trim()
+      .split(/\s+/)
+      .map((n) => n[0] || '')
+      .join('')
+      .slice(0, 2)
+      .toUpperCase() ||
+    (thread.channel === 'instagram' ? 'IG' : thread.channel === 'messenger' ? 'FB' : 'WA');
 
   const setStatus = (status: TicketStatus) => {
     updateThread(thread.id, { status });
@@ -162,11 +170,15 @@ export function ChatHeader({ thread }: ChatHeaderProps) {
           </div>
 
           <div className="flex items-center gap-1.5 mt-0.5 text-xs text-muted-foreground min-w-0 truncate">
-            <span className="flex items-center gap-1 font-medium text-muted-foreground shrink-0">
-              <Phone className="h-3 w-3 opacity-70" />
-              <span className="font-mono text-[11px] sm:text-xs">{thread.customer_phone}</span>
-            </span>
-            <span>•</span>
+            {thread.customer_phone ? (
+              <>
+                <span className="flex items-center gap-1 font-medium text-muted-foreground shrink-0">
+                  <Phone className="h-3 w-3 opacity-70" />
+                  <span className="font-mono text-[11px] sm:text-xs">{thread.customer_phone}</span>
+                </span>
+                <span>•</span>
+              </>
+            ) : null}
             <span className="capitalize font-medium shrink-0">{thread.department}</span>
             <span>•</span>
             <span className="flex items-center gap-1 min-w-0 truncate">

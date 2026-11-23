@@ -158,6 +158,13 @@ export function ComposerBar({ thread }: ComposerBarProps) {
     }
   };
 
+  const channelReplyLabel =
+    thread.channel === 'instagram'
+      ? 'Instagram Reply'
+      : thread.channel === 'messenger'
+        ? 'Messenger Reply'
+        : 'WhatsApp Reply';
+
   return (
     <div className="border-t border-border bg-card p-3.5 sm:p-4 shrink-0 shadow-2xs">
       {/* Top Bar: Segmented Switcher & Quick Helpers */}
@@ -174,7 +181,7 @@ export function ComposerBar({ thread }: ComposerBarProps) {
             )}
           >
             <MessageSquare className="h-3.5 w-3.5 text-primary" strokeWidth={2} />
-            <span>WhatsApp Reply</span>
+            <span>{channelReplyLabel}</span>
           </button>
           <button
             onClick={() => setComposerMode('whisper')}
@@ -211,7 +218,7 @@ export function ComposerBar({ thread }: ComposerBarProps) {
           <div className="flex items-center gap-1.5 min-w-0">
             <ShieldAlert className="h-3.5 w-3.5 text-amber-500 shrink-0" />
             <span className="truncate">
-              24-Hour customer window passed. Outbound message will be delivered via WhatsApp Business API.
+              24-Hour customer window passed. Outbound message will be delivered via Meta Business API.
             </span>
           </div>
           <button
@@ -279,7 +286,7 @@ export function ComposerBar({ thread }: ComposerBarProps) {
               onClick={handleSend}
               disabled={!text.trim() || sendReplyMutation.isPending}
               className="h-9 w-9 rounded-xl bg-primary hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed text-primary-foreground transition-all shadow-xs cursor-pointer shrink-0 active:scale-95 flex items-center justify-center"
-              title="Send WhatsApp Message"
+              title={`Send ${channelReplyLabel}`}
             >
               {sendReplyMutation.isPending ? (
                 <Loader2 className="h-4 w-4 animate-spin" />

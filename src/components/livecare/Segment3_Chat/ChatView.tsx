@@ -50,11 +50,18 @@ export function ChatView() {
         </div>
         <h2 className="text-lg font-semibold text-foreground mb-2">Select a conversation</h2>
         <p className="text-sm text-muted-foreground max-w-sm">
-          Choose a WhatsApp thread from the list or start a new conversation to begin chatting.
+          Choose a conversation from the list or start a new chat to begin.
         </p>
       </div>
     );
   }
+
+  const channelName =
+    thread.channel === 'instagram'
+      ? 'Instagram'
+      : thread.channel === 'messenger'
+        ? 'Messenger'
+        : 'WhatsApp';
 
   return (
     <div className="flex-1 flex flex-col h-full min-h-0 bg-background">
@@ -64,16 +71,16 @@ export function ChatView() {
         {isLoading && threadMessages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center py-10">
             <Loader2 className="h-6 w-6 animate-spin text-primary mb-2" />
-            <p className="text-xs text-muted-foreground">Loading WhatsApp messages...</p>
+            <p className="text-xs text-muted-foreground">Loading {channelName} messages...</p>
           </div>
         ) : isError && threadMessages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center py-10">
             <div className="h-12 w-12 rounded-full bg-destructive/10 flex items-center justify-center mb-2.5 text-destructive">
               <AlertCircle className="h-6 w-6" />
             </div>
-            <p className="text-sm font-semibold text-foreground">Failed to load WhatsApp messages</p>
+            <p className="text-sm font-semibold text-foreground">Failed to load {channelName} messages</p>
             <p className="text-xs text-muted-foreground mt-0.5 max-w-xs mb-3">
-              {(error as any)?.message || 'Could not connect to WhatsApp backend.'}
+              {(error as any)?.message || `Could not connect to ${channelName} backend.`}
             </p>
             <button
               onClick={() => refetch()}

@@ -2,6 +2,7 @@
 // Renders channel pills (WhatsApp, Instagram, Messenger) with live counts
 // from Meta Business Suite webhooks.
 
+import { useMemo } from 'react';
 import { useCareStore } from '../../../store/useCareStore';
 import { clsx } from 'clsx';
 import { MessageCircle } from 'lucide-react';
@@ -25,7 +26,6 @@ interface ChannelItem {
   label: string;
   shortLabel: string;
   icon: React.ReactNode;
-  count: number;
   color: string;
   bgColor: string;
   borderColor: string;
@@ -37,7 +37,6 @@ const CHANNELS: ChannelItem[] = [
     label: 'WhatsApp',
     shortLabel: 'WA',
     icon: <MessageCircle className="h-4 w-4" />,
-    count: 14,
     color: 'text-channel-whatsapp',
     bgColor: 'bg-channel-whatsapp/10',
     borderColor: 'border-channel-whatsapp/30',
@@ -47,7 +46,6 @@ const CHANNELS: ChannelItem[] = [
     label: 'Instagram DM',
     shortLabel: 'IG',
     icon: <InstagramIcon className="h-4 w-4" />,
-    count: 6,
     color: 'text-channel-instagram',
     bgColor: 'bg-channel-instagram/10',
     borderColor: 'border-channel-instagram/30',
@@ -57,7 +55,6 @@ const CHANNELS: ChannelItem[] = [
     label: 'Messenger',
     shortLabel: 'FB',
     icon: <MessengerIcon className="h-4 w-4" />,
-    count: 2,
     color: 'text-channel-messenger',
     bgColor: 'bg-channel-messenger/10',
     borderColor: 'border-channel-messenger/30',
@@ -69,7 +66,16 @@ interface ChannelFilterListProps {
 }
 
 export function ChannelFilterList({ collapsed }: ChannelFilterListProps) {
-  const { activeChannelFilter, setActiveChannelFilter } = useCareStore();
+  const { activeChannelFilter, setActiveChannelFilter, threads } = useCareStore();
+
+  const counts = useMemo(() => {
+    return {
+      all: threads.length,
+      whatsapp: threads.filter((t) => t.channel === 'whatsapp').length,
+      instagram: threads.filter((t) => t.channel === 'instagram').length,
+      messenger: threads.filter((t) => t.channel === 'messenger').length,
+    };
+  }, [threads]);
 
   return (
     <div className="p-3">
@@ -99,7 +105,7 @@ export function ChannelFilterList({ collapsed }: ChannelFilterListProps) {
             <>
               <span className="flex-1 text-sm text-left">All Channels</span>
               <span className="text-xs text-muted-foreground font-mono font-medium">
-                {CHANNELS.reduce((sum, c) => sum + c.count, 0)}
+                {counts.all}
               </span>
             </>
           )}
@@ -138,7 +144,7 @@ export function ChannelFilterList({ collapsed }: ChannelFilterListProps) {
                       : 'text-muted-foreground'
                   )}
                 >
-                  {channel.count}
+                  {counts[channel.id as keyof typeof counts] ?? 0}
                 </span>
               </>
             )}

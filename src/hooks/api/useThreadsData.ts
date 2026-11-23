@@ -11,6 +11,7 @@ import {
   startConversation,
   updateThreadStatus,
   reassignThread,
+  markConversationAsRead,
   type ThreadFilterParams,
   type StartConversationPayload,
 } from '../../api/threadsApi';
@@ -19,7 +20,7 @@ import { useSoundAlert } from '../useSoundAlert';
 import { CURRENT_AGENT } from '../../mocks';
 
 /**
- * Hook to fetch and poll WhatsApp conversations for the sidebar.
+ * Hook to fetch and poll conversations (WhatsApp, Messenger, Instagram, or Unified) for the sidebar.
  * Polls every 5 seconds to capture new inbound conversations and message previews.
  */
 export function useThreads(params?: ThreadFilterParams) {
@@ -40,7 +41,7 @@ export function useThreads(params?: ThreadFilterParams) {
       }
       return data;
     },
-    refetchInterval: 5000, // Poll every 5s for WhatsApp sidebar updates
+    refetchInterval: 5000, // Poll every 5s for live multi-channel updates
     staleTime: 3000,
   });
 
@@ -48,11 +49,13 @@ export function useThreads(params?: ThreadFilterParams) {
 }
 
 /**
- * Hook to fetch and poll messages for the active WhatsApp conversation.
+ * Hook to fetch and poll messages for the active conversation.
  * Polls every 3 seconds and plays an audio alert when a new customer message arrives.
+ * Also marks the conversation as read on the backend when active.
  */
 export function useThreadMessages(threadId: string | null | undefined) {
   const setMessages = useCareStore((s) => s.setMessages);
+  const updateThread = useCareStore((s) => s.updateThread);
   const { playSound } = useSoundAlert();
   const prevCountRef = useRef<number>(0);
 
@@ -61,7 +64,13 @@ export function useThreadMessages(threadId: string | null | undefined) {
   // Reset count tracking on thread switch
   useEffect(() => {
     prevCountRef.current = 0;
-  }, [tid]);
+    if (tid) {
+      // Mark conversation as read on backend when opened
+      markConversationAsRead(tid).then(() => {
+        updateThread(tid, { unread_count: 0 });
+      }).catch(() => {});
+    }
+  }, [tid, updateThread]);
 
   const query = useQuery({
     queryKey: ['conversations', 'messages', tid],
@@ -82,11 +91,24 @@ export function useThreadMessages(threadId: string | null | undefined) {
       return messages;
     },
     enabled: Boolean(tid),
-    refetchInterval: 3000, // Real-time polling for incoming WhatsApp messages
+    refetchInterval: 3000, // Real-time polling for incoming messages
     staleTime: 2000,
   });
 
   return query;
+}
+
+/**
+ * Mutation for marking a conversation as read.
+ */
+export function useMarkConversationRead() {
+  const updateThread = useCareStore((s) => s.updateThread);
+  return useMutation({
+    mutationFn: async (threadId: string) => {
+      await markConversationAsRead(threadId);
+      updateThread(threadId, { unread_count: 0 });
+    },
+  });
 }
 
 /**

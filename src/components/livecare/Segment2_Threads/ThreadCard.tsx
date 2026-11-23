@@ -80,7 +80,7 @@ export function ThreadCard({ thread, isSelected, onClick }: ThreadCardProps) {
               .map((n) => n[0] || '')
               .join('')
               .slice(0, 2)
-              .toUpperCase() || 'WA'}
+              .toUpperCase() || (thread.channel === 'instagram' ? 'IG' : thread.channel === 'messenger' ? 'FB' : 'WA')}
           </div>
           {/* Channel badge */}
           <div

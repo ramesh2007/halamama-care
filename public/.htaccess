@@ -1,31 +1,14 @@
-# ─── Halamama Care — Single Page Application (SPA) Routing ───
+DirectoryIndex index.html
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
-
-  # Allow direct access to real files and directories
-  RewriteCond %{REQUEST_FILENAME} -f [OR]
-  RewriteCond %{REQUEST_FILENAME} -d
-  RewriteRule ^ - [L]
-
-  # Redirect all other requests to index.html for React Router
-  RewriteRule ^ index.html [L]
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
 </IfModule>
 
-# Fallback: Serve index.html on 404 to let React Router handle routing
 ErrorDocument 404 /index.html
 
-# Ensure index.html is loaded as default directory index
-<IfModule mod_dir.c>
-  DirectoryIndex index.html
-</IfModule>
 
-# Caching optimization
-<IfModule mod_headers.c>
-  # Ensure index.html is never aggressively cached so updates appear immediately
-  <Files "index.html">
-    Header set Cache-Control "no-cache, no-store, must-revalidate"
-    Header set Pragma "no-cache"
-    Header set Expires "0"
-  </Files>
-</IfModule>

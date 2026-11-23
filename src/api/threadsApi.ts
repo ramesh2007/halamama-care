@@ -22,8 +22,10 @@ import type {
 export interface ThreadFilterParams {
   department?: string;
   status?: string;
-  channel?: string;
+  channel?: string; // 'whatsapp' | 'instagram' | 'messenger' | 'messenger,instagram' | 'all'
   search?: string;
+  page?: number;
+  per_page?: number;
 }
 
 export interface StartConversationPayload {
@@ -41,7 +43,9 @@ export interface StartConversationResponse {
 
 export function normalizeConversation(raw: any): ConversationThread {
   const id = String(raw.id ?? raw.conversation_id ?? raw.thread_id ?? '');
-  const phone = String(
+  const channel: ChannelType = (raw.channel?.toLowerCase() as ChannelType) || 'whatsapp';
+
+  const rawPhone = String(
     raw.customer?.phone ??
       raw.phone ??
       raw.customer_phone ??
@@ -49,14 +53,36 @@ export function normalizeConversation(raw: any): ConversationThread {
       raw.wa_id ??
       raw.customer?.whatsapp_id ??
       '',
-  );
+  ).trim();
+
+  const instagramId = String(raw.customer?.instagram_id ?? raw.instagram_id ?? raw.ig_id ?? '').trim();
+  const facebookId = String(raw.customer?.facebook_id ?? raw.facebook_id ?? raw.psid ?? '').trim();
+
+  let defaultName = 'Customer';
+  if (channel === 'instagram') {
+    defaultName = instagramId ? `@${instagramId}` : 'Instagram User';
+  } else if (channel === 'messenger') {
+    defaultName = facebookId ? `FB User (${facebookId.slice(-4)})` : 'Messenger User';
+  } else if (channel === 'whatsapp') {
+    defaultName = rawPhone ? `+${rawPhone.replace(/^\+/, '')}` : 'WhatsApp Customer';
+  }
+
   const customerName = String(
     raw.customer?.name ??
       raw.customer_name ??
       raw.name ??
       raw.contact_name ??
-      (phone ? `+${phone.replace(/^\+/, '')}` : 'WhatsApp Customer'),
+      defaultName,
   );
+
+  let displayPhone = rawPhone ? (rawPhone.startsWith('+') ? rawPhone : `+${rawPhone}`) : '';
+  if (!displayPhone) {
+    if (channel === 'instagram' && instagramId) {
+      displayPhone = `@${instagramId}`;
+    } else if (channel === 'messenger' && facebookId) {
+      displayPhone = `PSID: ${facebookId}`;
+    }
+  }
 
   let preview = '';
   if (typeof raw.last_message_preview === 'string' && raw.last_message_preview) {
@@ -111,8 +137,8 @@ export function normalizeConversation(raw: any): ConversationThread {
   return {
     id,
     customer_name: customerName,
-    customer_phone: phone,
-    channel: (raw.channel?.toLowerCase() as ChannelType) || 'whatsapp',
+    customer_phone: displayPhone,
+    channel,
     department: (raw.department?.toLowerCase() as DepartmentType) || 'general',
     status,
     assigned_agent_id:
@@ -127,6 +153,9 @@ export function normalizeConversation(raw: any): ConversationThread {
     is_bot_active: Boolean(raw.is_bot_active),
     tags: Array.isArray(raw.tags) ? raw.tags : [],
     sla_deadline: raw.sla_deadline,
+    facebook_id: facebookId || undefined,
+    instagram_id: instagramId || undefined,
+    external_conversation_id: raw.external_conversation_id ?? undefined,
   };
 }
 
@@ -223,7 +252,9 @@ export function normalizeMessage(raw: any, fallbackThreadId: string): ChatMessag
 
 /**
  * GET /api/customer-care/conversations
- * List all WhatsApp conversations (for React sidebar)
+ * GET /api/customer-care/messenger/conversations
+ * GET /api/customer-care/instagram/conversations
+ * List conversations (WhatsApp, Facebook Messenger, Instagram Direct, or Unified Multi-Channel)
  */
 export async function getThreads(params?: ThreadFilterParams): Promise<ConversationThread[]> {
   if (shouldUseMock('threads')) {
@@ -231,7 +262,33 @@ export async function getThreads(params?: ThreadFilterParams): Promise<Conversat
   }
 
   try {
-    const { data } = await apiClient.get('/customer-care/conversations', { params });
+    let endpoint = '/customer-care/conversations';
+    const queryParams: Record<string, any> = {};
+
+    if (params?.channel === 'messenger') {
+      endpoint = '/customer-care/messenger/conversations';
+    } else if (params?.channel === 'instagram') {
+      endpoint = '/customer-care/instagram/conversations';
+    } else if (params?.channel && params.channel !== 'all') {
+      queryParams.channel = params.channel;
+    }
+
+    if (params?.status && params.status !== 'all') {
+      queryParams.status = params.status;
+    }
+    if (params?.search) {
+      queryParams.search = params.search;
+    }
+    if (params?.page) {
+      queryParams.page = params.page;
+    }
+    if (params?.per_page) {
+      queryParams.per_page = params.per_page;
+    }
+
+    const { data } = await apiClient.get(endpoint, {
+      params: Object.keys(queryParams).length > 0 ? queryParams : undefined,
+    });
     const rawList = Array.isArray(data)
       ? data
       : Array.isArray(data?.data)
@@ -246,6 +303,77 @@ export async function getThreads(params?: ThreadFilterParams): Promise<Conversat
     const errorMsg = err?.response?.data?.message || err?.message || 'Unknown error';
     console.warn(`[threadsApi] Failed to fetch live conversations from Laravel: ${errorMsg}`, err);
     throw err;
+  }
+}
+
+/**
+ * GET /api/customer-care/messenger/conversations
+ * Get all Facebook Messenger conversations
+ */
+export async function getMessengerThreads(params?: {
+  status?: string;
+  page?: number;
+  per_page?: number;
+  search?: string;
+}): Promise<ConversationThread[]> {
+  return getThreads({ ...params, channel: 'messenger' });
+}
+
+/**
+ * GET /api/customer-care/instagram/conversations
+ * Get all Instagram Direct conversations
+ */
+export async function getInstagramThreads(params?: {
+  status?: string;
+  page?: number;
+  per_page?: number;
+  search?: string;
+}): Promise<ConversationThread[]> {
+  return getThreads({ ...params, channel: 'instagram' });
+}
+
+/**
+ * GET /api/customer-care/conversations/{id}
+ * Get customer info and conversation metadata
+ */
+export async function getConversationDetails(
+  threadId: string,
+): Promise<ConversationThread | null> {
+  const tid = String(threadId);
+  if (shouldUseMock('threads')) {
+    return MOCK_THREADS.find((t) => t.id === tid) || null;
+  }
+  try {
+    const { data } = await apiClient.get(`/customer-care/conversations/${tid}`);
+    const raw = data?.data ?? data?.conversation ?? data;
+    return raw ? normalizeConversation(raw) : null;
+  } catch (err: any) {
+    console.warn(`[threadsApi] Failed to fetch conversation details for ${tid}:`, err);
+    return null;
+  }
+}
+
+/**
+ * POST /api/customer-care/conversations/{id}/read
+ * Mark all unread messages as read
+ */
+export async function markConversationAsRead(
+  threadId: string,
+): Promise<{ success: boolean; message?: string }> {
+  const tid = String(threadId);
+  if (shouldUseMock('threads')) {
+    const t = MOCK_THREADS.find((x) => x.id === tid);
+    if (t) t.unread_count = 0;
+    return { success: true };
+  }
+  try {
+    const { data } = await apiClient.post<{ success: boolean; message?: string }>(
+      `/customer-care/conversations/${tid}/read`,
+    );
+    return data;
+  } catch (err: any) {
+    console.warn(`[threadsApi] Failed to mark conversation ${tid} as read:`, err);
+    return { success: false };
   }
 }
 

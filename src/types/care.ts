@@ -99,6 +99,9 @@ export interface ConversationThread {
   is_bot_active: boolean;
   sla_deadline?: string;
   tags?: string[];
+  facebook_id?: string;
+  instagram_id?: string;
+  external_conversation_id?: string;
 }
 
 export interface ReturnRequestPayload {
