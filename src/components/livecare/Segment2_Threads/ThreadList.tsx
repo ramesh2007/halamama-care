@@ -6,7 +6,7 @@ import { useMemo, useState } from 'react';
 import { RefreshCw, MessageSquarePlus, AlertTriangle, Loader2 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useCareStore } from '../../../store/useCareStore';
-import { useThreads } from '../../../hooks/api';
+import { useThreads, useSyncMessenger } from '../../../hooks/api';
 import { ThreadCard } from './ThreadCard';
 import { StartConversationModal } from './StartConversationModal';
 
@@ -22,6 +22,21 @@ export function ThreadList() {
   } = useCareStore();
 
   const [isNewChatOpen, setIsNewChatOpen] = useState(false);
+  const [syncStatusMsg, setSyncStatusMsg] = useState<string | null>(null);
+
+  const syncMessengerMutation = useSyncMessenger();
+
+  const handleSyncMessenger = async () => {
+    try {
+      const res = await syncMessengerMutation.mutateAsync();
+      setSyncStatusMsg(res.message || `Synced ${res.synced_conversations ?? 0} conversations`);
+      setTimeout(() => setSyncStatusMsg(null), 5000);
+      refetch();
+    } catch (err: any) {
+      setSyncStatusMsg('Sync error: ' + (err?.response?.data?.message || err?.message || 'Failed'));
+      setTimeout(() => setSyncStatusMsg(null), 5000);
+    }
+  };
 
   // Poll conversations from Laravel (WhatsApp, Messenger, Instagram, or Unified)
   const { isLoading, isError, error, refetch, isFetching } = useThreads({
@@ -84,6 +99,19 @@ export function ThreadList() {
               </span>
             </span>
 
+            {/* Sync Messenger Button */}
+            {(activeChannelFilter === 'messenger' || activeChannelFilter === 'all') && (
+              <button
+                onClick={handleSyncMessenger}
+                disabled={syncMessengerMutation.isPending}
+                className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-2xs font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800/60 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors cursor-pointer disabled:opacity-50"
+                title="Sync past conversations and messages from Meta Messenger API"
+              >
+                <RefreshCw className={clsx('h-3 w-3', syncMessengerMutation.isPending && 'animate-spin')} />
+                <span>{syncMessengerMutation.isPending ? 'Syncing...' : 'Sync Messenger'}</span>
+              </button>
+            )}
+
             <button
               onClick={() => refetch()}
               disabled={isFetching}
@@ -94,6 +122,19 @@ export function ThreadList() {
             </button>
           </div>
         </div>
+
+        {/* Sync Status Feedback Toast/Banner */}
+        {syncStatusMsg && (
+          <div className="px-3 py-1.5 bg-blue-500/10 border-b border-blue-500/20 text-blue-600 dark:text-blue-400 text-2xs flex items-center justify-between gap-1 shrink-0 animate-fadeIn">
+            <span className="truncate">{syncStatusMsg}</span>
+            <button
+              onClick={() => setSyncStatusMsg(null)}
+              className="text-xs hover:opacity-75 cursor-pointer ml-1 font-bold"
+            >
+              ×
+            </button>
+          </div>
+        )}
 
         {/* Backend Warning Banner if API fails */}
         {isError && (
@@ -120,7 +161,7 @@ export function ThreadList() {
           {isLoading && threads.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
               <Loader2 className="h-6 w-6 animate-spin text-primary mb-2" />
-              <p className="text-xs text-muted-foreground">Loading WhatsApp conversations...</p>
+              <p className="text-xs text-muted-foreground">Loading conversations...</p>
             </div>
           ) : filteredThreads.length > 0 ? (
             <div className="divide-y divide-border/60">
@@ -138,7 +179,7 @@ export function ThreadList() {
               <div className="text-4xl mb-3">💬</div>
               <p className="text-sm font-semibold text-foreground mb-1">No conversations found</p>
               <p className="text-xs text-muted-foreground mb-4">
-                Start a WhatsApp conversation to begin chatting with customers.
+                Start a conversation or click Sync Messenger to import chats from Meta.
               </p>
               <button
                 onClick={() => setIsNewChatOpen(true)}

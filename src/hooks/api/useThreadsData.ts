@@ -12,6 +12,7 @@ import {
   updateThreadStatus,
   reassignThread,
   markConversationAsRead,
+  syncMessenger,
   type ThreadFilterParams,
   type StartConversationPayload,
 } from '../../api/threadsApi';
@@ -248,6 +249,21 @@ export function useReassignThread() {
         assigned_agent_name: variables.agentName,
       });
       queryClient.invalidateQueries({ queryKey: ['conversations', 'list'] });
+    },
+  });
+}
+
+/**
+ * Mutation for syncing Messenger conversations & past messages from Meta Graph API
+ */
+export function useSyncMessenger() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: () => syncMessenger(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['conversations', 'list'] });
+      queryClient.invalidateQueries({ queryKey: ['conversations', 'messages'] });
     },
   });
 }

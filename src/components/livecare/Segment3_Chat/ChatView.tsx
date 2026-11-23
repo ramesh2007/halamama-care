@@ -97,7 +97,7 @@ export function ChatView() {
             </div>
             <p className="text-sm font-semibold text-foreground">No messages in this thread</p>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Send a WhatsApp reply or log an internal note to start.
+              Send a reply or log an internal note to start.
             </p>
           </div>
         ) : (

@@ -215,7 +215,7 @@ export function normalizeMessage(raw: any, fallbackThreadId: string): ChatMessag
         ? 'Care Agent'
         : (raw.customer?.name ?? raw.customer_name ?? 'Customer'));
 
-  const createdAt = raw.created_at ?? raw.sent_at ?? raw.timestamp ?? new Date().toISOString();
+  const createdAt = raw.sent_at ?? raw.created_at ?? raw.timestamp ?? new Date().toISOString();
 
   let deliveryStatus: ChatMessage['delivery_status'] = 'delivered';
   const rawStatus = String(raw.delivery_status ?? raw.status ?? '').toLowerCase();
@@ -262,14 +262,10 @@ export async function getThreads(params?: ThreadFilterParams): Promise<Conversat
   }
 
   try {
-    let endpoint = '/customer-care/conversations';
+    const endpoint = '/customer-care/conversations';
     const queryParams: Record<string, any> = {};
 
-    if (params?.channel === 'messenger') {
-      endpoint = '/customer-care/messenger/conversations';
-    } else if (params?.channel === 'instagram') {
-      endpoint = '/customer-care/instagram/conversations';
-    } else if (params?.channel && params.channel !== 'all') {
+    if (params?.channel && params.channel !== 'all') {
       queryParams.channel = params.channel;
     }
 
@@ -282,9 +278,7 @@ export async function getThreads(params?: ThreadFilterParams): Promise<Conversat
     if (params?.page) {
       queryParams.page = params.page;
     }
-    if (params?.per_page) {
-      queryParams.per_page = params.per_page;
-    }
+    queryParams.per_page = params?.per_page ?? 100;
 
     const { data } = await apiClient.get(endpoint, {
       params: Object.keys(queryParams).length > 0 ? queryParams : undefined,
@@ -331,6 +325,59 @@ export async function getInstagramThreads(params?: {
 }): Promise<ConversationThread[]> {
   return getThreads({ ...params, channel: 'instagram' });
 }
+
+/**
+ * GET /api/customer-care/messenger/sync
+ * Sync past messages and conversations from Meta Graph API
+ */
+export async function syncMessenger(): Promise<{
+  success: boolean;
+  message: string;
+  synced_conversations?: number;
+  synced_messages?: number;
+  errors?: any[];
+}> {
+  if (shouldUseMock('threads')) {
+    return {
+      success: true,
+      message: 'Mock sync completed: 0 conversations synced.',
+      synced_conversations: 0,
+      synced_messages: 0,
+    };
+  }
+  const { data } = await apiClient.get('/customer-care/messenger/sync');
+  return data;
+}
+
+// ─── Step 4 Unified API Helpers ──────────────────────────────────────────────
+
+/**
+ * 1. Get all Messenger conversations (Unified endpoint)
+ */
+export const getMessengerConversations = async (page = 1) => {
+  return getThreads({ channel: 'messenger', page });
+};
+
+/**
+ * 2. Get messages for selected conversation
+ */
+export const getConversationMessages = async (conversationId: string | number) => {
+  return getThreadMessages(String(conversationId));
+};
+
+/**
+ * 3. Reply to customer (Works for both Messenger & WhatsApp)
+ */
+export const sendReply = async (
+  conversationId: string | number,
+  messageText: string,
+  attachmentUrl: string | null = null,
+) => {
+  return sendChatMessage(String(conversationId), {
+    text: messageText,
+    attachments: attachmentUrl ? [{ url: attachmentUrl, file_type: 'image', file_name: 'attachment' }] : undefined,
+  });
+};
 
 /**
  * GET /api/customer-care/conversations/{id}
@@ -429,12 +476,39 @@ export async function getThreadMessages(
       ? data
       : Array.isArray(data?.messages)
         ? data.messages
-        : Array.isArray(data?.data)
-          ? data.data
-          : [];
+        : Array.isArray(data?.data?.messages)
+          ? data.data.messages
+          : Array.isArray(data?.data)
+            ? data.data
+            : [];
 
-    return rawList.map((m: any) => normalizeMessage(m, tid));
+    const normalized: ChatMessage[] = rawList.map((m: any) => normalizeMessage(m, tid));
+    // Sort in ascending chronological order so oldest is top, newest is bottom
+    return normalized.sort((a: ChatMessage, b: ChatMessage) => {
+      const diff = new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+      if (diff !== 0) return diff;
+      return Number(a.id) - Number(b.id);
+    });
   } catch (err: any) {
+    // Fallback: try fetching conversation details which may embed messages
+    try {
+      const { data: convData } = await apiClient.get(`/customer-care/conversations/${tid}`);
+      const rawList = Array.isArray(convData?.messages)
+        ? convData.messages
+        : Array.isArray(convData?.data?.messages)
+          ? convData.data.messages
+          : [];
+      if (rawList.length > 0) {
+        const normalized: ChatMessage[] = rawList.map((m: any) => normalizeMessage(m, tid));
+        return normalized.sort((a: ChatMessage, b: ChatMessage) => {
+          const diff = new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+          if (diff !== 0) return diff;
+          return Number(a.id) - Number(b.id);
+        });
+      }
+    } catch {
+      // ignore fallback error
+    }
     const errorMsg = err?.response?.data?.message || err?.message || 'Unknown error';
     console.warn(
       `[threadsApi] Failed to fetch messages for conversation ${tid}: ${errorMsg}`,
@@ -477,12 +551,21 @@ export async function sendChatMessage(
   }
 
   try {
-    // Send { message: "..." } as required by Laravel endpoint
-    const { data } = await apiClient.post(`/customer-care/conversations/${tid}/reply`, {
+    const replyPayload: Record<string, any> = {
       message: payload.text,
       text: payload.text,
       sender_name: payload.sender_name || CURRENT_AGENT.name,
-    });
+    };
+
+    if (payload.attachments && payload.attachments.length > 0) {
+      const att = payload.attachments[0];
+      replyPayload.attachment_url = att.url;
+      replyPayload.attachment_type = att.file_type?.startsWith('image') ? 'image' : 'file';
+    }
+
+    // Unified endpoint: POST /customer-care/conversations/{id}/reply
+    // Controller automatically delivers via WhatsApp Cloud API or Facebook Graph API based on channel
+    const { data } = await apiClient.post(`/customer-care/conversations/${tid}/reply`, replyPayload);
 
     if (data) {
       // In Laravel: data = { success: true, message: "Reply sent successfully.", data: { id: 50, ... } }

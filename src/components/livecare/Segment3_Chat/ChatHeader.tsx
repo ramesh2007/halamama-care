@@ -173,7 +173,11 @@ export function ChatHeader({ thread }: ChatHeaderProps) {
             {thread.customer_phone ? (
               <>
                 <span className="flex items-center gap-1 font-medium text-muted-foreground shrink-0">
-                  <Phone className="h-3 w-3 opacity-70" />
+                  {thread.channel === 'whatsapp' ? (
+                    <Phone className="h-3 w-3 opacity-70" />
+                  ) : (
+                    <User className="h-3 w-3 opacity-70" />
+                  )}
                   <span className="font-mono text-[11px] sm:text-xs">{thread.customer_phone}</span>
                 </span>
                 <span>•</span>
