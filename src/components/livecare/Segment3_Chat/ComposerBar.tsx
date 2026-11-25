@@ -15,6 +15,8 @@ import {
   Lock,
   Sparkles,
   Loader2,
+  AlertCircle,
+  X,
 } from 'lucide-react';
 import { useCareStore } from '../../../store/useCareStore';
 import { useSendConversationReply } from '../../../hooks/api';
@@ -48,6 +50,7 @@ export function ComposerBar({ thread }: ComposerBarProps) {
   const [highlightIndex, setHighlightIndex] = useState(0);
   const [dismissedToken, setDismissedToken] = useState<string | null>(null);
   const [paymentOpen, setPaymentOpen] = useState(false);
+  const [replyError, setReplyError] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const match = text.match(TRIGGER_REGEX);
@@ -101,6 +104,7 @@ export function ComposerBar({ thread }: ComposerBarProps) {
 
     setText('');
     setDismissedToken(null);
+    setReplyError(null);
     emitSendMessage(thread.id, trimmed, 'agent');
 
     try {
@@ -108,8 +112,29 @@ export function ComposerBar({ thread }: ComposerBarProps) {
         threadId: thread.id,
         message: trimmed,
       });
-    } catch (err) {
-      console.error('[ComposerBar] Error sending WhatsApp reply to Laravel:', err);
+    } catch (err: any) {
+      // Extract the most useful error message from the backend
+      const serverMsg =
+        err?.response?.data?.message ||
+        err?.response?.data?.error ||
+        err?.message ||
+        'Failed to send message.';
+
+      // Surface a clean, user-friendly version
+      let displayMsg = serverMsg;
+      if (serverMsg.includes('pages_messaging')) {
+        displayMsg =
+          'Messenger is in Development Mode. Only app admins/testers can receive messages. Submit your app for Meta App Review to send to all users.';
+      } else if (serverMsg.includes('24')) {
+        displayMsg = 'The 24-hour messaging window has expired. The customer must message first.';
+      } else if (serverMsg.includes('token') || serverMsg.includes('auth')) {
+        displayMsg = 'Authentication error. Check your Meta API token in the backend settings.';
+      }
+
+      setReplyError(displayMsg);
+      // Auto-clear error after 10 seconds
+      setTimeout(() => setReplyError(null), 10000);
+      console.error('[ComposerBar] Reply failed:', err);
     } finally {
       textareaRef.current?.focus();
     }
@@ -167,6 +192,20 @@ export function ComposerBar({ thread }: ComposerBarProps) {
 
   return (
     <div className="border-t border-border bg-card p-3.5 sm:p-4 shrink-0 shadow-2xs">
+      {/* Reply Error Banner */}
+      {replyError && (
+        <div className="flex items-start gap-2 mb-3 px-3 py-2.5 rounded-xl bg-destructive/10 border border-destructive/25 text-destructive text-xs">
+          <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
+          <span className="flex-1 leading-snug">{replyError}</span>
+          <button
+            onClick={() => setReplyError(null)}
+            className="shrink-0 opacity-70 hover:opacity-100 transition-opacity cursor-pointer"
+          >
+            <X className="h-3.5 w-3.5" />
+          </button>
+        </div>
+      )}
+
       {/* Top Bar: Segmented Switcher & Quick Helpers */}
       <div className="flex items-center justify-between gap-2 mb-3">
         {/* Segmented Mode Switcher */}
